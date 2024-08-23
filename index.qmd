@@ -1,0 +1,11 @@
+---
+title: "Purpose"
+---
+
+This website serves as a platform to showcase the projects I've worked on. My hope is that they will contribute to achieving a Pareto optimal solution, in the sense that they may be of use to others and is free for me to share.
+
+## Languages
+I am native Danish, so it is possible that some of the content will be in Danish.
+
+
+This also means that the English may not always be flawless

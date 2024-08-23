@@ -1,0 +1,21 @@
+project:
+  type: website
+
+website:
+  title: "Missing almost everywhere"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+      - href: projects.qmd
+
+      
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+
+

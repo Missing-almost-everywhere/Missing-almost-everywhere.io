@@ -1,0 +1,11 @@
+---
+title: "Projects"
+---
+
+# Mixture of K scaled and shifted t distributions
+
+Here are some of my projects:
+
+- [Mixture of K scaled and shifted t distributions](Projects/Mixture_of_K_scaled_and_shifted_Tdistributions.html)
+
+The implementation is made using a combination of R and C++ via the Rcpp library.
