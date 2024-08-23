@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Purpose",
+    "section": "",
+    "text": "This website serves as a platform to showcase the projects I’ve worked on. My hope is that they will contribute to achieving a Pareto optimal solution, in the sense that they may be of use to others and is free for me to share."
+  },
+  {
+    "objectID": "index.html#languages",
+    "href": "index.html#languages",
+    "title": "Purpose",
+    "section": "Languages",
+    "text": "Languages\nI am native Danish, so it is possible that some of the content will be in Danish.\nThis also means that the English may not always be flawless"
+  },
+  {
+    "objectID": "projects.html",
+    "href": "projects.html",
+    "title": "Projects",
+    "section": "",
+    "text": "Mixture of K scaled and shifted t distributions\nHere are some of my projects:\n\nMixture of K scaled and shifted t distributions\n\nThe implementation is made using a combination of R and C++ via the Rcpp library."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I’m interested in the topics of economics, machine learning(prediction), statistics(inference), and coding."
+  },
+  {
+    "objectID": "about.html#my-background",
+    "href": "about.html#my-background",
+    "title": "About",
+    "section": "My background",
+    "text": "My background\nMaster of Science (statistics)\nBachelor math economics\nBoth from University of Copenhagen(KU)"
+  }
+]
