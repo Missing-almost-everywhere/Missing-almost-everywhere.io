@@ -15,4 +15,4 @@ The implementation is made using a combination of R and C++ via the Rcpp library
 
 - [VP-search trees for cgMLST sequences](Projects/VP_search_trees_for_cgMLST_sequences.html)
 
-The implementation is made in python and the report is written in jupyter notebooks.
+The implementation is made in Python and the report is written in jupyter notebooks.
