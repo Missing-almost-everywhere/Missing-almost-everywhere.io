@@ -193,7 +193,7 @@ app = App(app_ui, server)
 
 ## About
 
-This is a iterativ app made to, help/improve player's of New York times [Spelling Bee](https://www.nytimes.com/puzzles/spelling-bee).
+This is a interactive app made to, help/improve player's of New York times [Spelling Bee](https://www.nytimes.com/puzzles/spelling-bee).
 
 
 In the spelling bee, the player is given seven letters. One letter is marked in yellow.
