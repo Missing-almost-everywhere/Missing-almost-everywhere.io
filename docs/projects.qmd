@@ -1,0 +1,18 @@
+---
+title: "Projects"
+---
+
+Here are some of my projects:
+
+# Mixture of K scaled and shifted t distributions
+
+- [Mixture of K scaled and shifted t distributions](Projects/Mixture_of_K_scaled_and_shifted_Tdistributions.html)
+
+The implementation is made using a combination of R and C++ via the Rcpp library.
+
+
+# VP-search trees for cgMLST sequences
+
+- [VP-search trees for cgMLST sequences](Projects/VP_search_trees_for_cgMLST_sequences.html)
+
+The implementation is made in python and the report is written in jupyter notebooks.

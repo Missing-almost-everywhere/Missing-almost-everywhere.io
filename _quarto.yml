@@ -10,7 +10,8 @@ website:
         text: Home
       - href: about.qmd
       - href: projects.qmd
-
+      - href: aplications.qmd
+        text: Aplications
       
 format:
   html:

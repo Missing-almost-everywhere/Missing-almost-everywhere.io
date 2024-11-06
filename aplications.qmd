@@ -1,0 +1,423 @@
+---
+title: "Aplications"
+format: html
+filters:
+  - shinylive
+---
+For now, this site contains only one application built with Shiny. I may extend it in the future if I create more.
+
+# Bee a Spelling Guinness
+
+```{shinylive-python}
+#| standalone: true
+#| viewerHeight: 800
+
+
+from shiny import *
+# For plot
+import matplotlib.pyplot as plt
+# Get all words in the english diconary
+import numpy as np
+import requests
+# URL of the text file on GitHub
+url = "https://raw.githubusercontent.com/dwyl/english-words/refs/heads/master/words.txt"
+
+# Fetch the file content
+response = requests.get(url)
+
+if response.status_code == 200:
+    # Read the content of the file
+    file_content = response.text
+    # Split the content into a list of words
+    words_list = file_content.splitlines()
+    print(words_list)
+else:
+    print("Failed to retrieve the file:", response.status_code)
+
+def check_word_canidat_early_stopping(
+        word:str,
+        yellow_chr:chr,
+        chr_list:list):
+    """
+    This function return True ore False.
+    To be valid candidat a get true retrun, the input word
+    need to contain the yellow chr, and can not contain other chr that yellow and chr from the list of charater list
+    
+    Args:
+        word (str): The word that need to be ckecked.
+        yellow_chr (chr): a chr that all word must contain
+        chr_list (list): a list of chr that the word can be contain in.
+    Returns:
+        bool: True ore False based on if the word forfiels the conditions
+    """
+    lover_yellow =yellow_chr.lower()
+    return_obj=False
+    is_word_combination_of_chr_list=False
+    is_yellow_chr_contained= False
+    lower_chars = [char.lower() for char in chr_list]
+    
+    for letter in word:
+        is_letter_contained= letter.lower() in lower_chars
+        if (is_letter_contained==False):
+            is_word_combination_of_chr_list=False
+            break
+        else:
+            is_word_combination_of_chr_list=True
+        if (is_yellow_chr_contained==False):
+            is_yellow_chr_contained=(lover_yellow==letter.lower())
+    
+    if(is_word_combination_of_chr_list==True and is_yellow_chr_contained==True):
+        return_obj =True
+    return return_obj
+
+
+
+def get_word_candidates(
+        word_list:list,
+        yellow_chr: chr,
+        chr_list:list,
+        min_word_length:int = 4):
+    """
+    This returns list containg alle candidat words, for the spelling bee game.
+
+    All word contain the yellow letter, and consist of combination yello and letter from the letter list.
+    All words is longer ore equal to min_word_length
+    
+    Args:
+        word_list (list): a list with string containg words to serach though
+        yellow_chr (chr): all word in return should contain this letter
+        chr_list (list): a list of chr that can be conatin a word in return
+    Returns:
+        list: a list of strings. all word should be combination of yellow chr and letter from the list.
+        
+    """
+    return_objet = []
+    index_list=[] #this list contais the index of wich words is potensiel words in the index list.
+    allowed_chartes= chr_list + [yellow_chr]
+    # len word is not calculated but store in the type string so it fast to check if len of the word is les than min first
+    for i in range(len(word_list)):
+        word_for_examination=word_list[i]
+        if(len(word_for_examination)>=min_word_length):
+            if(check_word_canidat_early_stopping(word_for_examination,yellow_chr,allowed_chartes)==True):
+                return_objet.append(word_for_examination)
+                index_list.append(i)
+    return(return_objet)
+
+
+# Generat plots
+
+def get_len_word_list(words_list:int):
+    list_len=[]
+    for word in words_list: list_len.append(len(word))
+    return list_len
+
+
+
+
+# Define the app UI
+app_ui = ui.page_fluid(
+    ui.input_selectize("yellow_chr", "Choose one yellow letter", 
+                       ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"], 
+                       multiple=False),
+    ui.output_text_verbatim("yellow_chr_output"),
+    ui.input_selectize("grey_chr", "Choose six grey letters", 
+                       ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"], 
+                       multiple=True),
+    ui.output_text_verbatim("grey_chr_output"),
+    ui.output_text_verbatim("len_data_txt"),
+    ui.output_plot("plot"),
+    ui.output_ui("output_content"),
+    ui.input_switch("switch", "Show word results", False),  
+    ui.output_text_verbatim("word_list_output")
+)
+
+# Define the app server logic
+def server(input, output, session):
+    @reactive.Calc
+    def dataset():
+        # This function returns a dataset when 6 grey letters are selected
+        if len(input.grey_chr()) == 6:
+            return get_word_candidates(words_list, input.yellow_chr(),list(input.grey_chr()))
+        else:
+            return []
+    @reactive.Calc
+    def len_data():
+        len_data=get_len_word_list(dataset())
+        return len_data
+        
+    @output
+    @render.text
+    def yellow_chr_output():
+        return f"The chosen yellow letter is {input.yellow_chr()}"
+    @output
+    @render.text
+    def grey_chr_output():
+        if len(input.grey_chr()) != 6:
+            return f"You need to choose 6 grey letters; currently, you have chosen {len(input.grey_chr())}."
+        else:
+            return "You have chosen 6 grey letters."
+    @output
+    @render.text
+    def len_data_txt():
+        ret_ob="The data has not bin computed"
+        if(len(input.grey_chr())==6):
+            ret_ob=f"There are {len(dataset())} possible words with 4 or more letters"
+        return ret_ob
+    @output
+    @render.plot(alt="A histogram of dataset values")
+    def plot():    
+        fig, ax = plt.subplots()
+        if len(input.grey_chr()) == 6:
+            unique_values, counts = np.unique(len_data(), return_counts=True)
+            ax.bar(unique_values, counts, color='skyblue', edgecolor='black')
+            ax.set_title("Histogram of Word Candidates")
+            ax.set_xlabel("Length of word")
+            ax.set_ylabel("Count")
+        else:
+            ax.text(0.5, 0.5, "Please select 6 grey letters", horizontalalignment='center', verticalalignment='center')
+        return fig
+    @output
+    @render.text
+    def word_list_output():
+        ret_ob=""
+        if(input.switch()==True):
+            ret_ob="\n".join(dataset())
+        return ret_ob
+        
+    
+
+app = App(app_ui, server)
+
+
+```
+
+## About
+
+This is a iterativ app made to, help/improve player's of New York times [Spelling Bee](https://www.nytimes.com/puzzles/spelling-bee).
+
+
+In the spelling bee, the player is given seven letters. One letter is marked in yellow.
+
+The goal is to make as many words as possible from the seven letters. Every word should contain the yellow letter.
+
+Scoring
+
+* A word of 4 letters earns one point.
+* Words longer than 4 letters earn additional points (the exact amount is to be determined).
+
+
+
+The dictionary used is provided [Here](https://github.com/dwyl/english-words)
+ under an open license.
+
+The Spelling Bee uses a list of curated words. The dictionary is more like a reference for how words are spelled. For example, "AAAA" might appear in the dictionary but is unlikely to be included in the Spelling Bee.
+
+There may also be words that are offensive or outdated. While they are correctly spelled, they probably won’t appear in the Spelling Bee.
+
+
+
+
+
+
+##  Version with the code
+Here is a version where the code can be seen
+
+```{shinylive-python}
+#| standalone: true
+#| viewerHeight: 800
+#| components: [editor, viewer]
+
+from shiny import *
+# For plot
+import matplotlib.pyplot as plt
+# Get all words in the english diconary
+import numpy as np
+import requests
+# URL of the text file on GitHub
+url = "https://raw.githubusercontent.com/dwyl/english-words/refs/heads/master/words.txt"
+
+# Fetch the file content
+response = requests.get(url)
+
+if response.status_code == 200:
+    # Read the content of the file
+    file_content = response.text
+    # Split the content into a list of words
+    words_list = file_content.splitlines()
+    print(words_list)
+else:
+    print("Failed to retrieve the file:", response.status_code)
+
+def check_word_canidat_early_stopping(
+        word:str,
+        yellow_chr:chr,
+        chr_list:list):
+    """
+    This function return True ore False.
+    To be valid candidat a get true retrun, the input word
+    need to contain the yellow chr, and can not contain other chr that yellow and chr from the list of charater list
+    
+    Args:
+        word (str): The word that need to be ckecked.
+        yellow_chr (chr): a chr that all word must contain
+        chr_list (list): a list of chr that the word can be contain in.
+    Returns:
+        bool: True ore False based on if the word forfiels the conditions
+   
+    """
+    lover_yellow =yellow_chr.lower()
+    return_obj=False
+    is_word_combination_of_chr_list=False
+    is_yellow_chr_contained= False
+    lower_chars = [char.lower() for char in chr_list]
+    
+    for letter in word:
+        is_letter_contained= letter.lower() in lower_chars
+        if (is_letter_contained==False):
+            is_word_combination_of_chr_list=False
+            break
+        else:
+            is_word_combination_of_chr_list=True
+        if (is_yellow_chr_contained==False):
+            is_yellow_chr_contained=(lover_yellow==letter.lower())
+    
+    if(is_word_combination_of_chr_list==True and is_yellow_chr_contained==True):
+        return_obj =True
+    return return_obj
+
+
+
+def get_word_candidates(
+        word_list:list,
+        yellow_chr: chr,
+        chr_list:list,
+        min_word_length:int = 4):
+    """
+    This returns list containg alle candidat words, for the spelling bee game.
+
+    All word contain the yellow letter, and consist of combination yello and letter from the letter list.
+    All words is longer ore equal to min_word_length
+    
+    Args:
+        word_list (list): a list with string containg words to serach though
+        yellow_chr (chr): all word in return should contain this letter
+        chr_list (list): a list of chr that can be conatin a word in return
+    Returns:
+        list: a list of strings. all word should be combination of yellow chr and letter from the list.
+        
+    """
+    return_objet = []
+    index_list=[] #this list contais the index of wich words is potensiel words in the index list.
+    allowed_chartes= chr_list + [yellow_chr]
+    # len word is not calculated but store in the type string so it fast to check if len of the word is les than min first
+    for i in range(len(word_list)):
+        word_for_examination=word_list[i]
+        if(len(word_for_examination)>=min_word_length):
+            if(check_word_canidat_early_stopping(word_for_examination,yellow_chr,allowed_chartes)==True):
+                return_objet.append(word_for_examination)
+                index_list.append(i)
+    return(return_objet)
+
+
+# Generat plots
+
+def get_len_word_list(words_list:int):
+    list_len=[]
+    for word in words_list: list_len.append(len(word))
+    return list_len
+
+
+
+
+# Define the app UI
+app_ui = ui.page_fluid(
+    ui.input_selectize("yellow_chr", "Choose one yellow letter", 
+                       ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"], 
+                       multiple=False),
+    ui.output_text_verbatim("yellow_chr_output"),
+    ui.input_selectize("grey_chr", "Choose six grey letters", 
+                       ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"], 
+                       multiple=True),
+    ui.output_text_verbatim("grey_chr_output"),
+    ui.output_text_verbatim("len_data_txt"),
+    ui.output_plot("plot"),
+    ui.output_ui("output_content"),
+    ui.input_switch("switch", "Show word results", False),  
+    ui.output_text_verbatim("word_list_output")
+)
+
+# Define the app server logic
+def server(input, output, session):
+    @reactive.Calc
+    def dataset():
+        # This function returns a dataset when 6 grey letters are selected
+        if len(input.grey_chr()) == 6:
+            return get_word_candidates(words_list, input.yellow_chr(),list(input.grey_chr()))
+        else:
+            return []
+    @reactive.Calc
+    def len_data():
+        len_data=get_len_word_list(dataset())
+        return len_data
+        
+    @output
+    @render.text
+    def yellow_chr_output():
+        return f"The chosen yellow letter is {input.yellow_chr()}"
+    @output
+    @render.text
+    def grey_chr_output():
+        if len(input.grey_chr()) != 6:
+            return f"You need to choose 6 grey letters; currently, you have chosen {len(input.grey_chr())}."
+        else:
+            return "You have chosen 6 grey letters."
+    @output
+    @render.text
+    def len_data_txt():
+        ret_ob="The data has not bin computed"
+        if(len(input.grey_chr())==6):
+            ret_ob=f"There are {len(dataset())} possible words with 4 or more letters"
+        return ret_ob
+    @output
+    @render.plot(alt="A histogram of dataset values")
+    def plot():    
+        fig, ax = plt.subplots()
+        if len(input.grey_chr()) == 6:
+            unique_values, counts = np.unique(len_data(), return_counts=True)
+            ax.bar(unique_values, counts, color='skyblue', edgecolor='black')
+            ax.set_title("Histogram of Word Candidates")
+            ax.set_xlabel("Length of word")
+            ax.set_ylabel("Count")
+        else:
+            ax.text(0.5, 0.5, "Please select 6 grey letters", horizontalalignment='center', verticalalignment='center')
+        return fig
+    @output
+    @render.text
+    def word_list_output():
+        ret_ob=""
+        if(input.switch()==True):
+            ret_ob="\n".join(dataset())
+        return ret_ob
+        
+    
+
+app = App(app_ui, server)
+
+
+
+```
+
+## Made with Shiny for Python (Shiny Live)
+This application is created using Shiny for Python (Shiny Live). There is also an R version available.
+
+What makes the Shiny Live version so appealing is that it allows embedding Python code into WebAssembly. This application runs Python directly from your personal computer, with the dictionary downloaded from a GitHub link.
+
+The library support is somewhat limited.
+
+For small projects that should be accessible to the public, I like Shiny Live because it doesn’t require hosting a server for the backend.
+
+Estially the backend runs on you pc.
+
+Their is som drawback, every aplication need the data to load in seperatly.
+Alle code and data is exeable for the user, documentasion is spars.
+It hard to debug, since it reaktiv programing. 
