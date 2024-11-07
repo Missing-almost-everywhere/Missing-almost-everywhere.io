@@ -1,12 +1,37 @@
 ---
-title: "Aplications"
+title: "Applications"
 format: html
 filters:
   - shinylive
 ---
 For now, this site contains only one application built with Shiny. I may extend it in the future if I create more.
 
-# Bee a Spelling Guinness
+# Bee a Spelling Genius
+
+## About
+
+This is a interactive app made to, help/improve player's of New York times [Spelling Bee](https://www.nytimes.com/puzzles/spelling-bee).
+
+
+In the spelling bee, the player is given seven letters. One letter is marked in yellow.
+
+The goal is to make as many words as possible from the seven letters. Every word should contain the yellow letter.
+
+Scoring
+
+* A word of 4 letters earns one point.
+* Words longer than 4 letters earn additional points (the exact amount is to be determined).
+
+
+
+The dictionary used is provided [Here](https://github.com/dwyl/english-words)
+ under an open license.
+
+The Spelling Bee uses a list of curated words. The dictionary is more like a reference for how words are spelled. For example, "AAAA" might appear in the dictionary but is unlikely to be included in the Spelling Bee.
+
+There may also be words that are offensive or outdated. While they are correctly spelled, they probably won’t appear in the Spelling Bee.
+
+
 
 ```{shinylive-python}
 #| standalone: true
@@ -190,29 +215,6 @@ app = App(app_ui, server)
 
 
 ```
-
-## About
-
-This is a interactive app made to, help/improve player's of New York times [Spelling Bee](https://www.nytimes.com/puzzles/spelling-bee).
-
-
-In the spelling bee, the player is given seven letters. One letter is marked in yellow.
-
-The goal is to make as many words as possible from the seven letters. Every word should contain the yellow letter.
-
-Scoring
-
-* A word of 4 letters earns one point.
-* Words longer than 4 letters earn additional points (the exact amount is to be determined).
-
-
-
-The dictionary used is provided [Here](https://github.com/dwyl/english-words)
- under an open license.
-
-The Spelling Bee uses a list of curated words. The dictionary is more like a reference for how words are spelled. For example, "AAAA" might appear in the dictionary but is unlikely to be included in the Spelling Bee.
-
-There may also be words that are offensive or outdated. While they are correctly spelled, they probably won’t appear in the Spelling Bee.
 
 
 
@@ -421,3 +423,5 @@ Estially the backend runs on you pc.
 Their is som drawback, every aplication need the data to load in seperatly.
 Alle code and data is exeable for the user, documentasion is spars.
 It hard to debug, since it reaktiv programing. 
+
+But overall, being able to create applications without needing to host a server is pretty cool.

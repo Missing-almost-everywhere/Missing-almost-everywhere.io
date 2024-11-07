@@ -106,8 +106,8 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./aplications.html" aria-current="page"> 
-<span class="menu-text">Aplications</span></a>
+    <a class="nav-link active" href="./applications.html" aria-current="page"> 
+<span class="menu-text">Applications</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -159,6 +159,19 @@ ul.task-list li input[type="checkbox"] {
 <p>For now, this site contains only one application built with Shiny. I may extend it in the future if I create more.</p>
 <section id="bee-a-spelling-genius" class="level1">
 <h1>Bee a Spelling Genius</h1>
+<section id="about" class="level2">
+<h2 class="anchored" data-anchor-id="about">About</h2>
+<p>This is a interactive app made to, help/improve player’s of New York times <a href="https://www.nytimes.com/puzzles/spelling-bee">Spelling Bee</a>.</p>
+<p>In the spelling bee, the player is given seven letters. One letter is marked in yellow.</p>
+<p>The goal is to make as many words as possible from the seven letters. Every word should contain the yellow letter.</p>
+<p>Scoring</p>
+<ul>
+<li>A word of 4 letters earns one point.</li>
+<li>Words longer than 4 letters earn additional points (the exact amount is to be determined).</li>
+</ul>
+<p>The dictionary used is provided <a href="https://github.com/dwyl/english-words">Here</a> under an open license.</p>
+<p>The Spelling Bee uses a list of curated words. The dictionary is more like a reference for how words are spelled. For example, “AAAA” might appear in the dictionary but is unlikely to be included in the Spelling Bee.</p>
+<p>There may also be words that are offensive or outdated. While they are correctly spelled, they probably won’t appear in the Spelling Bee.</p>
 <pre class="shinylive-python" data-engine="python"><code>#| '!! shinylive warning !!': |
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
@@ -342,19 +355,6 @@ def server(input, output, session):
 app = App(app_ui, server)
 
 </code></pre>
-<section id="about" class="level2">
-<h2 class="anchored" data-anchor-id="about">About</h2>
-<p>This is a interactive app made to, help/improve player’s of New York times <a href="https://www.nytimes.com/puzzles/spelling-bee">Spelling Bee</a>.</p>
-<p>In the spelling bee, the player is given seven letters. One letter is marked in yellow.</p>
-<p>The goal is to make as many words as possible from the seven letters. Every word should contain the yellow letter.</p>
-<p>Scoring</p>
-<ul>
-<li>A word of 4 letters earns one point.</li>
-<li>Words longer than 4 letters earn additional points (the exact amount is to be determined).</li>
-</ul>
-<p>The dictionary used is provided <a href="https://github.com/dwyl/english-words">Here</a> under an open license.</p>
-<p>The Spelling Bee uses a list of curated words. The dictionary is more like a reference for how words are spelled. For example, “AAAA” might appear in the dictionary but is unlikely to be included in the Spelling Bee.</p>
-<p>There may also be words that are offensive or outdated. While they are correctly spelled, they probably won’t appear in the Spelling Bee.</p>
 </section>
 <section id="version-with-the-code" class="level2">
 <h2 class="anchored" data-anchor-id="version-with-the-code">Version with the code</h2>
@@ -553,6 +553,7 @@ app = App(app_ui, server)
 <p>For small projects that should be accessible to the public, I like Shiny Live because it doesn’t require hosting a server for the backend.</p>
 <p>Estially the backend runs on you pc.</p>
 <p>Their is som drawback, every aplication need the data to load in seperatly. Alle code and data is exeable for the user, documentasion is spars. It hard to debug, since it reaktiv programing.</p>
+<p>But overall, being able to create applications without needing to host a server is pretty cool.</p>
 
 
 </section>
