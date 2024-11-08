@@ -16,3 +16,11 @@ The implementation is made using a combination of R and C++ via the Rcpp library
 - [VP-search trees for cgMLST sequences](Projects/VP_search_trees_for_cgMLST_sequences.html)
 
 The implementation is made in python and the report is written in jupyter notebooks.
+
+
+# Bee a Spelling Genius
+
+- [Bee a Spelling Genius](applications.qmd)
+
+This is a live application made with the Shiny for Python version. The intention was to create a small project and learn about reactive programming, as well as how to develop small applications and dashboards. By using Shiny for Python, I could run it directly on my GitHub page, making it easier to share with others.
+

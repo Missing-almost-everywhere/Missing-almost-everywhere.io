@@ -18,7 +18,7 @@
     "href": "projects.html",
     "title": "Projects",
     "section": "",
-    "text": "Here are some of my projects:\n\nMixture of K scaled and shifted t distributions\n\nMixture of K scaled and shifted t distributions\n\nThe implementation is made using a combination of R and C++ via the Rcpp library.\n\n\nVP-search trees for cgMLST sequences\n\nVP-search trees for cgMLST sequences\n\nThe implementation is made in python and the report is written in jupyter notebooks."
+    "text": "Here are some of my projects:\n\nMixture of K scaled and shifted t distributions\n\nMixture of K scaled and shifted t distributions\n\nThe implementation is made using a combination of R and C++ via the Rcpp library.\n\n\nVP-search trees for cgMLST sequences\n\nVP-search trees for cgMLST sequences\n\nThe implementation is made in python and the report is written in jupyter notebooks.\n\n\nBee a Spelling Genius\n\nBee a Spelling Genius\n\nThis is a live application made with the Shiny for Python version. The intention was to create a small project and learn about reactive programming, as well as how to develop small applications and dashboards. By using Shiny for Python, I could run it directly on my GitHub page, making it easier to share with others."
   },
   {
     "objectID": "about.html",
