@@ -6,21 +6,36 @@ Here are some of my projects:
 
 # Mixture of K scaled and shifted t distributions
 
-- [Mixture of K scaled and shifted t distributions](Projects/Mixture_of_K_scaled_and_shifted_Tdistributions.html)
+[Mixture of K scaled and shifted t distributions](Projects/Mixture_of_K_scaled_and_shifted_Tdistributions.html)
 
-The implementation is made using a combination of R and C++ via the Rcpp library.
+The implementation was created using a combination of R and C++ via the Rcpp library. The report was written in RMarkdown.
+
+This project is based on an assignment from one of my classes at KU. I enjoyed it because it had a nice mixture of theoretical calculations, numerical methods, and coding. When I first worked on it, I encountered many problems due to the steep gradient. It was rewarding to revisit it and learn how to handle these challenges. I also got to use C++ and see how it improved computation time.
+
+This was one of those projects where the final product was very clean, but the process involved a lot of troubleshooting and learning about program interactions, which was a lot of fun.
+
+For example, I used C++ overloaded functions, but due to R not allowing functions with the same name, I ran into issues. When I tested my R implementation with a set output, it worked, and when I tested my C++ implementation, it also worked. It’s easy to understand once you figure it out, but it was challenging until then.
 
 
 # VP-search trees for cgMLST sequences
 
-- [VP-search trees for cgMLST sequences](Projects/VP_search_trees_for_cgMLST_sequences.html)
+[VP-search trees for cgMLST sequences](Projects/VP_search_trees_for_cgMLST_sequences.html)
 
-The implementation is made in python and the report is written in jupyter notebooks.
+This is a project I completed for Statens Serum Institut. The goal was to develop a theoretical approach for more efficient searches in their database for cgMLST analyses. I ended up creating an adaptation of VP-search trees based on Hamming distance. Due to the significant number of missing values in the sequences, I had to modify the method and prove some minor bounds.
 
+I implemented this in Python, making it usable for their system.
+
+The department had a database with the data but conducted data processing in Python. Therefore, it might be more efficient to write code that worked closer to the database. Consequently, the report structure became a bit unconventional.
+
+I wrote extensive documentation for all functions and implemented everything from scratch to ensure it could be adapted to different programming languages where Python libraries might not be flexible.
+
+I also conducted speed testing on a smaller, published dataset to showcase how the implementation could be evaluated.
 
 # Bee a Spelling Genius
 
-- [Bee a Spelling Genius](applications.qmd)
+[Bee a Spelling Genius](applications.qmd)
 
-This is a live application made with the Shiny for Python version. The intention was to create a small project and learn about reactive programming, as well as how to develop small applications and dashboards. By using Shiny for Python, I could run it directly on my GitHub page, making it easier to share with others.
+This is a live application made with the Shiny for Python version. 
+
+The intention was to create a small project and learn about reactive programming, as well as how to develop small applications and dashboards. By using Shiny for Python, I could run it directly on my GitHub page, making it easier to share with others.
 
