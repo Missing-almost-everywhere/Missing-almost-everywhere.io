@@ -168,16 +168,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#implementasion" id="toc-implementasion" class="nav-link" data-scroll-target="#implementasion">Implementasion</a>
   <ul class="collapse">
-  <li><a href="#classes" id="toc-classes" class="nav-link" data-scroll-target="#classes">Classes</a></li>
   <li><a href="#unit-testing" id="toc-unit-testing" class="nav-link" data-scroll-target="#unit-testing">Unit Testing</a></li>
   <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation">Simulation</a></li>
   </ul></li>
-  <li><a href="#technical-notes-and-suggestions-for-improvement" id="toc-technical-notes-and-suggestions-for-improvement" class="nav-link" data-scroll-target="#technical-notes-and-suggestions-for-improvement">Technical Notes and Suggestions for Improvement</a>
+  <li><a href="#no-conclusions-from-the-model" id="toc-no-conclusions-from-the-model" class="nav-link" data-scroll-target="#no-conclusions-from-the-model">No Conclusions from the Model</a>
   <ul class="collapse">
   <li><a href="#downstream-effects" id="toc-downstream-effects" class="nav-link" data-scroll-target="#downstream-effects">Downstream Effects</a></li>
   <li><a href="#parallelization-challenges" id="toc-parallelization-challenges" class="nav-link" data-scroll-target="#parallelization-challenges">Parallelization Challenges</a></li>
   </ul></li>
-  <li><a href="#no-conclusions-from-the-model" id="toc-no-conclusions-from-the-model" class="nav-link" data-scroll-target="#no-conclusions-from-the-model">No Conclusions from the Model</a></li>
   </ul>
 </nav>
     </div>
@@ -253,9 +251,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="implementasion" class="level1">
 <h1>Implementasion</h1>
-<section id="classes" class="level2">
-<h2 class="anchored" data-anchor-id="classes">Classes</h2>
-<div id="1d34177c" class="cell" data-execution_count="1">
+<p>In this section, I have written the code for the implementation. ## Classes Below, my classes and the central construction can be found.</p>
+<div id="c6abd748" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
@@ -387,10 +384,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span>(turnover)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
 <section id="unit-testing" class="level2">
 <h2 class="anchored" data-anchor-id="unit-testing">Unit Testing</h2>
-<div id="2d37837b" class="cell" data-execution_count="2">
+<p>Below, my Unit test, can be seen</p>
+<div id="70bf9bac" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># unit test</span></span>
@@ -494,15 +491,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="simulation" class="level2">
 <h2 class="anchored" data-anchor-id="simulation">Simulation</h2>
-<p>One potential improvement to the structure I created is how data is stored in the objects’ classes.</p>
-<p>Currently, all data is encapsulated within individual objects, which works for tracking properties specific to each agent or shop. However, if I were interested in aggregated data—such as the total units sold—I would need to compute this after each tick by iterating through all the relevant objects.</p>
-<p>A more efficient approach could involve maintaining a centralized summary of key metrics during the simulation. For example:</p>
-<ul>
-<li>Total Units Sold: Incremented directly when a sale occurs.</li>
-<li>Revenue by Category: Updated in real time when a product is purchased.</li>
-</ul>
-<p>This way, aggregated data would be readily available without requiring extra computation after each tick. It would also make it easier to monitor and analyze trends as the simulation progresses.</p>
-<div id="eb19cb98" class="cell" data-execution_count="3">
+<p>In this code, I created a small simulation to ensure the framework works. I have plotted the units sold and the turnover. Since this functions as a Monte Carlo simulation, there is no theoretical result to compare the distribution with</p>
+<div id="d2e12db0" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> plt</span>
@@ -590,8 +580,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="technical-notes-and-suggestions-for-improvement" class="level1">
-<h1>Technical Notes and Suggestions for Improvement</h1>
+<section id="no-conclusions-from-the-model" class="level1">
+<h1>No Conclusions from the Model</h1>
+<p>As stated at the beginning, this project was designed purely as an exercise in thinking about good structures for this type of model, rather than drawing any conclusions from the simulation. # Technical Notes and Suggestions for Improvement One potential improvement to the structure I created is how data is stored in the objects’ classes.</p>
+<p>Currently, all data is encapsulated within individual objects, which works for tracking properties specific to each agent or shop. However, if I were interested in aggregated data—such as the total units sold—I would need to compute this after each tick by iterating through all the relevant objects.</p>
+<p>A more efficient approach could involve maintaining a centralized summary of key metrics during the simulation. For example:</p>
+<ul>
+<li>Total Units Sold: Incremented directly when a sale occurs.</li>
+<li>Revenue by Category: Updated in real time when a product is purchased.</li>
+</ul>
+<p>This way, aggregated data would be readily available without requiring extra computation after each tick. It would also make it easier to monitor and analyze trends as the simulation progresses.</p>
 <p>When building simulations or using object-oriented programming, many of the structures can be designed in various ways. For example, the buy function could be implemented as part of the shopper agent or as part of the environment.</p>
 <p>Maintaining a well-organized structure is crucial, especially when managing dynamic effects, which can quickly become complex. This is particularly true in economic systems where actors are trained to consider both upstream and downstream effects.</p>
 <section id="downstream-effects" class="level2">
@@ -602,13 +600,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="parallelization-challenges">Parallelization Challenges</h2>
 <p>A minor technical detail: as the code is written now, parallelizing the simulation would be challenging. Although the shoppers do not interact directly, they interact with the same shops. This creates a potential issue when writing to shared variables, such as the units sold in a shop. If multiple shoppers update this variable simultaneously, errors could occur.</p>
 <p>I am particularly interested in learning how to address these kinds of problems effectively. For example, using locks or other concurrency control methods might help, but exploring more sophisticated solutions could be valuable.</p>
-</section>
-</section>
-<section id="no-conclusions-from-the-model" class="level1">
-<h1>No Conclusions from the Model</h1>
-<p>As stated at the beginning, this project was designed purely as an exercise in thinking about good structures for this type of model, rather than drawing any conclusions from the simulation.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

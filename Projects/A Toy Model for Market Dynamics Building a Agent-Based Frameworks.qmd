@@ -74,7 +74,9 @@ Overall, I like this construction. Instead of storing positions in a variable, I
 
 
 # Implementasion
+In this section, I have written the code for the implementation.
 ## Classes
+Below, my classes and the central construction can be found.
 ```{python}
 import random
 
@@ -209,7 +211,7 @@ class shopping_street:
 
 
 ## Unit Testing
-
+Below, my Unit test, can be seen
 ```{python}
 # unit test
 import  unittest
@@ -311,19 +313,7 @@ test_shopping_street_class()
 ```
 
 ## Simulation
-One potential improvement to the structure I created is how data is stored in the objects' classes.
-
-Currently, all data is encapsulated within individual objects, which works for tracking properties specific to each agent or shop. However, if I were interested in aggregated data—such as the total units sold—I would need to compute this after each tick by iterating through all the relevant objects.
-
-A more efficient approach could involve maintaining a centralized summary of key metrics during the simulation. For example:
-
-- Total Units Sold: Incremented directly when a sale occurs.
-- Revenue by Category: Updated in real time when a product is purchased.
-
-This way, aggregated data would be readily available without requiring extra computation after each tick. It would also make it easier to monitor and analyze trends as the simulation progresses.
-
-
-
+In this code, I created a small simulation to ensure the framework works. I have plotted the units sold and the turnover. Since this functions as a Monte Carlo simulation, there is no theoretical result to compare the distribution with
 ```{python}
 import matplotlib as plt
 
@@ -401,7 +391,21 @@ plt.tight_layout()
 plt.show()
 ```
 
+# No Conclusions from the Model
+As stated at the beginning, this project was designed purely as an exercise in thinking about good structures for this type of model, rather than drawing any conclusions from the simulation.
 # Technical Notes and Suggestions for Improvement
+One potential improvement to the structure I created is how data is stored in the objects' classes.
+
+Currently, all data is encapsulated within individual objects, which works for tracking properties specific to each agent or shop. However, if I were interested in aggregated data—such as the total units sold—I would need to compute this after each tick by iterating through all the relevant objects.
+
+A more efficient approach could involve maintaining a centralized summary of key metrics during the simulation. For example:
+
+- Total Units Sold: Incremented directly when a sale occurs.
+- Revenue by Category: Updated in real time when a product is purchased.
+
+This way, aggregated data would be readily available without requiring extra computation after each tick. It would also make it easier to monitor and analyze trends as the simulation progresses.
+
+
 When building simulations or using object-oriented programming, many of the structures can be designed in various ways. For example, the buy function could be implemented as part of the shopper agent or as part of the environment.
 
 Maintaining a well-organized structure is crucial, especially when managing dynamic effects, which can quickly become complex. This is particularly true in economic systems where actors are trained to consider both upstream and downstream effects.
@@ -414,5 +418,3 @@ A minor technical detail: as the code is written now, parallelizing the simulati
 
 I am particularly interested in learning how to address these kinds of problems effectively. For example, using locks or other concurrency control methods might help, but exploring more sophisticated solutions could be valuable.
 
-# No Conclusions from the Model
-As stated at the beginning, this project was designed purely as an exercise in thinking about good structures for this type of model, rather than drawing any conclusions from the simulation.
