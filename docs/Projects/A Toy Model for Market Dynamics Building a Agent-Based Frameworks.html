@@ -204,8 +204,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>I am applying for a job where the primary task involves working on and implementing agent-based simulations.</p>
-<p>My background is primarily in mathematics, economics, and statistics. At the computer science department at KU, there don’t seem to be many courses that adopt a simulated agent-based approach. However, I remember attending a talk organized by the group “Kritiske Politter” a long time ago. The talk featured a professor from the physics department who, as a hobby, created simulations of markets. His main critique was the reliance on steady-state assumptions, which are common in economics. He argued that natural systems often exhibit fluctuations, even when they are balanced.</p>
+<p>I am applying for a job where the primary task involves working on and implementing agent-based simulations. It has been a while since I last worked with object-oriented coding, so I thought I would brush up on my basic skills by creating a small project based on a simple market simulation.</p>
+<p>My background is primarily in mathematics, economics, and statistics. At the computer science department at KU, there don’t seem to be many courses that focus on agent-based simulation approaches. However, I recall attending a talk organized by the group “Kritiske Politter” a long time ago. The speaker was a professor from the physics department who, as a hobby, created simulations of markets. His main critique of traditional economics was the reliance on steady-state assumptions, which are quite common in the field. He argued that natural systems often exhibit fluctuations, even when they are in balance.</p>
 <section id="rabbits-and-foxes" class="level2">
 <h2 class="anchored" data-anchor-id="rabbits-and-foxes">Rabbits and Foxes</h2>
 <p>To give an example: If one simulates an island with rabbits and foxes, there will be fluctuations in the populations. When there are many rabbits, the fox population increases, which then leads to a decline in rabbits. This, in turn, causes a decline in foxes, allowing the rabbit population to grow again, and the cycle continues. In this case, a perfect equilibrium is unrealistic; instead, the equilibrium is a range in which the number of foxes and rabbits alternates over time.</p>
@@ -220,7 +220,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>In summary, agent-based approaches are incredibly interesting and would be enjoyable to work on. I thought this problem would be a good way to brush up on my object-oriented programming skills. The underlying mathematical approach for these simulations is Monte Carlo simulations.</p>
+<p>In summary, agent-based approaches are incredibly interesting and would be enjoyable to work on. I believe this problem provides a great opportunity to refresh my object-oriented programming skills. These simulations rely on Monte Carlo methods as their underlying mathematical approach, which makes them challenging to test.</p>
 </section>
 </section>
 <section id="a-simple-simulation-of-markets" class="level1">
@@ -253,7 +253,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="implementasion" class="level1">
 <h1>Implementasion</h1>
 <p>In this section, I have written the code for the implementation. ## Classes Below, my classes and the central construction can be found.</p>
-<div id="446e2b25" class="cell" data-execution_count="1">
+<div id="7eab9001" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
@@ -388,7 +388,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="unit-testing" class="level2">
 <h2 class="anchored" data-anchor-id="unit-testing">Unit Testing</h2>
 <p>Below, my Unit test, can be seen</p>
-<div id="df0758e8" class="cell" data-execution_count="2">
+<div id="16284420" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># unit test</span></span>
@@ -493,7 +493,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="simulation" class="level2">
 <h2 class="anchored" data-anchor-id="simulation">Simulation</h2>
 <p>In this code, I created a small simulation to ensure the framework works. I have plotted the units sold and the turnover. Since this functions as a Monte Carlo simulation, there is no theoretical result to compare the distribution with</p>
-<div id="beae71fa" class="cell" data-execution_count="3">
+<div id="24d4eed5" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> plt</span>

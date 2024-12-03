@@ -8,8 +8,9 @@ format:
 
 # Introduction
 I am applying for a job where the primary task involves working on and implementing agent-based simulations.
+It has been a while since I last worked with object-oriented coding, so I thought I would brush up on my basic skills by creating a small project based on a simple market simulation.
 
-My background is primarily in mathematics, economics, and statistics. At the computer science department at KU, there don’t seem to be many courses that adopt a simulated agent-based approach. However, I remember attending a talk organized by the group "Kritiske Politter" a long time ago. The talk featured a professor from the physics department who, as a hobby, created simulations of markets. His main critique was the reliance on steady-state assumptions, which are common in economics. He argued that natural systems often exhibit fluctuations, even when they are balanced.
+My background is primarily in mathematics, economics, and statistics. At the computer science department at KU, there don’t seem to be many courses that focus on agent-based simulation approaches. However, I recall attending a talk organized by the group "Kritiske Politter" a long time ago. The speaker was a professor from the physics department who, as a hobby, created simulations of markets. His main critique of traditional economics was the reliance on steady-state assumptions, which are quite common in the field. He argued that natural systems often exhibit fluctuations, even when they are in balance.
 
 ## Rabbits and Foxes
 To give an example:
@@ -28,8 +29,8 @@ If I were building an extensive simulation framework for agents, I might conside
 Although I have experience with parallelization in R, I imagine Python offers more sophisticated methods. For instance, dividing agents into clusters that interact and processing these simultaneously could be an interesting approach. Learning and implementing this would be a valuable experience, although it exceeds my current skill level. In R, parallelization often involves copying the entire dataset to avoid writing conflicts; it would be exciting to explore more efficient solutions.
 
 ## Summary
-In summary, agent-based approaches are incredibly interesting and would be enjoyable to work on. I thought this problem would be a good way to brush up on my object-oriented programming skills.
-The underlying mathematical approach for these simulations is Monte Carlo simulations.
+In summary, agent-based approaches are incredibly interesting and would be enjoyable to work on. I believe this problem provides a great opportunity to refresh my object-oriented programming skills.
+These simulations rely on Monte Carlo methods as their underlying mathematical approach, which makes them challenging to test.
 
 
 # A Simple Simulation of Markets
