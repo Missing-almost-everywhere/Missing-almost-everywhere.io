@@ -1,0 +1,418 @@
+---
+title: "A Toy Model for Market Dynamics: Building a Agent-Based Frameworks"
+format:
+  html:
+    code-fold: true
+---
+
+
+# Introduction
+I am applying for a job where the primary task involves working on and implementing agent-based simulations.
+
+My background is primarily in mathematics, economics, and statistics. At the computer science department at KU, there don’t seem to be many courses that adopt a simulated agent-based approach. However, I remember attending a talk organized by the group "Kritiske Politter" a long time ago. The talk featured a professor from the physics department who, as a hobby, created simulations of markets. His main critique was the reliance on steady-state assumptions, which are common in economics. He argued that natural systems often exhibit fluctuations, even when they are balanced.
+
+## Rabbits and Foxes
+To give an example:
+If one simulates an island with rabbits and foxes, there will be fluctuations in the populations. When there are many rabbits, the fox population increases, which then leads to a decline in rabbits. This, in turn, causes a decline in foxes, allowing the rabbit population to grow again, and the cycle continues. In this case, a perfect equilibrium is unrealistic; instead, the equilibrium is a range in which the number of foxes and rabbits alternates over time.
+
+I find this field fascinating. One of my primary concerns is not just creating rational agents but making them realistic. In my economics courses, a lot of different techniques and models were presented to answer central questions. The argument often was that if these models capture the essence of some problem, they are useful. To some extent, I agree with this argument. However, I disagree with making assumptions solely for the purpose of solving the steady state of a system. This is why the agent-based approach is so interesting to me—it resembles the way physicists would approach a problem.
+
+## This Project
+In this small project, I will attempt to create a basic framework for simulating agents. When I was first introduced to object-oriented programming, we worked on something similar to the rabbit-and-fox scenario.
+
+The Code Will Be Written in Python
+Since the company appears to use Python, I will carry out the simulation using this language.
+
+If I were building an extensive simulation framework for agents, I might consider using C++ due to its performance advantages. The key idea behind agent-based simulations is the interaction between agents, which makes it an iterative process. While Python may not be the fastest for such loops, parallelized programming could improve performance.
+
+Although I have experience with parallelization in R, I imagine Python offers more sophisticated methods. For instance, dividing agents into clusters that interact and processing these simultaneously could be an interesting approach. Learning and implementing this would be a valuable experience, although it exceeds my current skill level. In R, parallelization often involves copying the entire dataset to avoid writing conflicts; it would be exciting to explore more efficient solutions.
+
+## Summary
+In summary, agent-based approaches are incredibly interesting and would be enjoyable to work on. I thought this problem would be a good way to brush up on my object-oriented programming skills.
+The underlying mathematical approach for these simulations is Monte Carlo simulations.
+
+
+# A Simple Simulation of Markets
+There is likely a lot of theory on agent-based simulations, but since I am new to this field, I’ll start with a simple simulation of a market. This is a toy example, so if you’re reading this and think some deep theoretical insights can be drawn from this model (a common approach in economic modeling), remember: I HAVE NO DATA.
+
+During my microeconomics courses, I worked extensively on building theoretical models and creating narratives or conclusions based on them—without ever looking at real data. While it’s relatively easy to create models of agents, building realistic agents is far more challenging.
+
+If you are interested in examples of non-rational behavior in humans, I recommend reading Nudge or Predictably Irrational. The latter describes experiments in detail, which I personally enjoy.
+
+Since this job is based in Copenhagen, I’ll simulate "Strøget," the historic shopping district in the city center.
+
+## The Environment (Strøget)
+Since the company is located in Copenhagen, I thought it would be fun to use the city center as the topic of this exercise.
+
+If we limit Strøget to the area between “Storkespringvandet” and the entrance near City Hall, we can imagine it as a long corridor with shops on both sides. To simplify, we’ll assume there’s one shop at each location along this corridor.
+
+Thus, the environment can be represented as a long chain of shops. Agents can start from either end and pass through the corridor.
+
+## The Shopper
+From personal experience, it seems that nobody goes to Strøget to buy necessities—it’s more about purchasing nice-to-have items and doing light shopping. I’ll assume people arrive at Strøget with a certain amount of money (cash) they want to spend.
+
+I created some preference classes, such as Food, Clothing, and Books. By making these preferences into classes, I can tailor purchase patterns for each category.
+
+Food: This is consumed only once, meaning if someone buys food, they won’t purchase it again.
+Cash: The shopper’s cash balance decreases with each purchase.
+Position: Tracks where the shopper is located in the chain of shops.
+Presence: Indicates whether the shopper is still on the street.
+When a shopper encounters a shop that matches their preferences, they will buy something with a given probability—but only if they can afford it.
+
+## The Shop Agents
+Shop agents will offer products at a given price in specific categories. To keep things simple, each shop offers one product in one category.
+
+Simulations
+The simulation is managed via the Street class.
+
+To simplify, shops are ordered by their placement along the street. I haven’t implemented checks for errors in the ordering since this is just a toy example.
+
+The simulation progresses with a tick function, allowing the system to update step by step.
+
+Overall
+Overall, I like this construction. Instead of storing positions in a variable, I could have moved the object itself or used pointers to save computational costs related to copying.
+
+
+# Implementasion
+## Classes
+```{python}
+import random
+
+class Shop:
+    def __init__(self, placement: int, category: str, price: int):
+        """
+        Represents a shop in the market.
+        :param placement: Position of the shop along the market.
+        :param category: The type of items sold by the shop (e.g., 'Food', 'Books').
+        :param price: The price of the items sold.
+        """
+        self.placement = placement
+        self.category = category
+        self.price = price
+        self.units_sold=0
+    
+    def sold_unit(self):
+        self.units_sold +=1
+
+    def turnover(self):
+        return self.units_sold*self.price
+
+"""The belov class represent prefference a cosumer could have"""
+class food:
+    def __init__(self,type,buy_prop,have_eaten=False,units_bought=0):
+        self.type=type
+        self.buy_prop=buy_prop
+        self.have_eaten=have_eaten
+        self.units_bought=units_bought
+    def will_buy(self):
+        return_obj=False
+        if(self.have_eaten==False):
+            return_obj= random.random()< self.buy_prop
+            if(return_obj==True):
+                self.have_eaten=True
+                self.units_bought+=1
+        return (return_obj)
+
+class cloth:
+    def __init__(self,type,buy_prop,units_bought=0):
+        self.type=type
+        self.buy_prop=buy_prop
+        self.units_bought=units_bought
+    def will_buy(self): 
+        return_obj=random.random()< self.buy_prop
+        if return_obj== True: self.units_bought+=1
+        return return_obj
+
+class book:
+    def __init__(self,type,buy_prop,units_bought=0):
+        self.type=type
+        self.buy_prop=buy_prop
+        self.units_bought=units_bought
+    def will_buy(self):
+        return_obj=random.random()< self.buy_prop
+        if return_obj== True: self.units_bought+=1
+        return return_obj
+
+
+class Shopper:
+    def __init__(self,placement: int,direction,cash: float,preferences: list):
+        """
+        Represents a shopper in the market.
+        :param placement: Current position of the shopper.
+        :param direction: Direction of movement (-1 for left, 1 for right).
+        :param cash: Amount of money the shopper has.
+        :param gender: Gender of the shopper (used for preferences).
+        :param preferences: Dictionary of categories and buy probabilities.
+        """
+        self.placement = placement
+        self.direction = direction
+        self.cash = cash
+        self.preferences = preferences  
+        self.has_eaten = False
+        self.has_eaten_dessert = False
+        self.shoper_pressent_at_market=True
+        
+    def update_position(self):
+        """This function update the postion of the shopper and updates if their are shoper pressent at market"""
+        self.placement=self.placement+self.direction
+        return
+    
+    def visit_shop(self, shop: Shop):
+        """
+        Interact with a shop and decide whether to buy.
+        :param shop: The shop to interact with.
+        """
+        # find if shope is in the prefrence
+        did_buy=False
+        for index in range(len(self.preferences)):
+            if(self.preferences[index].type==shop.category):
+                if(shop.price<self.cash):
+                    did_buy=self.preferences[index].will_buy()
+            if (did_buy==True):
+                self.cash=self.cash-shop.price
+                shop.sold_unit()
+        self.update_position()
+        return did_buy
+        
+    
+class shopping_street:
+    def __init__(self,list_of_shops,list_of_shopers):
+        # List of shoops should be ordere by placement
+        self.list_of_shops=list_of_shops
+        self.list_of_shopers=list_of_shopers
+        self.min=list_of_shops[0].placement
+        self.max=list_of_shops[(len(list_of_shops)-1)].placement
+
+    def run_tick_shopper(self,index):
+        """This function will run one iteration of the simulation for a given agent"""
+        if (self.list_of_shopers[index].shoper_pressent_at_market)==True:
+            self.list_of_shopers[index].visit_shop(self.list_of_shops[index])
+        if(self.min<(self.list_of_shopers[index].placement) or self.list_of_shopers[index].placement<(self.max)):
+            self.list_of_shopers[index].shoper_pressent_at_market=False
+    def run_tick(self):
+        """This function will run one iteration of the simulation for all agents"""
+        for ind in range(len(self.list_of_shopers)):
+            self.run_tick_shopper(ind)
+    def get_unit(self):
+        unit_sold=0
+        for ind in range(len(self.list_of_shops)):
+            unit_sold +=self.list_of_shops[ind].units_sold
+        return(unit_sold)
+    def get_total_turnover(self):
+        turnover=0
+        for ind in range(len(self.list_of_shops)):
+            turnover +=self.list_of_shops[ind].turnover()
+        return(turnover)
+
+
+```
+
+
+## Unit Testing
+
+```{python}
+# unit test
+import  unittest
+
+def test_Shop_class():
+    test_Shop = Shop(2,"men cloth",100)
+    test_Shop.sold_unit()
+    assert(test_Shop.units_sold==1)
+    assert(test_Shop.units_sold*test_Shop.price==test_Shop.turnover())
+    
+    return
+test_Shop_class()
+
+def test_cloth_class():
+    test_cloth = cloth(type="men cloth", buy_prop=1)
+    assert test_cloth.will_buy() == True
+    assert test_cloth.units_bought==1
+    return
+test_cloth_class()
+def test_book_class():
+    test_book = book(type="book store", buy_prop=1)
+    assert test_book.will_buy() == True
+    assert test_book.units_bought==1
+    return
+test_book_class()
+def test_food_class():
+    test_food=food(type="Fastfood",buy_prop=1)
+    assert(test_food.have_eaten)==False
+    # Should buy since buy prop = 1 
+    assert(test_food.will_buy()==True)
+    #
+    assert(test_food.units_bought==1)
+    # have eaten = True 
+    assert(test_food.have_eaten)==True
+    #should not buy since have eaten
+    assert(test_food.will_buy()==False)
+    return 
+test_food_class()
+    
+def test_Shopper_class():
+    test_Shop = Shop(2,"men cloth",100)
+    test_food=food(type="Fastfood",buy_prop=1)
+    test_cloth = cloth(type="men cloth", buy_prop=1)
+    test_Shopper=Shopper(placement=2,direction=-1,cash=1000,preferences=[test_food,test_cloth])
+    assert test_Shopper.placement==2
+    # The visit function should change the cash and update the units sold if the shop is in the preferences
+    assert(test_Shopper.visit_shop(test_Shop))
+    assert test_Shopper.placement==1
+    assert test_Shopper.preferences[1].units_bought==1
+    assert test_Shopper.cash==1000-test_Shop.price
+    assert test_Shopper.placement==1
+    # Test of shope not in preferences
+    test_Shop_2=Shop(1,"book",100)
+    assert test_Shopper.visit_shop(test_Shop_2) ==False
+    # since
+    assert test_Shopper.cash==1000-test_Shop.price
+    assert test_Shopper.placement==0
+    return 
+    
+test_Shopper_class()
+
+def test_shopping_street_class():
+    test_Shop_1 = Shop(2,"men cloth",100)
+    test_shop_2=Shop(1,"book",50) 
+    test_food=food(type="Fastfood",buy_prop=1)
+    test_cloth = cloth(type="men cloth", buy_prop=1)
+    test_Shopper_1=Shopper(placement=2,direction=-1,cash=1000,preferences=[test_food,test_cloth])
+    test_Shopper_2=Shopper(placement=1,direction=1,cash=1000,preferences=[test_food,test_cloth])
+    test_shopping_street=shopping_street(list_of_shops=[test_Shop_1,test_shop_2],list_of_shopers=[test_Shopper_1,test_Shopper_2])
+    
+    # No book should be hold sold 
+    # The mens cloth should be sold
+    assert test_shopping_street.list_of_shopers[0].placement==2
+    assert test_shopping_street.list_of_shopers[1].placement==1
+    assert test_shopping_street.list_of_shops[0].units_sold==0
+    assert test_shopping_street.list_of_shops[1].units_sold==0
+    test_shopping_street.run_tick()
+    assert test_shopping_street.list_of_shopers[0].placement==1
+    assert test_shopping_street.list_of_shopers[1].placement==2
+    assert test_shopping_street.list_of_shops[0].units_sold==1
+    assert test_shopping_street.list_of_shops[1].units_sold==0
+    test_shopping_street.run_tick()
+    test_shopping_street.run_tick()
+    assert test_shopping_street.list_of_shopers[0].placement==0
+    assert test_shopping_street.list_of_shopers[1].placement==3
+    assert test_shopping_street.list_of_shops[0].units_sold==2
+    assert test_shopping_street.list_of_shops[1].units_sold==0
+    test_shopping_street.run_tick()
+    assert test_shopping_street.list_of_shopers[0].placement==0
+    assert test_shopping_street.list_of_shopers[1].placement==3
+    assert test_shopping_street.list_of_shops[0].units_sold==2
+    assert test_shopping_street.list_of_shops[1].units_sold==0
+    assert test_shopping_street.get_total_turnover()==2*100
+    assert test_shopping_street.get_unit()
+
+    return
+test_shopping_street_class()
+
+```
+
+## Simulation
+One potential improvement to the structure I created is how data is stored in the objects' classes.
+
+Currently, all data is encapsulated within individual objects, which works for tracking properties specific to each agent or shop. However, if I were interested in aggregated data—such as the total units sold—I would need to compute this after each tick by iterating through all the relevant objects.
+
+A more efficient approach could involve maintaining a centralized summary of key metrics during the simulation. For example:
+
+- Total Units Sold: Incremented directly when a sale occurs.
+- Revenue by Category: Updated in real time when a product is purchased.
+
+This way, aggregated data would be readily available without requiring extra computation after each tick. It would also make it easier to monitor and analyze trends as the simulation progresses.
+
+
+
+```{python}
+import matplotlib as plt
+
+def simulate_street():
+    shops = [
+        Shop(placement=0, category="food", price=50),
+        Shop(placement=1, category="cloth", price=200),
+        Shop(placement=2, category="book", price=150),
+        Shop(placement=3, category="food", price=100),
+        Shop(placement=4, category="cloth", price=300),
+        Shop(placement=5, category="book", price=250)
+        ]
+    ticks=len(shops)
+    preferences_1 = [
+        food(type="food", buy_prop=0.8),
+        cloth(type="cloth", buy_prop=0.5),
+        book(type="book", buy_prop=0.6)
+        ]
+    preferences_2 = [
+        food(type="food", buy_prop=0.6),
+        cloth(type="cloth", buy_prop=0.3),
+        book(type="book", buy_prop=0.9)
+        ]
+    shoppers = [
+        Shopper(placement=0, direction=1, cash=500, preferences=random.choice([preferences_1, preferences_2])),
+        Shopper(placement=5, direction=-1, cash=800, preferences=random.choice([preferences_1, preferences_2])),
+        Shopper(placement=2, direction=1, cash=300, preferences=random.choice([preferences_1, preferences_2]))
+        ]
+    # Initialize the shopping street
+    street = shopping_street(list_of_shops=shops, list_of_shopers=shoppers)
+    for _ in range(ticks):
+        street.run_tick()
+
+    # Return a dictionary with the results
+    return {
+        "Total_units": street.get_unit(),
+        "Total_turnover": street.get_total_turnover()
+    }
+
+
+#plot distibution of sale and and units sold
+Total_units=[]
+Total_turnover=[]
+for i in range(100):
+    sim_obj=simulate_street()
+    Total_units.append(sim_obj["Total_units"])
+    Total_turnover.append(sim_obj["Total_turnover"])
+
+
+
+
+import matplotlib.pyplot as plt
+
+
+
+# Create two subplots
+fig, axes = plt.subplots(2, 1, figsize=(8, 10))  # 2 rows, 1 column
+
+# Histogram for List A
+axes[0].hist(Total_units, bins=5, color='blue', alpha=0.7)
+axes[0].set_title('Histogram of Total units')
+axes[0].set_xlabel('Value')
+axes[0].set_ylabel('Frequency')
+
+# Histogram for List B
+axes[1].hist(Total_turnover, bins=5, color='orange', alpha=0.7)
+axes[1].set_title('Histogram of Total turnover')
+axes[1].set_xlabel('Value')
+axes[1].set_ylabel('Frequency')
+
+# Adjust layout
+plt.tight_layout()
+
+# Show plots
+plt.show()
+```
+
+# Technical Notes and Suggestions for Improvement
+When building simulations or using object-oriented programming, many of the structures can be designed in various ways. For example, the buy function could be implemented as part of the shopper agent or as part of the environment.
+
+Maintaining a well-organized structure is crucial, especially when managing dynamic effects, which can quickly become complex. This is particularly true in economic systems where actors are trained to consider both upstream and downstream effects.
+
+## Downstream Effects
+I believe downstream effects would be simpler to implement. To track these efficiently, I would use a directed graph or a reactive graph (as described in Mastering Shiny). The reactive graph approach could be more efficient for managing dependencies and dynamic changes in the system.
+
+## Parallelization Challenges
+A minor technical detail: as the code is written now, parallelizing the simulation would be challenging. Although the shoppers do not interact directly, they interact with the same shops. This creates a potential issue when writing to shared variables, such as the units sold in a shop. If multiple shoppers update this variable simultaneously, errors could occur.
+
+I am particularly interested in learning how to address these kinds of problems effectively. For example, using locks or other concurrency control methods might help, but exploring more sophisticated solutions could be valuable.
+
+# No Conclusions from the Model
+As stated at the beginning, this project was designed purely as an exercise in thinking about good structures for this type of model, rather than drawing any conclusions from the simulation.
