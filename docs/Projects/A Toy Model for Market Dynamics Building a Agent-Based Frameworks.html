@@ -171,7 +171,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#unit-testing" id="toc-unit-testing" class="nav-link" data-scroll-target="#unit-testing">Unit Testing</a></li>
   <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation">Simulation</a></li>
   </ul></li>
-  <li><a href="#no-conclusions-from-the-model" id="toc-no-conclusions-from-the-model" class="nav-link" data-scroll-target="#no-conclusions-from-the-model">No Conclusions from the Model</a>
+  <li><a href="#no-conclusions-from-the-model" id="toc-no-conclusions-from-the-model" class="nav-link" data-scroll-target="#no-conclusions-from-the-model">No Conclusions from the Model</a></li>
+  <li><a href="#technical-notes-and-suggestions-for-improvement" id="toc-technical-notes-and-suggestions-for-improvement" class="nav-link" data-scroll-target="#technical-notes-and-suggestions-for-improvement">Technical Notes and Suggestions for Improvement</a>
   <ul class="collapse">
   <li><a href="#downstream-effects" id="toc-downstream-effects" class="nav-link" data-scroll-target="#downstream-effects">Downstream Effects</a></li>
   <li><a href="#parallelization-challenges" id="toc-parallelization-challenges" class="nav-link" data-scroll-target="#parallelization-challenges">Parallelization Challenges</a></li>
@@ -252,7 +253,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="implementasion" class="level1">
 <h1>Implementasion</h1>
 <p>In this section, I have written the code for the implementation. ## Classes Below, my classes and the central construction can be found.</p>
-<div id="c6abd748" class="cell" data-execution_count="1">
+<div id="446e2b25" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
@@ -387,7 +388,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="unit-testing" class="level2">
 <h2 class="anchored" data-anchor-id="unit-testing">Unit Testing</h2>
 <p>Below, my Unit test, can be seen</p>
-<div id="70bf9bac" class="cell" data-execution_count="2">
+<div id="df0758e8" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># unit test</span></span>
@@ -492,7 +493,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="simulation" class="level2">
 <h2 class="anchored" data-anchor-id="simulation">Simulation</h2>
 <p>In this code, I created a small simulation to ensure the framework works. I have plotted the units sold and the turnover. Since this functions as a Monte Carlo simulation, there is no theoretical result to compare the distribution with</p>
-<div id="d2e12db0" class="cell" data-execution_count="3">
+<div id="beae71fa" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> plt</span>
@@ -582,7 +583,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="no-conclusions-from-the-model" class="level1">
 <h1>No Conclusions from the Model</h1>
-<p>As stated at the beginning, this project was designed purely as an exercise in thinking about good structures for this type of model, rather than drawing any conclusions from the simulation. # Technical Notes and Suggestions for Improvement One potential improvement to the structure I created is how data is stored in the objects’ classes.</p>
+<p>As stated at the beginning, this project was designed purely as an exercise in thinking about good structures for this type of model, rather than drawing any conclusions from the simulation.</p>
+</section>
+<section id="technical-notes-and-suggestions-for-improvement" class="level1">
+<h1>Technical Notes and Suggestions for Improvement</h1>
+<p>One potential improvement to the structure I created is how data is stored in the objects’ classes.</p>
 <p>Currently, all data is encapsulated within individual objects, which works for tracking properties specific to each agent or shop. However, if I were interested in aggregated data—such as the total units sold—I would need to compute this after each tick by iterating through all the relevant objects.</p>
 <p>A more efficient approach could involve maintaining a centralized summary of key metrics during the simulation. For example:</p>
 <ul>

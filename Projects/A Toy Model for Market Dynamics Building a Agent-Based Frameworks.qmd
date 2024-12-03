@@ -393,6 +393,7 @@ plt.show()
 
 # No Conclusions from the Model
 As stated at the beginning, this project was designed purely as an exercise in thinking about good structures for this type of model, rather than drawing any conclusions from the simulation.
+
 # Technical Notes and Suggestions for Improvement
 One potential improvement to the structure I created is how data is stored in the objects' classes.
 
