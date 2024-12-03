@@ -314,7 +314,7 @@ test_shopping_street_class()
 ```
 
 ## Simulation
-In this code, I created a small simulation to ensure the framework works. I have plotted the units sold and the turnover. Since this functions as a Monte Carlo simulation, there is no theoretical result to compare the distribution with
+In this code, I implemented a small simulation to validate the framework. I plotted the units sold and the turnover. Since this is a Monte Carlo simulation, there is no theoretical distribution for comparison
 ```{python}
 import matplotlib as plt
 
