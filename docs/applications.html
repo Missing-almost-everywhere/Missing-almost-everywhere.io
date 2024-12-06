@@ -205,16 +205,17 @@ def check_word_canidat_early_stopping(
         yellow_chr:chr,
         chr_list:list):
     """
-    This function return True ore False.
-    To be valid candidat a get true retrun, the input word
-    need to contain the yellow chr, and can not contain other chr that yellow and chr from the list of charater list
-    
+    This function returns True or False.
+    To be a valid candidate for a True return, the input word 
+    must contain the yellow character and cannot contain any characters 
+    other than the yellow character and characters from the provided character list.
     Args:
-        word (str): The word that need to be ckecked.
-        yellow_chr (chr): a chr that all word must contain
-        chr_list (list): a list of chr that the word can be contain in.
+        word (str): The word to be checked.
+        yellow_chr (str): A character that all valid words must contain.
+        chr_list (list): A list of characters that the word is allowed to contain.
     Returns:
-        bool: True ore False based on if the word forfiels the conditions
+        bool: True or False depending on whether the word fulfills the conditions.
+
     """
     lover_yellow =yellow_chr.lower()
     return_obj=False
@@ -392,17 +393,17 @@ def check_word_canidat_early_stopping(
         yellow_chr:chr,
         chr_list:list):
     """
-    This function return True ore False.
-    To be valid candidat a get true retrun, the input word
-    need to contain the yellow chr, and can not contain other chr that yellow and chr from the list of charater list
-    
+    This function returns True or False.
+    To be a valid candidate for a True return, the input word 
+    must contain the yellow character and cannot contain any characters 
+    other than the yellow character and characters from the provided character list.
     Args:
-        word (str): The word that need to be ckecked.
-        yellow_chr (chr): a chr that all word must contain
-        chr_list (list): a list of chr that the word can be contain in.
+        word (str): The word to be checked.
+        yellow_chr (str): A character that all valid words must contain.
+        chr_list (list): A list of characters that the word is allowed to contain.
     Returns:
-        bool: True ore False based on if the word forfiels the conditions
-   
+        bool: True or False depending on whether the word fulfills the conditions.
+
     """
     lover_yellow =yellow_chr.lower()
     return_obj=False
@@ -434,7 +435,7 @@ def get_word_candidates(
     """
     This returns list containg alle candidat words, for the spelling bee game.
 
-    All word contain the yellow letter, and consist of combination yello and letter from the letter list.
+    All word contain the yellow letter, and consist of combination yellow and letter from the letter list.
     All words is longer ore equal to min_word_length
     
     Args:
