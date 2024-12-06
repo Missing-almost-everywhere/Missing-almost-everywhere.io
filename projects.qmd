@@ -51,3 +51,8 @@ This was one of those projects where the final product was very clean, but the p
 
 For example, I used C++ overloaded functions, but due to R not allowing functions with the same name, I ran into issues. When I tested my R implementation with a set output, it worked, and when I tested my C++ implementation, it also worked. It’s easy to understand once you figure it out, but it was challenging until then.
 
+A small note: this project is a bit technical. If you've stumbled upon it and want some intuition about what's going on, I recommend starting by looking at [Gaussian mixtures](https://stephens999.github.io/fiveMinuteStats/intro_to_em.html). Since Gaussian mixtures have closed-form solutions, the expressions are much simpler, which makes understanding the intuition easier.
+
+For t-distributions, there is no closed form—or at least I couldn’t derive one—so I had to use numerical methods to compensate. This is why the project ends up focusing heavily on implementing fast code using C++. It also involves addressing numerical issues such as unstable gradients and explaining why the function is not convex. If it were convex, I would have used Newton’s method.
+
+This challenge was also what made the project interesting to me. Anyone can fit a Gaussian mixture, which is why it’s so widely used. However, tackling numerical methods and figuring out how to implement solutions when the expressions don’t cooperate is a central skill I wanted to develop.
