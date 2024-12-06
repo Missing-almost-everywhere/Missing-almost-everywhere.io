@@ -76,6 +76,7 @@ Overall, I like this construction. Instead of storing positions in a variable, I
 
 # Implementasion
 In this section, I have written the code for the implementation.
+
 ## Classes
 Below, my classes and the central construction can be found.
 ```{python}
