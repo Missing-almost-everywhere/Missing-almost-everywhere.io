@@ -120,10 +120,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#a-toy-model-for-market-dynamics-building-a-agent-based-frameworks" id="toc-a-toy-model-for-market-dynamics-building-a-agent-based-frameworks" class="nav-link active" data-scroll-target="#a-toy-model-for-market-dynamics-building-a-agent-based-frameworks">A Toy Model for Market Dynamics: Building a Agent-Based Frameworks</a></li>
-  <li><a href="#bee-a-spelling-genius" id="toc-bee-a-spelling-genius" class="nav-link" data-scroll-target="#bee-a-spelling-genius">Bee a Spelling Genius</a></li>
+  <li><a href="#bee-a-spelling-genius" id="toc-bee-a-spelling-genius" class="nav-link active" data-scroll-target="#bee-a-spelling-genius">Bee a Spelling Genius</a></li>
   <li><a href="#vp-search-trees-for-cgmlst-sequences" id="toc-vp-search-trees-for-cgmlst-sequences" class="nav-link" data-scroll-target="#vp-search-trees-for-cgmlst-sequences">VP-search trees for cgMLST sequences</a></li>
   <li><a href="#mixture-of-k-scaled-and-shifted-t-distributions" id="toc-mixture-of-k-scaled-and-shifted-t-distributions" class="nav-link" data-scroll-target="#mixture-of-k-scaled-and-shifted-t-distributions">Mixture of K scaled and shifted t distributions</a></li>
+  <li><a href="#a-toy-model-for-market-dynamics-building-a-agent-based-frameworks" id="toc-a-toy-model-for-market-dynamics-building-a-agent-based-frameworks" class="nav-link" data-scroll-target="#a-toy-model-for-market-dynamics-building-a-agent-based-frameworks">A Toy Model for Market Dynamics: Building a Agent-Based Frameworks</a></li>
   </ul>
 </nav>
     </div>
@@ -150,13 +150,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>Here are some of my projects:</p>
-<section id="a-toy-model-for-market-dynamics-building-a-agent-based-frameworks" class="level1">
-<h1>A Toy Model for Market Dynamics: Building a Agent-Based Frameworks</h1>
-<p><a href="./Projects/A Toy Model for Market Dynamics Building a Agent-Based Frameworks.html">A Toy Model for Market Dynamics: Building a Agent-Based Frameworks</a></p>
-<p>This project explores the foundational concepts of agent-based simulations through a simplified market model. Using Python, it simulates shoppers navigating a fictional representation of Strøget, Copenhagen’s shopping district. Each shopper is modeled as an agent with specific preferences, budget constraints, and behaviors, while shops act as agents offering products in distinct categories.</p>
-<p>The project emphasizes structural design choices, such as implementing interactions (e.g., buying decisions) and tracking aggregated metrics like total sales. It also addresses technical challenges, including managing dynamic effects and considering potential parallelization issues, though these aspects have not yet been fully implemented.</p>
-<p>The implementation is written in Python and includes unit tests to verify the functionality of key components. Primarily intended as a learning exercise, this model aims to refine object-oriented programming skills and simulate agent interactions. It serves as a foundation for exploring more complex systems and optimizing efficiency in future iterations.</p>
-</section>
 <section id="bee-a-spelling-genius" class="level1">
 <h1>Bee a Spelling Genius</h1>
 <p><a href="./applications.html">Bee a Spelling Genius</a></p>
@@ -166,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="vp-search-trees-for-cgmlst-sequences" class="level1">
 <h1>VP-search trees for cgMLST sequences</h1>
 <p><a href="Projects/VP_search_trees_for_cgMLST_sequences.html">VP-search trees for cgMLST sequences</a></p>
-<p>This is a project I completed for Statens Serum Institut. The goal was to develop a theoretical approach for more efficient searches in their database for cgMLST analyses. I ended up creating an adaptation of VP-search trees based on Hamming distance. Due to the significant number of missing values in the sequences, I had to modify the method and prove some minor bounds.</p>
+<p>This is a project I completed for Statens Serum Institut. The goal was to develop a theoretical approach for more efficient searches in their database for cgMLST analyses. I ended up creating an adaptation of VP-search trees based on Hamming distance. Due to the significant number of missing values in the sequences, I had to modify the method and prove some minor bounds. The underlying problem was how to optimize repeated in-range searches, which are, by nature, very similar to KNN.</p>
 <p>I implemented this in Python, making it usable for their system.</p>
 <p>The department had a database with the data but conducted data processing in Python. Therefore, it might be more efficient to write code that worked closer to the database. Consequently, the report structure became a bit unconventional.</p>
 <p>I wrote extensive documentation for all functions and implemented everything from scratch to ensure it could be adapted to different programming languages where Python libraries might not be flexible.</p>
@@ -182,6 +175,13 @@ ul.task-list li input[type="checkbox"] {
 <p>A small note: this project is a bit technical. If you’ve stumbled upon it and want some intuition about what’s going on, I recommend starting by looking at <a href="https://stephens999.github.io/fiveMinuteStats/intro_to_em.html">Gaussian mixtures</a>. Since Gaussian mixtures have closed-form solutions, the expressions are much simpler, which makes understanding the intuition easier.</p>
 <p>For t-distributions, there is no closed form—or at least I couldn’t derive one—so I had to use numerical methods to compensate. This is why the project ends up focusing heavily on implementing fast code using C++. It also involves addressing numerical issues such as unstable gradients and explaining why the function is not convex. If it were convex, I would have used Newton’s method.</p>
 <p>This challenge was also what made the project interesting to me. Anyone can fit a Gaussian mixture, which is why it’s so widely used. However, tackling numerical methods and figuring out how to implement solutions when the expressions don’t cooperate is a central skill I wanted to develop.</p>
+</section>
+<section id="a-toy-model-for-market-dynamics-building-a-agent-based-frameworks" class="level1">
+<h1>A Toy Model for Market Dynamics: Building a Agent-Based Frameworks</h1>
+<p><a href="./Projects/A Toy Model for Market Dynamics Building a Agent-Based Frameworks.html">A Toy Model for Market Dynamics: Building a Agent-Based Frameworks</a></p>
+<p>This project explores the foundational concepts of agent-based simulations through a simplified market model. Using Python, it simulates shoppers navigating a fictional representation of Strøget, Copenhagen’s shopping district. Each shopper is modeled as an agent with specific preferences, budget constraints, and behaviors, while shops act as agents offering products in distinct categories.</p>
+<p>The project emphasizes structural design choices, such as implementing interactions (e.g., buying decisions) and tracking aggregated metrics like total sales. It also addresses technical challenges, including managing dynamic effects and considering potential parallelization issues, though these aspects have not yet been fully implemented.</p>
+<p>The implementation is written in Python and includes unit tests to verify the functionality of key components. Primarily intended as a learning exercise, this model aims to refine object-oriented programming skills and simulate agent interactions. It serves as a foundation for exploring more complex systems and optimizing efficiency in future iterations.</p>
 
 
 </section>
