@@ -46,9 +46,7 @@ I wrote extensive documentation for all functions and implemented everything fro
 
 I also conducted speed testing on a smaller, published dataset to showcase how the implementation could be evaluated.
 
-# Kaggle House Prices - Advanced Regression Techniques
 
-[House Prices](Projects/House-prices-project.qmd)
 
 
 # A Toy Model for Market Dynamics: Building a Agent-Based Frameworks
