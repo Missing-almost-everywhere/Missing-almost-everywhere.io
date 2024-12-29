@@ -13,23 +13,6 @@ This is a live application made with the Shiny for Python version.
 
 The intention was to create a small project and learn about reactive programming, as well as how to develop small applications and dashboards. By using Shiny for Python, I could run it directly on my GitHub page, making it easier to share with others.
 
-
-
-# VP-search trees for cgMLST sequences
-
-[VP-search trees for cgMLST sequences](Projects/VP_search_trees_for_cgMLST_sequences.html)
-
-This is a project I completed for Statens Serum Institut. The goal was to develop a theoretical approach for more efficient searches in their database for cgMLST analyses. I ended up creating an adaptation of VP-search trees based on Hamming distance. Due to the significant number of missing values in the sequences, I had to modify the method and prove some minor bounds. The underlying problem was how to optimize repeated in-range searches, which are, by nature, very similar to KNN.
-
-I implemented this in Python, making it usable for their system.
-
-The department had a database with the data but conducted data processing in Python. Therefore, it might be more efficient to write code that worked closer to the database. Consequently, the report structure became a bit unconventional.
-
-I wrote extensive documentation for all functions and implemented everything from scratch to ensure it could be adapted to different programming languages where Python libraries might not be flexible.
-
-I also conducted speed testing on a smaller, published dataset to showcase how the implementation could be evaluated.
-
-
 # Mixture of K scaled and shifted t distributions
 
 [Mixture of K scaled and shifted t distributions](Projects/Mixture_of_K_scaled_and_shifted_Tdistributions.html)
@@ -47,6 +30,26 @@ A small note: this project is a bit technical. If you've stumbled upon it and wa
 For t-distributions, there is no closed form—or at least I couldn’t derive one—so I had to use numerical methods to compensate. This is why the project ends up focusing heavily on implementing fast code using C++. It also involves addressing numerical issues such as unstable gradients and explaining why the function is not convex. If it were convex, I would have used Newton’s method.
 
 This challenge was also what made the project interesting to me. Anyone can fit a Gaussian mixture, which is why it’s so widely used. However, tackling numerical methods and figuring out how to implement solutions when the expressions don’t cooperate is a central skill I wanted to develop.
+
+
+# VP-search trees for cgMLST sequences
+
+[VP-search trees for cgMLST sequences](Projects/VP_search_trees_for_cgMLST_sequences.html)
+
+This is a project I completed for Statens Serum Institut. The goal was to develop a theoretical approach for more efficient searches in their database for cgMLST analyses. I ended up creating an adaptation of VP-search trees based on Hamming distance. Due to the significant number of missing values in the sequences, I had to modify the method and prove some minor bounds. The underlying problem was how to optimize repeated in-range searches, which are, by nature, very similar to KNN.
+
+I implemented this in Python, making it usable for their system.
+
+The department had a database with the data but conducted data processing in Python. Therefore, it might be more efficient to write code that worked closer to the database. Consequently, the report structure became a bit unconventional.
+
+I wrote extensive documentation for all functions and implemented everything from scratch to ensure it could be adapted to different programming languages where Python libraries might not be flexible.
+
+I also conducted speed testing on a smaller, published dataset to showcase how the implementation could be evaluated.
+
+# Kaggle House Prices - Advanced Regression Techniques
+
+[House Prices](Projects/House-prices-project.qmd)
+
 
 # A Toy Model for Market Dynamics: Building a Agent-Based Frameworks
 
