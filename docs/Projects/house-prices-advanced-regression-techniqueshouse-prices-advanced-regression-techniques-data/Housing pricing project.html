@@ -800,6 +800,7 @@ Their properly also some rank to other varibels, varibels like building matrials
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
 #| standalone: true
+#| viewerHeight: 600
 library(shiny)
 library(ggplot2)
 
@@ -1062,6 +1063,7 @@ Click to expand/collapse varibel removed
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
 #| standalone: true
+#| viewerHeight: 600
 library(shiny)
 library(ggplot2)
 
@@ -1454,6 +1456,7 @@ HeatingQC                 0.4906598     TRUE</code></pre>
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
 #| standalone: true
+#| viewerHeight: 600
 library(shiny)
 library(ggplot2)
 library(dplyr)
@@ -1461,7 +1464,7 @@ library(dplyr)
 data_final &lt;- read.csv("https://raw.githubusercontent.com/Missing-almost-everywhere/Missing-almost-everywhere.io/main/Projects/house-prices-advanced-regression-techniqueshouse-prices-advanced-regression-techniques-data/data_for_final_model.csv")
 
 ui &lt;- fluidPage(
-  titlePanel("House Price Analysis"),
+  titlePanel("None Numerical varibels"),
   sidebarLayout(
     sidebarPanel(
       selectInput("variable", "Select Variable:", 
@@ -1481,7 +1484,6 @@ server &lt;- function(input, output) {
       if(col != "SalePrice") {
         ggplot(data_final, aes(x = .data[[col]], y = log(SalePrice))) +
           geom_point(alpha = 0.5) +
-          geom_smooth(method = "lm", color = "red") +
           labs(title = paste(col, "vs log(SalePrice)")) +
           theme_minimal()
       } else {
@@ -1633,7 +1635,7 @@ shinyApp(ui = ui, server = server)
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">log_diff_metric_model_baseline</span>(df,labels))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.06432956</code></pre>
+<pre><code>[1] 0.06399003</code></pre>
 </div>
 </div>
 <p>Over all the predicative stregth look good the reisudall of the model looks more simullaro to t distribuin than a normal.</p>
@@ -1703,7 +1705,7 @@ shinyApp(ui = ui, server = server)
 <span id="cb69-52"><a href="#cb69-52" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Mean Cross-Validated MSE:"</span>, mean_cv_mse, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Mean Cross-Validated MSE: 0.0211812 </code></pre>
+<pre><code>Mean Cross-Validated MSE: 0.02131863 </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1716,7 +1718,7 @@ shinyApp(ui = ui, server = server)
 <span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mean_cv_mse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0211812</code></pre>
+<pre><code>[1] 0.02131863</code></pre>
 </div>
 </div>
 <p>As observed, the predictive strength of the model is better than the baseline model, but not by a lot in terms of predictive performance.</p>

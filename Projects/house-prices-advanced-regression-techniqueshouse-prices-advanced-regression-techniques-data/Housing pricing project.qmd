@@ -582,6 +582,7 @@ for (col in names(df)) {
 
 ```{shinylive-r}
 #| standalone: true
+#| viewerHeight: 600
 library(shiny)
 library(ggplot2)
 
@@ -876,6 +877,7 @@ for (col in names(df)) {
 
 ```{shinylive-r}
 #| standalone: true
+#| viewerHeight: 600
 library(shiny)
 library(ggplot2)
 
@@ -1193,6 +1195,7 @@ for (col in non_numeric_cols) {
 
 ```{shinylive-r}
 #| standalone: true
+#| viewerHeight: 600
 library(shiny)
 library(ggplot2)
 library(dplyr)
@@ -1200,7 +1203,7 @@ library(dplyr)
 data_final <- read.csv("https://raw.githubusercontent.com/Missing-almost-everywhere/Missing-almost-everywhere.io/main/Projects/house-prices-advanced-regression-techniqueshouse-prices-advanced-regression-techniques-data/data_for_final_model.csv")
 
 ui <- fluidPage(
-  titlePanel("House Price Analysis"),
+  titlePanel("None Numerical varibels"),
   sidebarLayout(
     sidebarPanel(
       selectInput("variable", "Select Variable:", 
@@ -1220,7 +1223,6 @@ server <- function(input, output) {
       if(col != "SalePrice") {
         ggplot(data_final, aes(x = .data[[col]], y = log(SalePrice))) +
           geom_point(alpha = 0.5) +
-          geom_smooth(method = "lm", color = "red") +
           labs(title = paste(col, "vs log(SalePrice)")) +
           theme_minimal()
       } else {
@@ -1284,7 +1286,6 @@ TQQPlot(log(df$SalePrice)-log(model_baseline$fitted.value*df$GrLivArea),df=4.5 )
 
 
 ```
-
 
 
 ## A linear interaction model.

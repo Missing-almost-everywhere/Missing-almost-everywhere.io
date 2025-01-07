@@ -5,7 +5,7 @@ library(dplyr)
 data_final <- read.csv("https://raw.githubusercontent.com/Missing-almost-everywhere/Missing-almost-everywhere.io/main/Projects/house-prices-advanced-regression-techniqueshouse-prices-advanced-regression-techniques-data/data_for_final_model.csv")
 
 ui <- fluidPage(
-  titlePanel("House Price Analysis"),
+  titlePanel("None Numerical varibels"),
   sidebarLayout(
     sidebarPanel(
       selectInput("variable", "Select Variable:", 
