@@ -329,8 +329,6 @@ I have included the code for the plots, and a potential reader can see in the co
 ## Recoding of Variables
 Some of these variables have a ranking, which makes them well-suited for recoding. By recoding them as numerical values, the ranking becomes more obvious.
 
-Note: This GPT is best used alongside the editGPT Browser extension.
-
 <details>
 <summary>Click to expand/collapse varibel recoeding</summary>
 

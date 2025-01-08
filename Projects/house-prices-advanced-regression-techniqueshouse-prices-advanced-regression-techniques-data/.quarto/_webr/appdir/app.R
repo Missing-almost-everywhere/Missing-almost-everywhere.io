@@ -25,7 +25,6 @@ server <- function(input, output) {
       if(col != "SalePrice") {
         ggplot(data_final, aes(x = .data[[col]], y = log(SalePrice))) +
           geom_point(alpha = 0.5) +
-          geom_smooth(method = "lm", color = "red") +
           labs(title = paste(col, "vs log(SalePrice)")) +
           theme_minimal()
       } else {
