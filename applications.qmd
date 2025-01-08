@@ -31,7 +31,7 @@ The Spelling Bee uses a list of curated words. The dictionary is more like a ref
 
 There may also be words that are offensive or outdated. While they are correctly spelled, they probably won’t appear in the Spelling Bee.
 
-
+The application can take a little while to load. The data is downloaded from a GitHub repository, so if you have browser extensions that might prevent this, it’s a good idea to temporarily turn them off.
 
 ```{shinylive-python}
 #| standalone: true
