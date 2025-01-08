@@ -210,7 +210,7 @@ window.Quarto = {
   <li><a href="#overview-of-variables-with-the-highest-correlation-to-log-of-sale-price" id="toc-overview-of-variables-with-the-highest-correlation-to-log-of-sale-price" class="nav-link" data-scroll-target="#overview-of-variables-with-the-highest-correlation-to-log-of-sale-price">Overview of Variables with the Highest Correlation to Log of Sale Price</a></li>
   <li><a href="#overallqual" id="toc-overallqual" class="nav-link" data-scroll-target="#overallqual">OverallQual</a></li>
   <li><a href="#ground-lvving-area" id="toc-ground-lvving-area" class="nav-link" data-scroll-target="#ground-lvving-area">Ground lvving area</a></li>
-  <li><a href="#looking-at-some-no-numeric-varibels" id="toc-looking-at-some-no-numeric-varibels" class="nav-link" data-scroll-target="#looking-at-some-no-numeric-varibels">Looking at some no numeric varibels</a></li>
+  <li><a href="#plotting-variables-against-logsaleprice" id="toc-plotting-variables-against-logsaleprice" class="nav-link" data-scroll-target="#plotting-variables-against-logsaleprice">Plotting Variables Against logsaleprice</a></li>
   </ul></li>
   <li><a href="#models" id="toc-models" class="nav-link" data-scroll-target="#models">Models</a>
   <ul class="collapse">
@@ -1420,9 +1420,9 @@ HeatingQC                 0.4906598     TRUE</code></pre>
 </div>
 </div>
 </section>
-<section id="looking-at-some-no-numeric-varibels" class="level2">
-<h2 class="anchored" data-anchor-id="looking-at-some-no-numeric-varibels">Looking at some no numeric varibels</h2>
-<p>Some of these varibels do not have natrual ordering, wich mean computing spearman corelation is not posibel. In that case the best option (I know) is to plot the target varibels against the cagories in the varibels, theirs differenct forms, such boxbolot ore violin plot. I have chosen violin plot since it hase more resempelens with a historgram, wich i prefere over boxplot.</p>
+<section id="plotting-variables-against-logsaleprice" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-variables-against-logsaleprice">Plotting Variables Against logsaleprice</h2>
+<p>Some of these variables do not have natural ordering, which means computing Spearman correlation is not possible. In that case, the best option (I know) is to plot the target variable against the categories in the variables. There are different forms, such as boxplots or violin plots. I have chosen violin plots since they have more resemblance to a histogram, which I prefer over boxplots.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1634,7 +1634,7 @@ shinyApp(ui = ui, server = server)
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">log_diff_metric_model_baseline</span>(df,labels))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.06438371</code></pre>
+<pre><code>[1] 0.06487265</code></pre>
 </div>
 </div>
 <p>Over all the predicative stregth look good the reisudall of the model looks more simullaro to t distribuin than a normal.</p>
@@ -1704,7 +1704,7 @@ shinyApp(ui = ui, server = server)
 <span id="cb69-52"><a href="#cb69-52" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Mean Cross-Validated MSE:"</span>, mean_cv_mse, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Mean Cross-Validated MSE: 0.02097314 </code></pre>
+<pre><code>Mean Cross-Validated MSE: 0.02125382 </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1717,7 +1717,7 @@ shinyApp(ui = ui, server = server)
 <span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mean_cv_mse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.02097314</code></pre>
+<pre><code>[1] 0.02125382</code></pre>
 </div>
 </div>
 <p>As observed, the predictive strength of the model is better than the baseline model, but not by a lot in terms of predictive performance.</p>

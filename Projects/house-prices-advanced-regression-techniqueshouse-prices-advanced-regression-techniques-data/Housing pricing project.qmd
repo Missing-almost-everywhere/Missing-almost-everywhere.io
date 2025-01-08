@@ -1162,8 +1162,10 @@ ggplot(data=df[!is.na(df$SalePrice),], aes(x=factor(GrLivArea), y=log(SalePrice)
 ```
 
 
-## Looking at some no numeric varibels 
-Some of these varibels do not have natrual ordering, wich mean computing spearman corelation is not posibel. In that case the best option (I know) is to plot the target varibels against the cagories in the varibels, theirs differenct forms, such boxbolot ore violin plot. I have chosen violin plot since it hase more resempelens with a historgram, wich i prefere over boxplot.
+## Plotting Variables Against logsaleprice
+Some of these variables do not have natural ordering, which means computing Spearman correlation is not possible. In that case, the best option (I know) is to plot the target variable against the categories in the variables. There are different forms, such as boxplots or violin plots. I have chosen violin plots since they have more resemblance to a histogram, which I prefer over boxplots.
+
+
 
 ```{r,eval=TRUE}
 write.csv(df, "data_for_final_model.csv", row.names = FALSE)
