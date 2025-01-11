@@ -254,7 +254,7 @@ window.Quarto = {
 
 <p>This is practics case based on some data from <a href="https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques/overview">kaggle</a></p>
 <p>I mostly made this to play around with some data and learn new methods. When working with data, like many others, I like to use either R Markdown or Jupyter Notebook. I also enjoy writing small notes and comments so that if I need to revisit the project later, I can easily see what I did. This approach is really helpful in terms of reproducibility. Unfortunately, people often share notebooks without adding any text or comments.</p>
-<p>While I’ve written out some comments here, I don’t go too deep. However, I do show parts of my workflow. The code is written in R, and I consider it what I call “one-time code.” It’s not meant to be read by others, so there aren’t a lot of comments. It’s not optimized either—I’ve simply chosen the fastest code I could think of or find to solve a problem. I ende op using Chat-gbt for some code aswell then correcting the mistakes. The methology and the models chosen is all me.</p>
+<p>While I’ve written out some comments here, I don’t go too deep. However, I do show parts of my workflow. The code is written in R, and I consider it what I call “one-time code.” It’s not meant to be read by others. It’s not optimized either—I’ve simply chosen the fastest code I could think of or find to solve a problem. I ende op using Chat-gbt for some code aswell then correcting the mistakes. The methology and the models chosen is all me.</p>
 <section id="metric" class="level1">
 <h1>Metric</h1>
 <p>The goal is to achieve the lowest score on the out-of-sample prediction set based on a specific metric.</p>
@@ -1510,11 +1510,11 @@ shinyApp(ui = ui, server = server)
 </section>
 <section id="models" class="level1">
 <h1>Models</h1>
-<p>I start by using some simple models, wheer I use some intuition and look at the residuals, then i move on to some more advance techies. Fist i am gona plot some models and look at residuals, compare to some other varibels. I like to start this way since i give me a intuitions abote the data. The models made this way have the advantage their a esay to explain. In some one could want to trade some preditiv stregnth for some explaniabillaty. I am still gona use of sample preditv strength to evaluat the models. preferabelly by corss validation</p>
+<p>I start by using some simple models, wheer I use some intuition and look at the residuals, then i move on to some more advance techies. Fist i am gona plot some models and look at residuals, compare to some other varibels. I like to start this way since i give me a intuitions abote the data. The models made this way have the advantage their a esay to explain. if some one want to trade some preditiv stregnth for some explaniabillaty. Personaly, I am still gona use of sample preditv strength to evaluat the models. preferabelly by corss validation</p>
 <section id="base-line-mocel" class="level2">
 <h2 class="anchored" data-anchor-id="base-line-mocel">Base line mocel</h2>
 <p>After Plotting different models and looking the residual i found the below model. Where the saleprice pr sqft of living area is combination the Neighborhood the type of dwelling (MSSubClass)</p>
-<p>wich could be good candidate if one look the residuals being drawn from af t distribusion. So more heavy tale distribution,that a normal distribution. In many ways this model seam resanbull from a intuition point of view.</p>
+<p>wich could be good candidate if one look the residuals being drawn from af t distribusion. So more heavy tale distribution, than a normal distribution. In many ways this model seam resanbull from a intuition point of view.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1634,7 +1634,7 @@ shinyApp(ui = ui, server = server)
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">log_diff_metric_model_baseline</span>(df,labels))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.06487265</code></pre>
+<pre><code>[1] 0.0641033</code></pre>
 </div>
 </div>
 <p>Over all the predicative stregth look good the reisudall of the model looks more simullaro to t distribuin than a normal.</p>
@@ -1646,7 +1646,7 @@ shinyApp(ui = ui, server = server)
 <h2 class="anchored" data-anchor-id="lasso">Lasso</h2>
 <p>In this chunck of code i fit lasso model for the dataframe, by asuming a linear model over all the vearibels in the datafram penlized by the size of beta. The Lasso solves the following</p>
 <p><span class="math display">\[\underset{\beta}{argmin} ||log(Y)-\beta X||_{2}^2+\lambda||\beta||_1\]</span>.</p>
-<p>“It penalizes the size of the coefficients (beta). Since the penalty is based on the <span class="math inline">\(L_1\)</span> -norm, it tends to set some coefficients to zero. This encourages sparse solutions, where only the most relevant features are retained.</p>
+<p>It penalizes the size of the coefficients (beta). Since the penalty is based on the <span class="math inline">\(L_1\)</span> -norm, it tends to set some coefficients to zero. This encourages sparse solutions, where only the most relevant features are retained.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1704,7 +1704,7 @@ shinyApp(ui = ui, server = server)
 <span id="cb69-52"><a href="#cb69-52" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Mean Cross-Validated MSE:"</span>, mean_cv_mse, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Mean Cross-Validated MSE: 0.02125382 </code></pre>
+<pre><code>Mean Cross-Validated MSE: 0.0229118 </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -1717,7 +1717,7 @@ shinyApp(ui = ui, server = server)
 <span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mean_cv_mse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.02125382</code></pre>
+<pre><code>[1] 0.0229118</code></pre>
 </div>
 </div>
 <p>As observed, the predictive strength of the model is better than the baseline model, but not by a lot in terms of predictive performance.</p>
@@ -1818,7 +1818,7 @@ Will train until test_rmse hasn't improved in 10 rounds.
 <p>Overall, it seems like the best option is the lasso model for prediction.</p>
 <section id="prepration-of-test-set." class="level2">
 <h2 class="anchored" data-anchor-id="prepration-of-test-set.">Prepration of test set.</h2>
-<p>In this section, I analyze the features in the test set. There are some missing values, which I address using the K-Nearest Neighbors (KNN) algorithm. This method is particularly effective for handling missing values in categorical variables.</p>
+<p>There are some missing values, which I address using the K-Nearest Neighbors (KNN) algorithm. This method is particularly effective for handling missing values in categorical variables.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>

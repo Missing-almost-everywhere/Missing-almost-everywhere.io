@@ -54,8 +54,17 @@ This is a small project I did because I wanted to learn XG-Boost, Lasso and work
 
 The feature engineering and cleaning process is extensive but could be improved. Since this was not the main goal of my project. I achieved a score of 0.13755, which was considered a rather good score before people started inflating the scores by exploiting the dataset, which has been used multiple times, and feeding it into the validation set.
 
-I made this notebook using R and created a small interface to interact with the plot. Otherwise, the notebook would have too many blocks of variables. 
+I made this notebook using R and created a small interface to interact with the plot. Otherwise, the notebook would have too many plots of variables. 
 
+# sequential hypothesis testing and safe anytime inference
+
+[Sequential Hypothesis Testing and Safe Anytime Inference](\Poject/sequential hypothesis testing and safe anytime inference.qmd)
+
+In this project, I explore the mSPRT, which is a method for continuously monitoring experiments. It's a kind of "the new black" in A/B testing.
+The theory is beautifully simple but has been significantly expanded to account for additional problems.
+In this project, I focus only on the base problem.
+I also conducted simulations to see how these assumptions affect coverage, especially the Type I error.
+Additionally, I rembered how to perform power calculations.
 
 
 # A Toy Model for Market Dynamics: Building a Agent-Based Frameworks

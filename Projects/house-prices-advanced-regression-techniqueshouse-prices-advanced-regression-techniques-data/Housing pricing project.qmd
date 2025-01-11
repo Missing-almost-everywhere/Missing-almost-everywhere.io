@@ -15,7 +15,7 @@ I also enjoy writing small notes and comments so that if I need to revisit the p
 This approach is really helpful in terms of reproducibility. Unfortunately, people often share notebooks without adding any text or comments.
 
 While I’ve written out some comments here, I don’t go too deep. However, I do show parts of my workflow.
-The code is written in R, and I consider it what I call "one-time code." It’s not meant to be read by others, so there aren’t a lot of comments.
+The code is written in R, and I consider it what I call "one-time code." It’s not meant to be read by others.
 It’s not optimized either—I’ve simply chosen the fastest code I could think of or find to solve a problem. I ende op using Chat-gbt for some code aswell then correcting the mistakes.
 The methology and the models chosen is all me.
 
@@ -1255,14 +1255,15 @@ The roofing seam like it could have potesial
 # Models
 I start by using some simple models, wheer I use some intuition and look at the residuals, then i move on to some more advance techies.
 Fist i am gona plot some models and look at residuals, compare to some other varibels.
-I like to start this way since i give me a intuitions abote the data. The models made this way have the advantage their a esay to explain. In some one could want to trade some preditiv stregnth for some explaniabillaty. I am still gona use of sample preditv strength to evaluat the models. preferabelly by corss validation
+I like to start this way since i give me a intuitions abote the data. The models made this way have the advantage their a esay to explain. if some one want to trade some preditiv stregnth for some explaniabillaty.
+Personaly, I am still gona use of sample preditv strength to evaluat the models. preferabelly by corss validation
 
 ## Base line mocel
 After Plotting different models and looking the residual i found the below model.
 Where the saleprice pr sqft of living area is combination the Neighborhood the type of dwelling (MSSubClass)
 
 wich could be good candidate if one look the residuals being drawn from af t distribusion.
-So more heavy tale distribution,that a normal distribution. In many ways this model seam resanbull from a intuition point of view.  
+So more heavy tale distribution, than a normal distribution. In many ways this model seam resanbull from a intuition point of view.  
 
 
 ```{r,warning=FALSE}
@@ -1353,7 +1354,7 @@ The Lasso solves the following
 
 $$\underset{\beta}{argmin} ||log(Y)-\beta X||_{2}^2+\lambda||\beta||_1$$.
 
-"It penalizes the size of the coefficients (beta). Since the penalty is based on the $L_1$
+It penalizes the size of the coefficients (beta). Since the penalty is based on the $L_1$
  -norm, it tends to set some coefficients to zero. This encourages sparse solutions, where only the most relevant features are retained.
 ```{r,warning=FALSE}
 #| message: false
@@ -1495,7 +1496,6 @@ cat("RMSE on entire dataset:", overall_rmse, "\n")
 Overall, it seems like the best option is the lasso model for prediction.  
 
 ## Prepration of test set.
-In this section, I analyze the features in the test set.
 There are some missing values, which I address using the K-Nearest Neighbors (KNN) algorithm. This method is particularly effective for handling missing values in categorical variables.
 
 ```{r}
