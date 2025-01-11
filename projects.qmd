@@ -58,7 +58,7 @@ I made this notebook using R and created a small interface to interact with the 
 
 # sequential hypothesis testing and safe anytime inference
 
-[Sequential Hypothesis Testing and Safe Anytime Inference](\Poject/sequential hypothesis testing and safe anytime inference.qmd)
+[Sequential Hypothesis Testing and Safe Anytime Inference](Projects/sequential-hypothesis-testing and-safe-anytime-inference.qmd)
 
 In this project, I explore the mSPRT, which is a method for continuously monitoring experiments. It's a kind of "the new black" in A/B testing.
 The theory is beautifully simple but has been significantly expanded to account for additional problems.
