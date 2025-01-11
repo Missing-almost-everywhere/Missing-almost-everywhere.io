@@ -621,5 +621,117 @@
     "title": "Sequential Hypothesis Testing and Safe Anytime Inference",
     "section": "A Final Remark",
     "text": "A Final Remark\nIf I want \\(\\beta\\) control, I would run two SPRT tests with \\(\\alpha\\) and \\(\\beta\\), and I would plot the distributions.\nBefore starting, I would check if there is a region where the fraction \\(\\frac{p(x)}{q(x)}\\) varies significantly. I would also need to adjust \\(\\beta\\) accordingly.\nHowever, if I only want \\(\\beta\\) control, I could run a single live experiment, set the maximum number of points I can afford to sample, and then stop either when the algorithm terminates or when I run out of budget."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "",
+    "text": "In this project, I will examine a mixture of K scaled and shifted t-distributions.\nThe scaled and shifted t-distributions have the following PDF. \\[\nf(x|\\mu,\\sigma,\\nu)=\\frac{\\Gamma((\\nu+1)/2)}{\\sqrt{\\pi\\nu\\sigma^2}\\Gamma(\\nu/2)}(1+\\frac{(x-\\mu)^2}{\\nu\\sigma^2})^{-(\\nu+1)/2}\n\\]\n\\(\\mu\\in     \\mathbb{R}\\), \\(\\sigma&gt;0\\) and \\(\\nu&gt;0\\)\nWith the mixed distribution.\n\\[\\sum_{k=1}^{K} \\pi_k f(x|\\mu_k,\\sigma_k,\\nu_k)\\]"
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#posterior-probabilities-expectation-step",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#posterior-probabilities-expectation-step",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Posterior probabilities (Expectation step)",
+    "text": "Posterior probabilities (Expectation step)\nThe posterior probabilities correspond to the probability that an outcome is drawn from a given distribution. \\[\nP(Z=\\pi_k|x_i)=\\frac{P(x_i|Z=\\pi_k)P(Z_i=\\pi_k)}{P(x_i)}=\\frac{\\pi_kf(x_i|\\mu_k,\\sigma_k,\\nu_k)}{\\sum_{k=1}^{K}{\\pi_k}f(x_i|\\mu_k,\\sigma_k,\\nu_k)}=w(x_i)\n\\]"
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#maximization-step-m-step",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#maximization-step-m-step",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Maximization step M step:",
+    "text": "Maximization step M step:\nIn the M step, the coefficients \\(\\{\\pi_k,\\theta_k\\}\\) are estimated, where \\(\\theta_k=\\{\\mu_k,\\sigma_k,\\nu_k\\}\\)"
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#estiamtion-of-theta_kmu_ksigma_knu_k",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#estiamtion-of-theta_kmu_ksigma_knu_k",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Estiamtion of \\(\\theta_k=\\{\\mu_k,\\sigma_k,\\nu_k\\}\\)",
+    "text": "Estiamtion of \\(\\theta_k=\\{\\mu_k,\\sigma_k,\\nu_k\\}\\)\nThe estimation of the parameters \\(\\theta_k={\\mu_k,\\sigma_k,\\nu_k}\\) is done by minimizing the negative log-likelihood.\nAs demonstrated below, the problem is that there is no closed-form solution. This arises from the fact that there is a sum in the denominator of the gradient."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#finding-the-gradient-of-negativ-log-likelyhood-for-sigma_k",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#finding-the-gradient-of-negativ-log-likelyhood-for-sigma_k",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Finding the gradient of negativ log likelyhood for \\(\\sigma_k\\)",
+    "text": "Finding the gradient of negativ log likelyhood for \\(\\sigma_k\\)\n\\[\n\\frac{\\partial l(\\mu_k,\\sigma_k,\\nu_k)  }{\\partial \\sigma_k} =- \\sum_{i=1}^{N}\\frac{\\pi_k}{\\sum_{k}^{K}\\pi_{k}f(x_i|\\mu_k,\\sigma_k\\nu_k)}\\frac{\\partial f(x_i|\\mu_k,\\sigma_k,\\nu_k)  }{\\partial \\sigma_k}\n\\]\n\\[\n\\begin{aligned}\n\\frac{\\partial f(x_i|\\mu_k,\\sigma_k,\\nu_k)  }{\\partial \\sigma_k}=\\frac{-1}{\\sigma}f(x_i|\\mu_k,\\sigma_k,\\nu_k)+\\frac{(\\nu_k+1)(x-\\mu_k)^2}{\\nu_k\\sigma_k^3}\\frac{\\nu_k\\sigma_k^2}{\\nu_k\\sigma_k^2+(x-\\mu_k)^2}f(x_i|\\mu_k,\\sigma_k,\\nu_k)=\\\\\n\\frac{1}{\\sigma_k}f(x_i|\\mu_k,\\sigma_k,\\nu_k)(-1+\\frac{(v_k+1)(x_i-\\mu_k)^2}{\\nu_k\\sigma_k +(x_i-\\mu_k)^2})\n\\end{aligned}\n\\]\nThis leads to the gradient\n\\[\n\\frac{\\partial l(\\mu_k,\\sigma_k,\\nu_k)  }{\\partial \\sigma_k} = -\\sum_{i=1}^{N}w(x_i)(-1+\\frac{(\\nu_k+1)(x_i-\\mu_k)^2}{\\nu_k\\sigma_k +(x_i-\\mu_k)^2})\\frac{1}{\\sigma_k}\n\\]\nSince the denominator cannot be split, the expression cannot be simplified.\n\\[\n\\frac{\\partial l(\\mu_k,\\sigma_k,\\nu_k)}{\\partial \\nu_k}=- \\sum_{i=1}^{N}\\frac{\\pi_k}{\\sum_{k}^{K}\\pi_{k}f(x_i|\\mu_i,\\sigma_i\\nu_i)} \\frac{\\partial f(x|\\mu_k,\\sigma_k,\\nu_k) }{\\partial \\nu_k}\n\\]\nIt can be useful to know that \\[\n\\begin{aligned}\n\\frac{\\partial \\frac{\\Gamma((\\nu_k+1)/2)}{\\Gamma(\\nu_k/2)}}{\\partial \\nu} = \\frac{\\psi((\\nu_k+1)/2)}{2\\Gamma(\\nu_k/2)}-\\frac{\\Gamma((\\nu_k+1)/2)}{2\\Gamma(\\nu_k/2)^2}\\psi(\\nu_k/2)\\\\ =\\frac{\\psi((\\nu_k+1)/2)}{2\\Gamma((\\nu_k+1)/2)}\\frac{\\Gamma((\\nu_k+1)/2)}{\\Gamma(\\nu_k/2)}-\\frac{\\psi(\\nu_k/2)}{2\\Gamma(\\nu_k/2)}\\frac{\\Gamma((\\nu_k+1)/2)}{\\Gamma(\\nu_k/2)}\n\\end{aligned}\n\\]\nGiving the derivative.\n\\[\n\\begin{align*}\n\\frac{\\partial f(x_i|\\mu_k,\\sigma_k^2,\\nu_k) }{\\partial \\nu_k}=-\\frac{1}{2\\nu_k}\\frac{\\Gamma((\\nu_k+1)/2)}{\\sqrt{\\pi\\nu_k\\sigma_k^2}\\Gamma(\\nu_k/2)}(1+\\frac{(x_i-\\mu_k)^2}{\\nu_k\\sigma_k^2})^{\\frac{-(\\nu_k+1)}{2}}\\\\\n+\\frac{(x_i-\\mu_k)^2(\\nu_k+1)}{\\nu_k\\sigma^2+(x_i-\\mu_k)^2}\\frac{1}{2\\nu_k}\\frac{\\Gamma((\\nu_k+1)/2)}{\\sqrt{\\pi\\nu_k\\sigma_k^2}\\Gamma(\\nu_k/2)}(1+\\frac{(x_i-\\mu_k)^2}{\\nu_k\\sigma_k^2})^{\\frac{-(\\nu_k+1)}{2}-1}\n\\\\\n+\\frac{\\partial \\frac{\\Gamma((\\nu_k+1)/2)}{\\Gamma(\\nu_k/2)}}{\\partial \\nu_k}\\frac{1}{\\sqrt{\\pi\\nu_k\\sigma_k^2}}(1+\\frac{(x_i-\\mu_k)^2}{\\nu_k \\sigma_k^2})^{\\frac{-(\\nu_k+1)}{2}}\n\\\\ = \\\\\n-\\frac{1}{2\\nu_k}f(x_i|\\mu_k,\\sigma_k^2,\\nu_k)\\\\\n+\\frac{(x_i-\\mu_k)^2(\\nu_k+1)}{\\nu_k\\sigma_k^2+(x_i-\\mu_k)^2}\\frac{1}{2\\nu_k}f(x|\\mu_k,\\sigma_k^2,\\nu_k)\n\\\\\n\\\\ +\\frac{\\psi((\\nu_k+1)/2)}{2\\Gamma((\\nu_k+1)/2)}\\frac{\\Gamma((\\nu_k+1)/2)}{\\Gamma(\\nu_k/2)}\\frac{1}{\\sqrt{\\pi\\nu_k\\sigma_k^2}}(1+\\frac{(x_i-\\mu_k)^2}{\\nu_k\\sigma_k^2})^{-\\frac{\\nu_k+1}{2}}\\\\\n-\\frac{\\psi(\\nu_k/2)}{2\\Gamma(\\nu_k/2)}\\frac{\\Gamma((\\nu_k+1)/2)}{\\Gamma(\\nu_k/2)}\\frac{1}{\\sqrt{\\pi\\nu_k\\sigma_k^2}}(1+\\frac{(x_i-\\mu_k)^2}{\\nu_k\\sigma_k^2})^{-\\frac{\\nu_k+1}{2}}\\\\\n=\\\\\n-\\frac{1}{2\\nu_k}f(x_i|\\mu_k,\\sigma_k^2,\\nu_k)\\\\\n+\\frac{(x_i-\\mu_k)^2(\\nu_k+1)}{\\nu_k\\sigma^2+(x_i-\\mu_k)^2}\\frac{1}{2\\nu_k}f(x_i|\\mu_k,\\sigma_k^2,\\nu_k)\\\\\n+\\frac{\\psi((\\nu_k+1)/2)}{2\\Gamma((\\nu_k+1)/2)}f(x_i|\\mu_k,\\sigma_k^2,\\nu_k)-\\frac{\\psi(\\nu_k/2)}{2\\Gamma(\\nu_k/2)}f(x_i|\\mu_k,\\sigma_k^2,\\nu_k)\n\\end{align*}\n\\]\nGiving the gradient of the likelihood.\n\\[\n\\begin{aligned}\n\\frac{\\partial l(\\mu_k,\\sigma_k,\\nu_k)}{\\partial \\nu_k}=- \\sum_{i=1}^{N}\\frac{\\pi_k}{\\sum_{k}^{K}\\pi_{k}f(x_i|\\mu_i,\\sigma_i\\nu_i)} \\frac{\\partial f(x_i|\\mu_k,\\sigma_k^2,\\nu_k) }{\\partial \\nu_k}\\\\ =\n-\\sum_{i=1}^{N}\\frac{-1}{2}w(x_i)+\\frac{(\\nu_k+1)}{2}\\frac{(x_i-\\mu_k)^2}{ \\nu_k^2\\sigma_k^2}w(x_i)+\\frac{\\psi((\\nu+1)/2)}{2\\Gamma((\\nu+1)/2)}w(x_i)-\\frac{\\psi(\\nu/2)}{2\\Gamma(\\nu/2)}w(x_i)\\\\\n\\end{aligned}\n\\]\nAll the gradients are computed. The goal is to obtain the maximum likelihood, but there is no closed-form solution. For some special cases, the functions might be approximated nicely. However, the gradients can still be used for gradient descent, which is the method I have chosen."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#undershooting-the-gradient-out-of-domain.",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#undershooting-the-gradient-out-of-domain.",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Undershooting the gradient out of domain.",
+    "text": "Undershooting the gradient out of domain.\nIf gradient descent undershoots and sets \\(\\nu_i&lt;0\\) ore \\(\\sigma_i&lt;0\\), the density is not defined. This is handled by setting a minimum value for the parameters \\(\\nu_i\\) and \\(\\sigma_i\\). This means that the minimum value for these parameters is not zero but a value close to zero.\nUndershooting can also cause problems when using built-in optimization tools. A pro tip is that if you encounter NaN values as output during optimization, it’s a good idea to start debugging with this issue in mind. In my experience, there is not always a built-in check for these cases."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#gradient-explotion",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#gradient-explotion",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Gradient explotion",
+    "text": "Gradient explotion\nThis does not fix the problem of gradient explosion. What happens is that the gradient decent may take too large a step in either direction. To make matters worse, the sum in the expression for the gradients can cause the gradients to grow as the sample size increases, which can lead to gradient explosion.\nTo combat this, I have tried different strategies. Below are the two method i tried described."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#normalising-the-gradient",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#normalising-the-gradient",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Normalising the gradient",
+    "text": "Normalising the gradient\nWhen analyzing the gradient, it’s important to note that the sum is not divided by the size of \\(X\\)(denoted as \\(N\\)). This means that the absolute value of the gradient grows with \\(N\\). If gradient descent is used with a fixed learning rate \\(\\alpha\\), problems may arise where the gradient either undershoots or overshoots. In an implementation setting, this issue is very apparent. However, in real-world problems where the true parameters are unknown, it is impossible to know if the estimated values are accurate.\nThere are two methods to address this issue: one is to check the norm of the gradient to see if you are near a local optimum, and the other is to increase the number of iterations. I have chosen to normalize the gradient by dividing by \\(N\\). This corresponds to choosing \\(\\alpha\\) based on the size of \\(X\\)."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#gradient-clipping",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#gradient-clipping",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Gradient clipping",
+    "text": "Gradient clipping\nGradient clipping works by setting a maximum value for the norm of the gradient. Specifically, if \\(|\\nabla l(X,\\pi,\\theta)|&gt;c\\) then the gradient is scaled to \\(\\nabla l=c*\\frac{\\nabla l}{|\\nabla l|}\\). This allows you to set a maximum value for the norm of the gradient step.\nSince this method is based on the norm of the entire gradient, it would be beneficial to vary the clipping based on the type of parameter \\(\\{\\mu,\\sigma,\\nu\\}\\)., especially for \\(\\mu\\). I have implemented a version where the clipping is based on different parameters.\nIn testing, it seems that gradient clipping is easy to use and works better. Therefore, in the implementation, gradient clipping is used.\nBelow is a summary of the gradient descent approach #Gradient decent. Gradient descent is used in the M step to optimize the parameters given the weights.\nThere is no closed-form solution for many of the gradients. To make matters worse, the sum in the expression for the gradients can cause the gradients to grow as the sample size increases, potentially leading to exploding gradients. If gradient descent undershoots and sets \\(\\nu_i&lt;0\\) or \\(\\sigma_i&lt;0\\), the density is not defined. I have addressed the issue of undershooting by setting a minimum value for the parameters \\(\\nu_i\\) and \\(\\sigma_i\\). This means that the minimum is not zero but a value close to zero.\nHowever, this does not solve the problem of overshooting gradients. The solution to this issue is normalization. One strategy is to normalize the gradient by the sample size N. Another solution is to use gradient clipping. Gradient clipping works by setting a maximum value for the norm of the gradient. Specifically, if \\(|\\nabla l|&gt;c\\), then the gradient is set to \\(\\nabla l=c*\\frac{\\nabla l}{|\\nabla l|}\\). This allows you to set a maximum value for the norm of the gradient step. Since this method is based on the norm of the entire gradient, it would be beneficial to vary the clipping based on the type of parameter \\(\\{\\mu,\\sigma,\\nu\\}\\), especially for \\(\\mu\\).\nI have implemented a version where the clipping is based on different parameter types. Specifically, if the gradient matrix column corresponding to a given parameter is normalized by its corresponding vector and scaled by a given constant for that parameter. If this explanation is confusing, refer to the function Gradient_clipping_vec in the Rcpp file, which is fairly self-explanatory.\nAdditionally, I have included a check to see if a steep step leads to smaller values in the objective function. If not, the gradient is scaled again by \\(\\alpha\\).\n\nImplentatsion notes for gradient decent\nSince the EM algorithm is an iterative process and R handles loops poorly, Rcpp is used to run C++ code for faster implementation. This is a common approach in many libraries."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#combining-it-all-to-one-em-function.",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#combining-it-all-to-one-em-function.",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Combining it all to one EM function.",
+    "text": "Combining it all to one EM function.\nSince the EM algorithm is a two-step optimization process, it is not strictly necessary to find the smallest value in the M step. The critical aspect is that both steps lead to a decrease in the negative likelihood.\nIn terms of implementation, this affects the settings used for running gradient descent. For example, setting a maximum number of iterations too high can result in very long runtimes.\nI have not found any definitive guidelines for tuning these parameters in general settings, so I have made it possible for the end user to adjust them as needed."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#initialization",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#initialization",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Initialization",
+    "text": "Initialization\nThe EM algorithm requires starting parameters, and if they are too far off, it can affect the runtime. I have chosen to use the hard clustering technique, k-means++, which provides a set of partitions. In each of these partitions, the scaled and shifted t-distributions are fitted and used as the starting parameters.\nK-means++ works similarly to k-means, with the primary difference being in the initialization process. The goal of k-means is to minimize the objective function:\n\\(\\underset{\\mu}{\\arg\\min}\\sum_{k=1}^{K}\\sum_{i=1}^{N}|x_i-\\mu_k|^2\\) K-means++ improves on this by initially selecting one center randomly and then iteratively assigning points to the nearest center and updating the centers. It can be shown that this process will decrease the objective function, making it a greedy algorithm."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#gridsearch-initialization",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#gridsearch-initialization",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "GridSearch Initialization",
+    "text": "GridSearch Initialization\nIn most cases, the method of using K-means partitions to estimate \\(\\mu\\) and using the proportions to estimate \\(\\pi\\) seems reasonable. So, I have implemented a version where GridSearch is used for the parameters \\(\\sigma\\) and \\(\\nu\\), which is what caused problems before. By doing this, one gets the advantage of the simplicity and relative speed of using K-means while obtaining usable starting parameters for \\(\\sigma\\) and \\(\\nu\\)."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#test-with-second-initialization",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#test-with-second-initialization",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Test with second initialization",
+    "text": "Test with second initialization\n\n\nCode\nset.seed(3123)\ndraws=Draw_mixture_componet(Mu=c(-1,4,10))\n\nmodel&lt;-EM_Mix_T_Dist(draws,K=3,Start_method_optim = F)\n\n\nPlot_mix_t_distribution(draws,model$Pi,model$Mu,model$Sigma,model$Nu,bins=50)\n\n\n\n\n\n\n\n\n\nThe method based on the grid search is computational expensiv but can give good result."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#why-the-initialization-fails.",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#why-the-initialization-fails.",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Why the initialization fails.",
+    "text": "Why the initialization fails.\nIf the starting values are too extreme, such as \\(\\nu_i=50000\\), the gradient cannot be computed properly due to issues with the gamma function or its derivative. As it stands, the initialization can produce such problematic values if the data from k-means is not well-behaved. If the distribution is not well-separated, the hard clustering technique will not capture enough of the distribution in the decreasing part as the function moves out. This can lead to excessively high values of \\(\\nu\\)."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#model-selection",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#model-selection",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "Model selection",
+    "text": "Model selection\nFurther improvements should be made to the initialization process, as this would enable automatic model selection based on AIC or BIC."
+  },
+  {
+    "objectID": "Projects/Mixture of K scaled and shifted t-distributions.html#confidence-bands",
+    "href": "Projects/Mixture of K scaled and shifted t-distributions.html#confidence-bands",
+    "title": "Mixture of K scaled and shifted t-distributions",
+    "section": "confidence bands",
+    "text": "confidence bands\nImplementing confidence bands using a parametric bootstrap approach would be beneficial. Their is small complication since \\(\\pi_i\\) label ambiguity. For faster implementation, the bootstrap process could utilize a “hot start,” meaning setting the starting values for the parameters to the estimated values.\n\nInitialization\nThe initialization could run in parallel for both the grid search and the optimization method. It seems like R won’t import functions defined in a separate Rcpp file to the cluster. There are two options: define the necessary functions and dependent functions directly in R via the RcppFunction, or do the parallelization in Rcpp. Doing the parallelization directly in Rcpp would be better.\n\n\nGradient decent.\nIt would be nice if the gradient descent could use more iterations in the later steps. This is fairly easy to implement, but for an end-user and for me, it’s hard to set a good standard setting. Potentially, some of the same effect can be achieved by increasing the number of iterations since if the weights don’t change, it would almost be the same.\nFor now the project is closed."
   }
 ]

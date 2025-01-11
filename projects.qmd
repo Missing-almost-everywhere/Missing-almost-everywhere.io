@@ -19,7 +19,7 @@ The intention was to create a small project and learn about reactive programming
 
 # Mixture of K scaled and shifted t distributions
 
-[Mixture of K scaled and shifted t distributions](Projects/Mixture_of_K_scaled_and_shifted_Tdistributions.html)
+[Mixture of K scaled and shifted t distributions](Projects/Mixture of K scaled and shifted t-distributions.qmd)
 
 The implementation was created using a combination of R and C++ via the Rcpp library. The report was written in RMarkdown.
 
