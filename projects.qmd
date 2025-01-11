@@ -2,8 +2,12 @@
 title: "Projects"
 ---
 
-Here are some of my projects:
+After completing my education, I have been working independently on some small projects.
+I undertake these projects to learn different things and to establish a workflow during the process. This also means that these projects don't need to be perfect—the goal is learning.
 
+I share them so people can get a glimpse of what I'm working on, but also because I often explore others' projects myself to discover small tricks that are rarely shown in articles and are often hidden in the code.
+
+Here are some of my projects:
 
 # Bee a Spelling Genius
 
