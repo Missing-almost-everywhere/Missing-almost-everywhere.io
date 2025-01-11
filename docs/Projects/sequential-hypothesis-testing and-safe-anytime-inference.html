@@ -184,7 +184,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#preface-to-this-project" id="toc-preface-to-this-project" class="nav-link active" data-scroll-target="#preface-to-this-project">Preface to This Project</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">introduction</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#power-calulation" id="toc-power-calulation" class="nav-link" data-scroll-target="#power-calulation">Power calulation</a>
   <ul class="collapse">
   <li><a href="#formally" id="toc-formally" class="nav-link" data-scroll-target="#formally">Formally</a></li>
@@ -235,7 +235,7 @@ window.Quarto = {
 <p>I’m mostly writing this project for myself, so I have something to work on and a way to document my learning process. But if someone happens to stumble across this, they should be aware that it can get a bit technical. I’ve included references to the math so I can easily find it again, and I’ve conducted a few small simulation studies. These simulations help me get a sense of the performance of the methods while also allowing me to bend the assumptions a little to see what happens.</p>
 </section>
 <section id="introduction" class="level1">
-<h1>introduction</h1>
+<h1>Introduction</h1>
 <p>So in this project i am looking in to Wald’s Sequential Probability Ratio Test also called SPRT and some variants like mSPRT. The reason i want to learn this, is sequsial testing method. This is used to make live monotering of of Hyposis. The reason i want to learn this, that it eliminates the need for power calucluastions, insted the parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> is chosen/specified, and the sampling proces gones on, until the hyposis can be confirmed or rejected. This is more inline with how i would want to conduct experimetns, their is some simularty to stocastic bandit, where agent tryes to optimize reward will they learn, for SPRT, the goal is to stop the experiment when a hypsis can be confirmed ore rejected.</p>
 <p>The use cases for this live experiment the big usecase being A/B testing, but some mention trials aswell, I would think it would be hard to get aproved.</p>
 <p>These test is based on significan and p-values. so the subject matter is hyposis testing. I will asume the reader knows what this is (I mostly write these small blok for my self). My best explanation of signifanc and <span class="math inline">\(\alpha\)</span> is that is conducted a 100 of experiment i would expted the correct hyposis to be confiremd arround <span class="math inline">\((1-\alpha)*100\)</span> times.</p>
@@ -267,7 +267,7 @@ window.Quarto = {
 <p><span class="math inline">\(A=a_1,\dots,a_n\)</span> and <span class="math inline">\(B=b_1,\dots,b_n\)</span> let <span class="math inline">\(a_i\)</span> and <span class="math inline">\(b_i\)</span> iid and let <span class="math inline">\(a_i\sim\mathbb{N}(0,1)\)</span> and <span class="math inline">\(b_i\sim\mathbb{N}(0,1)\)</span>.</p>
 <p>Since <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> has the same distribuion their is no effect. This is sometime calle a A/A test. Sometimes this is used to test method in a live environment. If a useres test method, they should make get type 1 error cover from this.</p>
 <p>At each point the simulation will draw with no replacment from A ore B calulat the p values and see if the true mean is in the confiden intervall.</p>
-<div id="6eb09c24" class="cell" data-execution_count="1">
+<div id="d4a8d645" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
@@ -367,7 +367,7 @@ window.Quarto = {
 </div>
 <p>As can be see from the plot the p values goes up and down doing the experiment, So if one was to stop the experiement when the p value cross a threshold. The cover is not correct, this means in this case that tyoe 1 error alot higer than one exptes.</p>
 <p>So let look at how the coverage is affected by the peaking belove i have made small simulation that corespond make the plot above a 1000 times and with a wish effect p value <span class="math inline">\(0.05\)</span>. If doing the experiment detects an effect out of <span class="math inline">\(0.05\)</span>, it will stop (this is called a decision rule). This setup enables the simulation of coverage during the experimental process.</p>
-<div id="30d199dc" class="cell" data-execution_count="2">
+<div id="55706bed" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -438,7 +438,7 @@ window.Quarto = {
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>cover
-0.3843843843843844</code></pre>
+0.4074074074074074</code></pre>
 </div>
 </div>
 <p>For these settings, I usually obtain an estimate of around 0.4, which, to me, seems high. In practice, a person would likely not peek at the data every time a new point arrives. This is merely intended to illustrate the problem of peeking.</p>
@@ -488,7 +488,7 @@ M_t = \prod_{i=1}^{T} \frac{q(X_i)}{p(X_i)}
 <section id="simulation" class="level2">
 <h2 class="anchored" data-anchor-id="simulation">Simulation</h2>
 <p>Below i have made small simulation of the the fair game desciped above and the SPRT. both coins af fair meaning their is <span class="math inline">\(P(X=head)0.5\)</span> for both <span class="math inline">\(\alpha = 0.05\)</span></p>
-<div id="c2dd1508" class="cell" data-execution_count="3">
+<div id="24f590fc" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -590,9 +590,9 @@ M_t = \prod_{i=1}^{T} \frac{q(X_i)}{p(X_i)}
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>cover
-0.9566
+0.9537
 mean run length
-18.433</code></pre>
+18.2276</code></pre>
 </div>
 </div>
 <p>As can be see the cover i correct of the hyposis.</p>
@@ -618,7 +618,7 @@ The composite hypothesis is a combination of multiple hypotheses.</p>
 - If one confirms the null and the other rejects it, this would suggest evidence against the null.</p>
 <p>Thus, it is easier to simply negate the type 2 error. In practice, the user chooses an <span class="math inline">\(\alpha\)</span>, the tolerance for type 1 error they are willing to accept, and a maximum number of experiments they want to perform or can afford. Then the experiment runs, and if the process is not stopped, the conclusion is that there was no significance.</p>
 <p>Below i made a small simulation of how one can do this.</p>
-<div id="d5b71ccb" class="cell" data-execution_count="4">
+<div id="bb6a14cc" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -683,8 +683,8 @@ The composite hypothesis is a combination of multiple hypotheses.</p>
 <span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"mean length:"</span>, sim_result[<span class="st">"mean length"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>cover: 0.976
-mean length: 976.076</code></pre>
+<pre><code>cover: 0.978
+mean length: 978.082</code></pre>
 </div>
 </div>
 <p>as can be see the cover is good.</p>
@@ -710,7 +710,7 @@ These methods suffer from some of the same incentive structure errors as normal 
 <section id="looking-into-if-the-distribion-mispecified" class="level2">
 <h2 class="anchored" data-anchor-id="looking-into-if-the-distribion-mispecified">Looking into if the distribion mispecified</h2>
 <p>Below here i have made simulation the true distribuion is a t distribuion mean zero with variance 3 scale 1. The null is normal distribuion with variance 3 and mean zero. The only difference is the and the sape of the distribuionsion. The hyposis test is if the mean is the same.</p>
-<div id="1f5232c3" class="cell" data-execution_count="5">
+<div id="b794044c" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -775,19 +775,19 @@ These methods suffer from some of the same incentive structure errors as normal 
 <span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"mean length:"</span>, sim_result[<span class="st">"mean length"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\johan\AppData\Local\Temp\ipykernel_41916\857125392.py:14: RuntimeWarning:
+<pre><code>C:\Users\johan\AppData\Local\Temp\ipykernel_10876\857125392.py:14: RuntimeWarning:
 
 invalid value encountered in scalar divide
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>cover: 0.959
-mean length: 959.114</code></pre>
+<pre><code>cover: 0.969
+mean length: 969.087</code></pre>
 </div>
 </div>
 <p>As can be see in this case one actullay get good cover in this case. The simulated cover is close to the teoretical but if I make the null distribuion wide the cover is much lees acurate.</p>
 <p>below I have made a small change to the true distribusion so now the scale parater is 2 meaning a vider shape of the t distribusion. So the mean is the same but variance is diffrent.</p>
-<div id="9e2f0819" class="cell" data-execution_count="6">
+<div id="fc140409" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -852,18 +852,18 @@ mean length: 959.114</code></pre>
 <span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"mean length:"</span>, sim_result[<span class="st">"mean length"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\johan\AppData\Local\Temp\ipykernel_41916\636247826.py:14: RuntimeWarning:
-
-invalid value encountered in scalar divide
-
-C:\Users\johan\AppData\Local\Temp\ipykernel_41916\636247826.py:14: RuntimeWarning:
+<pre><code>C:\Users\johan\AppData\Local\Temp\ipykernel_10876\636247826.py:14: RuntimeWarning:
 
 divide by zero encountered in scalar divide
+
+C:\Users\johan\AppData\Local\Temp\ipykernel_10876\636247826.py:14: RuntimeWarning:
+
+invalid value encountered in scalar divide
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>cover: 0.578
-mean length: 586.79</code></pre>
+<pre><code>cover: 0.583
+mean length: 589.663</code></pre>
 </div>
 </div>
 <p>The coverage is now changed, as it should be. This is the point: the problem is that one is not only making assumptions about the values of the parameter but also about the distribution itself.</p>

@@ -12,7 +12,7 @@ Interestingly, the calculations for power analysis were concepts I had already l
 
 I'm mostly writing this project for myself, so I have something to work on and a way to document my learning process. But if someone happens to stumble across this, they should be aware that it can get a bit technical. I've included references to the math so I can easily find it again, and I’ve conducted a few small simulation studies. These simulations help me get a sense of the performance of the methods while also allowing me to bend the assumptions a little to see what happens.
 
-# introduction
+# Introduction
 So in this project i am looking in to Wald’s Sequential Probability Ratio Test also called SPRT and some variants like mSPRT.
 The reason i want to learn this, is sequsial testing method.
 This is used to make live monotering of of Hyposis. The reason i want to learn this, that it eliminates the need for power calucluastions, insted the parameters $\alpha$ and $\beta$ is chosen/specified, and the sampling proces gones on, until the hyposis can be confirmed or rejected.
