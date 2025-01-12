@@ -33,7 +33,7 @@ This project started with me looking into power calculations. In this section i 
 So the power calulation works by the user setting the minimum effect they would want the calculate, and tolarance for type 1 error $\alpha$ and tolerance for type 2 $\beta$.
 
 Let $X=X_1,\dots,x_n$ be the data depend if $x_i\sim \mathbb{N}(\mu,\sigma^2)$ ore if mean $\bar{X}\sim \mathbb{N}(\mu,\sigma^2)$, the last come often from the law of large number.
-one can use this method
+One can use this method.
 I am not goin in to much in detail here, relly like this [explation](https://rugg2.github.io/AB%20testing%20-%20a%20simple%20explanation%20of%20what%20power%20analysis%20does.html).
 The pivot is showen in the calulaten's.
 
@@ -237,6 +237,7 @@ print(np.mean(estimated))
 ```
 
 For these settings, I usually obtain an estimate of around 0.4, which, to me, seems high.
+Remember, this should be the Type 1 coverage rate, so around 0.05.
 In practice, a person would likely not peek at the data every time a new point arrives. This is merely intended to illustrate the problem of peeking.
 
 If peeking causes problems, the solution seems obvious: avoid peeking. However, in practice, people often do.
@@ -269,7 +270,7 @@ Let $M_t$ represent the wealth process in the game, i.e., the amount of money on
 [Ville's inequality](https://thestatsmap.com/Ville's-inequality)
 states that
 
-$$\mathbb{P}\left( \exists t \geq 1 : M_t \geq x \right) \leq \frac{\mathbb{E}[M_1]}{x}$$
+$$\mathbb{P}\left( \exists t \geq 1 : M_t \geq x \right) \leq \frac{\mathbb{E}[M_0]}{x}$$
 
 This means that there is a set probability that $M_t$ will cross $x$ over the entire duration of the process, assuming the game is fair.  
 
@@ -289,7 +290,7 @@ We begin with a wealth of one.
 Under the null hypothesis, the expectation of the likelihood ratio is given by:  
 
 $$  
-\mathbb{E}\left( \frac{q(X_i)}{p(X_i)} \right) = \int \frac{p(x)}{q(x)} q(x) \, dx = \int p(x) \, dx = 1  
+\mathbb{E}_{q(x)}( \frac{q(X_i)}{p(X_i)}) = \int \frac{p(x)}{q(x)} q(x) \, dx = \int p(x) \, dx = 1  
 $$  
 
 The wealth can be written as:  
@@ -306,7 +307,7 @@ Notice how simple the theory is here.
 
 ## Simulation
 Below i have made small simulation of the the fair game desciped above and the SPRT.
-both coins af fair meaning their is $P(X=head)0.5$ for both $\alpha = 0.05$
+both coins af fair meaning their is $P(X=head)=0.5$ for both $\alpha = 0.05$
 
 
 ```{python,cache=true,message=FALSE}
@@ -422,6 +423,8 @@ $$
 \Lambda(X_n) = \int_{\theta}\prod_{i=1}^{n}\frac{f_{\theta}(x_i)}{f_{\theta_0}(x_i)}h(\theta)d\theta
 $$
 
+This will be denoted $\Lambda_t$
+
 The same stopping threshold is used for $B$, meaning type 1 error control is the same since, under the null, the log-likelihood is a submartingale:  
 $$
 \mathbb{E_{\theta_0}}\left(\frac{f_{\theta}(x)}{f_{\theta_0}(x)}h(\theta)\right) = \int f_{\theta}(x)d\theta = 1
@@ -442,9 +445,12 @@ In practice, the user chooses an $\alpha$, the tolerance for type 1 error they a
 
 Below i made a small simulation of how one can do this.
 
+
 ```{python,cache=true,message=FALSE,warning=FALSE}
 import numpy as np
 from scipy.stats import norm
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning, message="divide by zero encountered in scalar divide")
 
 # SPRT implementation
 def msprt(l_null, l_composite, N_stopping, alpha, draw_function):
@@ -540,6 +546,9 @@ The only difference is the and the sape of the distribuionsion. The hyposis test
 ```{python,cache=true,message=FALSE,warning=FALSE}
 import numpy as np
 from scipy.stats import norm, t
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning, message="divide by zero encountered in scalar divide")
+
 
 # SPRT implementation
 def msprt(l_null, l_composite, N_stopping, alpha, draw_function):
@@ -608,6 +617,9 @@ So the mean is the same but variance is diffrent.
 ```{python,cache=true,message=FALSE,warning=FALSE}
 import numpy as np
 from scipy.stats import norm, t
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning, message="divide by zero encountered in scalar divide")
+
 
 # SPRT implementation
 def msprt(l_null, l_composite, N_stopping, alpha, draw_function):
@@ -682,11 +694,13 @@ By this, I mean that it should be less sensitive to being misspecified.
 
 ## mSPRT aplications
 Most of the implented aplications of mSPRT i found is based on 
-(The article)[https://arxiv.org/pdf/1512.04922]
+[The article](https://arxiv.org/pdf/1512.04922)
 
 For the type II error control. It seam like that by running two test with leve $\frac{\alpha}{2}$
 this come from [A modified sequential probability ratio test](https://www.sciencedirect.com/science/article/pii/S0022249621000109). I have desiced with my self i will look into this, if am gona use this in practis. So for now this is out of the scope of this asigment, but the idear is pretty brilliant.
-if one line the placement is null-- alternetiv --True hyposis. if the true hyposis is very far of it should still work but the effect in the alternetiv hyposis will not be true, so the test becomes, more do one see a effect ore not posetiv effect and negativ effect.
+
+
+
 
 # Conclusion
 Overall that a lot i like about the anytime valid p-values.
@@ -701,4 +715,4 @@ I would use it for convergens rates wich is bernuli distribusion, so the posbill
 If I want $\beta$ control, I would run two SPRT tests with $\alpha$ and $\beta$, and I would plot the distributions.  
 Before starting, I would check if there is a region where the fraction $\frac{p(x)}{q(x)}$ varies significantly. I would also need to adjust $\beta$ accordingly.  
 
-However, if I only want $\beta$ control, I could run a single live experiment, set the maximum number of points I can afford to sample, and then stop either when the algorithm terminates or when I run out of budget.  
+

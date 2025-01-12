@@ -60,7 +60,7 @@ The feature engineering and cleaning process is extensive but could be improved.
 
 I made this notebook using R and created a small interface to interact with the plot. Otherwise, the notebook would have too many plots of variables. 
 
-# sequential hypothesis testing and safe anytime inference
+# Sequential Hypothesis Testing and Safe Anytime Inference
 
 [Sequential Hypothesis Testing and Safe Anytime Inference](Projects/sequential-hypothesis-testing and-safe-anytime-inference.qmd)
 
