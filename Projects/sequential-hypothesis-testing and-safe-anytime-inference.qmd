@@ -450,7 +450,11 @@ Below i made a small simulation of how one can do this.
 import numpy as np
 from scipy.stats import norm
 import warnings
-warnings.filterwarnings("ignore", category=RuntimeWarning, message="divide by zero encountered in scalar divide")
+warnings.filterwarnings(
+    "ignore", 
+    category=RuntimeWarning, 
+    message="invalid value encountered in scalar divide"
+)
 
 # SPRT implementation
 def msprt(l_null, l_composite, N_stopping, alpha, draw_function):
@@ -547,7 +551,11 @@ The only difference is the and the sape of the distribuionsion. The hyposis test
 import numpy as np
 from scipy.stats import norm, t
 import warnings
-warnings.filterwarnings("ignore", category=RuntimeWarning, message="divide by zero encountered in scalar divide")
+warnings.filterwarnings(
+    "ignore", 
+    category=RuntimeWarning, 
+    message="invalid value encountered in scalar divide"
+)
 
 
 # SPRT implementation
@@ -618,7 +626,11 @@ So the mean is the same but variance is diffrent.
 import numpy as np
 from scipy.stats import norm, t
 import warnings
-warnings.filterwarnings("ignore", category=RuntimeWarning, message="divide by zero encountered in scalar divide")
+warnings.filterwarnings(
+    "ignore", 
+    category=RuntimeWarning, 
+    message="divide by zero encountered in scalar divide"
+)
 
 
 # SPRT implementation
