@@ -236,7 +236,7 @@ result = rolling_prediction(x, y, start_val)
 plt.hist(result['los_score'],alpha=0.5)
 
 plt.hist(error[(start_val):],alpha=0.5)
-plt.legend(["residuals", "True error"])
+plt.legend(["Residuals", "True error"])
 plt.show()
 
 ```
@@ -265,7 +265,7 @@ result = rolling_prediction(x, y, start_val)
 plt.hist(result['los_score'],alpha=0.5)
 
 plt.hist(error[(start_val):],alpha=0.5)
-plt.legend(["residuals", "True error"])
+plt.legend(["Residuals", "True error"])
 plt.show()
 
 ```
