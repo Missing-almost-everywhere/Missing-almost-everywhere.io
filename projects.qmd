@@ -70,6 +70,13 @@ In this project, I focus only on the base problem.
 I also conducted simulations to see how these assumptions affect coverage, especially the Type I error.
 Additionally, I rembered how to perform power calculations.
 
+# Update rules for least squares
+
+[Update rules for least squares](Projects/Running least squares.qmd)
+
+This was a small project to practice some linear algebra and NumPy, as well as Matplotlib.
+I implemented a rolling prediction for a simple linear model fitted with least squares and used update rules so that the function doesn't need to be refitted from scratch. 
+Least squares is often used, so this method can be applied to many other applications in live settings, allowing the model to be updated as data flows in.
 
 # A Toy Model for Market Dynamics: Building a Agent-Based Frameworks
 
