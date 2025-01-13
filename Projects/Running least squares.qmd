@@ -43,9 +43,9 @@ Let $x[i]$  represent the i-th index of the vector.
 For $XX^T$ a rank-1 update can be expressed as:
 
 $$(X_{new}X_{new}^T)=(X_{old}^TX_{old})+x_{new}^Tx_{new}$$ 
-T
+
 This becomes clear when the product is written out explicitly.
-Look at $(X^TX)[j,g]=x_1^Tx_1$ So $\sum_{i=1}^{n}x_{j}[i]x_{g}[i]$
+Look at $(X^TX)[j,g]=x_j^Tx_g$ So $\sum_{i=1}^{n}x_{j}[i]x_{g}[i]$
 
 Next, consider the first entry in the inner product.
 $(X_{old}X_{old}^T)_{[1,1]}=x_j^Tx_g$ So $\sum_{i=1}^{n}x_{j}[i]x_{g}[i]$
@@ -65,7 +65,7 @@ Let's look at the nex part of the expresion
 For $B=X^TY$ the udpate rule is
 $$B=(X_{new}^TY_{new})=(X_{old}^TY_{old})+x_{new}*y_{new}$$ 
 
-note here that $y_new$ act as a scale
+note here that $y_{new}$ act as a scale
 
 
 # Use Cases
