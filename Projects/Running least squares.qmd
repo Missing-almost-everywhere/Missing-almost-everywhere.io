@@ -52,7 +52,7 @@ $(X_{old}X_{old}^T)_{[1,1]}=x_j^Tx_g$ So $\sum_{i=1}^{n}x_{j}[i]x_{g}[i]$
 
 Now look at.
 
-$(X_{new}X_{new}^T)[j,g]=(\sum_{i=1}^{n}x_{1}[j]x_{1}[g])+x_{new}[j]x_{new}[g]$
+$(X_{new}X_{new}^T)[j,g]=(\sum_{i=1}^{n}x_{j}[i]x_{g}[i])+x_{new}[j]x_{new}[g]$
 
 use [Sherman–Morrison formula](https://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula)
 
