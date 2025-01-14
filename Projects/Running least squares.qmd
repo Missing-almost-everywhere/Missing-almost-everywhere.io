@@ -13,16 +13,16 @@ I worked with [FFP3](https://robjhyndman.com/publications/), which is implemente
 At that time, I used the Forecast package but ended up implementing the estimator from the ground up.
 As I have improved my programming and mathematical skills, I thought it would be fun to revisit this problem and see if I could develop a better solution. 
 
-Rob how wrote FFP3, has a blog their i sais their is trick to speeding op the calculation of rolling predition for AR process, and i think figured out.
+Rob how wrote FFP3, has a blog their i sais their is trick to speeding op the calculation of rolling predition for AR process, and  I think I figured it out.
 
 
-lest squres can be written as
+Lest squres can be written as
 
 $$\underset{\beta}{argmin} ||Y-X\beta||^2$$
 
 Since this is a linear function the problem above i convex with one uniq closed form solution 
 
-$\hat{\beta}=(X^TX)^{-1}X^TY$
+$$\hat{\beta}=(X^TX)^{-1}X^TY$$
 
 # Running Prediction
 When using a running model, a simple solution is to add a new data point and fit the model again.
@@ -71,7 +71,7 @@ note here that $y_{new}$ act as a scale
 # Use Cases
 Rolling prediction can be used for the evaluation of time series.
 
-However, one can also use these techniques for the fast implementation of a sliding window estimator or simply to update a linear model as new data arrives.
+However, these techniques can also be used for the quick implementation of a sliding window estimator or to update a linear model as new data arrives. Additionally, this method provides a fast approach for leave-one-out evaluation of predictive strength.
 
 I will create two implementations: one where I use this for rolling prediction, and another that implements a sliding window.
 
@@ -277,3 +277,4 @@ This can be fixed by adding a column of ones to the model matrix. I would also n
 
 I will stop the project here.
 This was intended to be a small NumPy project. If I were to create functions that allow specifying a model, I might develop it more properly and let the user specify the model through an expression, similar to how linear models are specified in R. Since all model specifications in linear models are based on modifying the model matrix, this could provide flexibility.
+
