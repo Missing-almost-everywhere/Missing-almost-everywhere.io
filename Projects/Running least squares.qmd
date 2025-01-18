@@ -45,10 +45,11 @@ For $XX^T$ a rank-1 update can be expressed as:
 $$(X_{new}X_{new}^T)=(X_{old}^TX_{old})+x_{new}^Tx_{new}$$ 
 
 This becomes clear when the product is written out explicitly.
+
 Look at $(X^TX)[j,g]=x_j^Tx_g$ So $\sum_{i=1}^{n}x_{j}[i]x_{g}[i]$
 
-Next, consider the first entry in the inner product.
-$(X_{old}X_{old}^T)_{[1,1]}=x_j^Tx_g$ So $\sum_{i=1}^{n}x_{j}[i]x_{g}[i]$
+Next, consider a given entry in the inner product.
+$(X_{old}X_{old}^T)_{[j,g]}=x_j^Tx_g$ So $\sum_{i=1}^{n}x_{j}[i]x_{g}[i]$
 
 Now look at.
 
@@ -73,7 +74,9 @@ Rolling prediction can be used for the evaluation of time series.
 
 However, these techniques can also be used for the quick implementation of a sliding window estimator or to update a linear model as new data arrives. Additionally, this method provides a fast approach for leave-one-out evaluation of predictive strength.
 
-I will create two implementations: one where I use this for rolling prediction, and another that implements a sliding window.
+I will create one implementations, where I use this for rolling prediction.
+
+The method could be used for making a implements of a sliding window.
 
 For the sliding window, it is necessary not only to add the new row but also to remove the old one.
 
@@ -273,7 +276,6 @@ plt.show()
 As can be see now the aplication fails.
 
 This can be fixed by adding a column of ones to the model matrix. I would also need to update all the functions to accommodate this change. Without adjusting for this, the dimensions will not match when adding the point to the inverse.
-
 
 I will stop the project here.
 This was intended to be a small NumPy project. If I were to create functions that allow specifying a model, I might develop it more properly and let the user specify the model through an expression, similar to how linear models are specified in R. Since all model specifications in linear models are based on modifying the model matrix, this could provide flexibility.

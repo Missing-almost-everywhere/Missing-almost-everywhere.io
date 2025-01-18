@@ -1253,16 +1253,18 @@ The roofing seam like it could have potesial
 
 
 # Models
-I start by using some simple models, wheer I use some intuition and look at the residuals, then i move on to some more advance techies.
-Fist i am gona plot some models and look at residuals, compare to some other varibels.
-I like to start this way since i give me a intuitions abote the data. The models made this way have the advantage their a esay to explain. if some one want to trade some preditiv stregnth for some explaniabillaty.
-Personaly, I am still gona use of sample preditv strength to evaluat the models. preferabelly by corss validation
+I start by using some simple models, where I rely on intuition and examine the residuals. 
+Then, I move on to more advanced techniques. 
+First, I’m going to plot some models, analyze the residuals, and compare them to other variables. 
+I like to start this way because it gives me an intuitive understanding of the data. 
+Models built this way have the advantage of being easy to explain, which is helpful if someone wants to trade some predictive strength for better explainability. 
+Personally, I still prioritize evaluating the models based on out-of-sample predictive strength, preferably using cross-validation.
 
 ## Base line mocel
 After Plotting different models and looking the residual i found the below model.
-Where the saleprice pr sqft of living area is combination the Neighborhood the type of dwelling (MSSubClass)
+Where the saleprice pr sqft of living area is combination the Neighborhood the type of dwelling (MSSubClass).
 
-wich could be good candidate if one look the residuals being drawn from af t distribusion.
+Wich could be good candidate if one look the residuals being drawn from af t distribusion.
 So more heavy tale distribution, than a normal distribution. In many ways this model seam resanbull from a intuition point of view.  
 
 
@@ -1290,8 +1292,8 @@ TQQPlot(log(df$SalePrice)-log(model_baseline$fitted.value*df$GrLivArea),df=4.5 )
 
 
 ## A linear interaction model.
-Belove I have fitted a interaction model where log saleprice is a interactiv funtion between 
-The type of house, the neighborhood and the size of the dewelling+ sum effect from the size of the basement. It seam reasonbell and is somewat how i would estimate a type of house for the overall price.
+Belove I have fitted a interaction model where log saleprice is a interactiv funtion between, 
+The type of house, the neighborhood and the size of the dewelling+ sum effect from the size of the basement. It seam reasonbell and is somewat how I would estimate a type of house for the overall price.
 
 ```{r,warning=FALSE}
 #| message: false
@@ -1343,7 +1345,8 @@ print(log_diff_metric_model_baseline(df,labels))
 
 
 ```
-Over all the predicative stregth look good the reisudall of the model looks more simullaro to t distribuin than a normal.
+
+Overall, the predictive strength looks good, but the residuals of the model resemble a t-distribution more than a normal distribution.
 
 
 # Advances model
