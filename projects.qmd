@@ -9,7 +9,7 @@ I share them so people can get a glimpse of what I'm working on, but also becaus
 
 Here are some of my projects:
 
-# Bee a Spelling Genius
+# Bee a Spelling Genius (Dashboard)
 
 [Bee a Spelling Genius](applications.qmd)
 
@@ -17,7 +17,7 @@ This is a live application made with the Shiny for Python version.
 
 The intention was to create a small project and learn about reactive programming, as well as how to develop small applications and dashboards. By using Shiny for Python, I could run it directly on my GitHub page, making it easier to share with others.
 
-# Mixture of K scaled and shifted t distributions
+# Mixture of K scaled and shifted t distributions (Theoretical and Implementation)
 
 [Mixture of K scaled and shifted t distributions](Projects/Mixture of K scaled and shifted t-distributions.qmd)
 
@@ -36,7 +36,7 @@ For t-distributions, there is no closed form—or at least I couldn’t derive o
 This challenge was also what made the project interesting to me. Anyone can fit a Gaussian mixture, which is why it’s so widely used. However, tackling numerical methods and figuring out how to implement solutions when the expressions don’t cooperate is a central skill I wanted to develop.
 
 
-# VP-search trees for cgMLST sequences
+# VP-search trees for cgMLST sequences (Theoretical and Implementation)
 
 [VP-search trees for cgMLST sequences](Projects/VP_search_trees_for_cgMLST_sequences.html)
 
@@ -50,7 +50,7 @@ I wrote extensive documentation for all functions and implemented everything fro
 
 I also conducted speed testing on a smaller, published dataset to showcase how the implementation could be evaluated.
 
-# Prediction of House Prices
+# Prediction of House Prices (Applied Project)
 
 [Prediction of House Prices](Projects/house-prices-advanced-regression-techniqueshouse-prices-advanced-regression-techniques-data/Housing pricing project.qmd)
 
@@ -60,7 +60,7 @@ The feature engineering and cleaning process is extensive but could be improved.
 
 I made this notebook using R and created a small interface to interact with the plot. Otherwise, the notebook would have too many plots of variables. 
 
-# Sequential Hypothesis Testing and Safe Anytime Inference
+# Sequential Hypothesis Testing and Safe Anytime Inference (Theoretical and Simulation)
 
 [Sequential Hypothesis Testing and Safe Anytime Inference](Projects/sequential-hypothesis-testing and-safe-anytime-inference.qmd)
 
@@ -70,7 +70,7 @@ In this project, I focus only on the base problem.
 I also conducted simulations to see how these assumptions affect coverage, especially the Type I error.
 Additionally, I rembered how to perform power calculations.
 
-# Update rules for least squares
+# Update rules for least squares (Theoretical/Conceptual)
 
 [Update rules for least squares](Projects/Running least squares.qmd)
 
@@ -78,7 +78,7 @@ This was a small project to practice some linear algebra and NumPy, as well as M
 I implemented a rolling prediction for a simple linear model fitted with least squares and used update rules so that the function doesn't need to be refitted from scratch. 
 Least squares is often used, so this method can be applied to many other applications in live settings, allowing the model to be updated as data flows in.
 
-# A Toy Model for Market Dynamics: Building a Agent-Based Frameworks
+# A Toy Model for Market Dynamics: Building a Agent-Based Frameworks (Conceptual)
 
 [A Toy Model for Market Dynamics: Building a Agent-Based Frameworks](Projects/A Toy Model for Market Dynamics Building a Agent-Based Frameworks.qmd)
 

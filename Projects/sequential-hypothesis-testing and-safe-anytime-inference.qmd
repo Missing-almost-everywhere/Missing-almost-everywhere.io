@@ -554,7 +554,7 @@ import warnings
 warnings.filterwarnings(
     "ignore", 
     category=RuntimeWarning, 
-    message="invalid value encountered in scalar divide"
+    #message="invalid value encountered in scalar divide"
 )
 
 
