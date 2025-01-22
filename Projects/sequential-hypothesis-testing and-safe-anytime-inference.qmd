@@ -728,3 +728,14 @@ If I want $\beta$ control, I would run two SPRT tests with $\alpha$ and $\beta$,
 Before starting, I would check if there is a region where the fraction $\frac{p(x)}{q(x)}$ varies significantly. I would also need to adjust $\beta$ accordingly.  
 
 
+There is also an extension of the method called e-variables or an e-process.
+It seems to rely on the fact that under the null, one can change the $H_1$ distribution and still have a supermartingale.
+One can also scale the likelihood, which they use to make a betting strategy. The idea is really interesting.
+The idea of being able to change the hypothesis midway seems a bit suspicious. I have yet to figure out if the new hypothesis will be penalized by the earlier outcome, which would be problematic.
+
+There is an article with an overview here.
+
+[A tiny review on e-values and e-processes](https://sas.uwaterloo.ca/~wang/files/e-review.pdf) by Ruodu Wang.
+
+
+
