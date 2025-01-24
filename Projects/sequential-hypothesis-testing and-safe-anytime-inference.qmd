@@ -15,14 +15,15 @@ I'm mostly writing this project for myself, so I have something to work on and a
 # Introduction
 So in this project i am looking in to Wald’s Sequential Probability Ratio Test also called SPRT and some variants like mSPRT.
 The reason i want to learn this, is sequsial testing method.
-This is used to make live monotering of of Hyposis. The reason i want to learn this, that it eliminates the need for power calucluastions, insted the parameters $\alpha$ and $\beta$ is chosen/specified, and the sampling proces gones on, until the hyposis can be confirmed or rejected.
+This is used to make live monotering of of Hyposis. It eliminates the need for power calucluastions, insted the parameters $\alpha$ and $\beta$ is chosen/specified befor the start of the experiment and the sampling proces gones on, until the hyposis can be confirmed or rejected. 
 This is more inline with how i would want to conduct experimetns, their is some simularty to stocastic bandit, where agent tryes to optimize reward will they learn, for SPRT, the goal is to stop the experiment when a hypsis can be confirmed ore rejected.
 
-The use cases for this live experiment the big usecase being A/B testing, but some mention trials aswell, I would think it would be hard to get aproved.
+The use cases for this live experiment such as A/B testing, but some mention trials aswell, I would think it would be hard to get aproved.
 
-These test is based on significan and p-values. so the subject matter is hyposis testing.
-I will asume the reader knows what this is (I mostly write these small blok for my self).
-My best explanation of signifanc and $\alpha$ is that is conducted a 100 of experiment i would expted the correct hyposis to be confiremd arround $(1-\alpha)*100$ times. 
+These test is based on significance and p-values, with the subject matter focusing on hypothesis testing.
+I assume the reader is already familiar with this concept, as I typically write these short notes for my personal reference.
+The concept of significance can be explained by the user selecting an $\alpha$ level, which defines the desired confidence level or coverage. This can be thought of as representing the user's tolerance for making an error. In many research fields, a common choice is $\alpha = 0.05$, which corresponds to tolerating a 5% error rate.
+For this experimental design, the goal is that if 100 experiments are conducted, we would expect the correct hypothesis to be confirmed approximately $(1 - \alpha) \times 100$ times.
 
 So why use these Sequential test rather than normal likelihod ratio test og confiens intervalls and the reason is peeking, wish we will get into later.
 
@@ -32,7 +33,7 @@ This project started with me looking into power calculations. In this section i 
 
 So the power calulation works by the user setting the minimum effect they would want the calculate, and tolarance for type 1 error $\alpha$ and tolerance for type 2 $\beta$.
 
-Let $X=X_1,\dots,x_n$ be the data depend if $x_i\sim \mathbb{N}(\mu,\sigma^2)$ ore if mean $\bar{X}\sim \mathbb{N}(\mu,\sigma^2)$, the last come often from the law of large number.
+Let $X=x_1,\dots,x_n$ be the data depend if $x_i\sim \mathbb{N}(\mu,\sigma^2)$ ore if mean $\bar{X}\sim \mathbb{N}(\mu,\sigma^2)$, the last come often from the law of large number.
 One can use this method.
 I am not goin in to much in detail here, relly like this [explation](https://rugg2.github.io/AB%20testing%20-%20a%20simple%20explanation%20of%20what%20power%20analysis%20does.html).
 The pivot is showen in the calulaten's.
@@ -63,13 +64,13 @@ $\sigma$ is the variance.
 Peeking is when a one looks at the data as they come in, using standart hyposis test method, and make a conclusion if they dont see a effect.
 The problem is that it destrou the coverage gaurenty. So if one look at the data as they flow in and end the experiment and before if their is no significans.
 
-This idear of if we have hundret experiement, in $(1-\alpha)$ the right hypothesis identified is not valid.
+This idear of if we have hundret experiement, in $(1-\alpha)*100$ the right hypothesis identified is not valid.
 
 Below i have made some small simulations to ilustrate the problem 
 
 $A=a_1,\dots,a_n$ and $B=b_1,\dots,b_n$ let $a_i$ and $b_i$ iid and let $a_i\sim\mathbb{N}(0,1)$ and $b_i\sim\mathbb{N}(0,1)$.
 
-Since $A$ and $B$ has the same distribuion their is no effect. This is sometime calle a A/A test. Sometimes this is used to test method in a live environment. If a useres test method, they should make get type 1 error cover from this.
+Since $A$ and $B$ has the same distribuion their is no effect. This is sometime calle a A/A test. Sometimes this is used to test method in a live environment. If a useres test method, they should get the type 1 error cover from this.
 
 At each point the simulation will draw with no replacment from A ore B calulat the p values and see if the true mean is in the confiden intervall.
 
@@ -165,8 +166,10 @@ plot_significance_seq(result)
 
 As can be see from the plot the p values goes up and down doing the experiment, So if one was to stop the experiement when the p value cross a threshold. The cover is not correct, this means in this case that tyoe 1 error alot higer than one exptes.
 
-So let look at how the coverage is affected by the peaking belove i have made small simulation that corespond make the plot above a 1000 times and with a wish effect p value $0.05$. If doing the experiment detects an effect out of $0.05$, it will stop (this is called a decision rule).
-This setup enables the simulation of coverage during the experimental process.
+So let's look at how the coverage is affected by the peaking. Belove i have made small simulation that corespond to making the plot above a 1000 times and with a p value $0.05$.
+
+I simulate two draws from the same distribution and check if there is a significant difference between them. If a significant difference is found, I stop the experiment and count it as a success. If no significant difference is found, the experiment continues with a new draw, and the same test is conducted. I repeat this process for 100 draws and 1000 experiments. Finally, I sum the number of experiments that show a significant result and divide this sum by the total number of experiments (1000) to calculate the proportion of significant results.
+
 
 ```{python,message=FALSE,warning=FALSE}
 import numpy as np
@@ -245,7 +248,7 @@ If peeking causes problems, the solution seems obvious: avoid peeking. However, 
 The literature on the method introduced below discusses designing systems to account for user behavior. This includes cases where users receive credit for findings, even when peeking leads to results that may not be valid.
 
 The goal is to develop mathematical models that mitigate the problem of peeking. Another approach is preregistration.
-That said, there are many valid reasons to evaluate results as data comes in and to stop when a clear conclusion can be drawn.
+That said, there are many valid reasons to evaluate results as data comes in and to stop when a clear conclusion can be drawn. 
 
 # Betting for Hypothesis Testing.
 
@@ -255,7 +258,7 @@ In this game, if the null hypothesis is true, there should be no strategy to con
 Let us think about this.  
 To give an example, imagine you are betting on the outcomes of two coin flips. You can bet on whether the coins match (both heads or both tails) or not. The coins may either be fair or have a matching bias, meaning both coins have a higher probability of landing on heads or tails.  
 
-If you guess correctly, you double your money; if you guess incorrectly, you lose your money. Note that there are only two hypotheses here. A rational player would not bet all their money but rather a fraction of it. A small note: the optimal fraction can be determined by optimizing log wealth.  
+If you guess correctly, you double your money; if you guess incorrectly, you lose your money. Note that there are only two hypotheses here. A rational player would not bet all their money but rather a fraction of it. A small note: The optimal fraction can be determined by optimizing log wealth. I won't go into the details here, but this approach is widely used in the e-variable literature, which I refer to at the end.
 
 Let $H_0$ represent the null hypothesis that there is no difference between the coins, meaning they are fair. For a fair game, $P(x = \text{match}) = 0.5$, and there is no strategy to earn money. You could always bet "match," always bet "no match," or condition your bets on the previous outcome—it doesn’t matter. This also means there are no consequences to betting on $H_1$.  
 
@@ -709,8 +712,7 @@ Most of the implented aplications of mSPRT i found is based on
 [The article](https://arxiv.org/pdf/1512.04922)
 
 For the type II error control. It seam like that by running two test with leve $\frac{\alpha}{2}$
-this come from [A modified sequential probability ratio test](https://www.sciencedirect.com/science/article/pii/S0022249621000109). I have desiced with my self i will look into this, if am gona use this in practis. So for now this is out of the scope of this asigment, but the idear is pretty brilliant.
-
+this come from [A modified sequential probability ratio test](https://www.sciencedirect.com/science/article/pii/S0022249621000109). I have decided with my self i will look into this, if am gona use this in practis. So for now this is out of the scope of this asigment, but the idear is pretty brilliant.
 
 
 

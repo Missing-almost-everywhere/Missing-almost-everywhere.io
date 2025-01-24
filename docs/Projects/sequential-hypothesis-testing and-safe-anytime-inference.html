@@ -236,16 +236,16 @@ window.Quarto = {
 </section>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>So in this project i am looking in to Wald’s Sequential Probability Ratio Test also called SPRT and some variants like mSPRT. The reason i want to learn this, is sequsial testing method. This is used to make live monotering of of Hyposis. The reason i want to learn this, that it eliminates the need for power calucluastions, insted the parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> is chosen/specified, and the sampling proces gones on, until the hyposis can be confirmed or rejected. This is more inline with how i would want to conduct experimetns, their is some simularty to stocastic bandit, where agent tryes to optimize reward will they learn, for SPRT, the goal is to stop the experiment when a hypsis can be confirmed ore rejected.</p>
-<p>The use cases for this live experiment the big usecase being A/B testing, but some mention trials aswell, I would think it would be hard to get aproved.</p>
-<p>These test is based on significan and p-values. so the subject matter is hyposis testing. I will asume the reader knows what this is (I mostly write these small blok for my self). My best explanation of signifanc and <span class="math inline">\(\alpha\)</span> is that is conducted a 100 of experiment i would expted the correct hyposis to be confiremd arround <span class="math inline">\((1-\alpha)*100\)</span> times.</p>
+<p>So in this project i am looking in to Wald’s Sequential Probability Ratio Test also called SPRT and some variants like mSPRT. The reason i want to learn this, is sequsial testing method. This is used to make live monotering of of Hyposis. It eliminates the need for power calucluastions, insted the parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> is chosen/specified befor the start of the experiment and the sampling proces gones on, until the hyposis can be confirmed or rejected. This is more inline with how i would want to conduct experimetns, their is some simularty to stocastic bandit, where agent tryes to optimize reward will they learn, for SPRT, the goal is to stop the experiment when a hypsis can be confirmed ore rejected.</p>
+<p>The use cases for this live experiment such as A/B testing, but some mention trials aswell, I would think it would be hard to get aproved.</p>
+<p>These test is based on significance and p-values, with the subject matter focusing on hypothesis testing. I assume the reader is already familiar with this concept, as I typically write these short notes for my personal reference. The concept of significance can be explained by the user selecting an <span class="math inline">\(\alpha\)</span> level, which defines the desired confidence level or coverage. This can be thought of as representing the user’s tolerance for making an error. In many research fields, a common choice is <span class="math inline">\(\alpha = 0.05\)</span>, which corresponds to tolerating a 5% error rate. For this experimental design, the goal is that if 100 experiments are conducted, we would expect the correct hypothesis to be confirmed approximately <span class="math inline">\((1 - \alpha) \times 100\)</span> times.</p>
 <p>So why use these Sequential test rather than normal likelihod ratio test og confiens intervalls and the reason is peeking, wish we will get into later.</p>
 </section>
 <section id="power-calulation" class="level1">
 <h1>Power calulation</h1>
 <p>This project started with me looking into power calculations. In this section i go throug how to make the power caluculations and look into what happens if on peeks.</p>
 <p>So the power calulation works by the user setting the minimum effect they would want the calculate, and tolarance for type 1 error <span class="math inline">\(\alpha\)</span> and tolerance for type 2 <span class="math inline">\(\beta\)</span>.</p>
-<p>Let <span class="math inline">\(X=X_1,\dots,x_n\)</span> be the data depend if <span class="math inline">\(x_i\sim \mathbb{N}(\mu,\sigma^2)\)</span> ore if mean <span class="math inline">\(\bar{X}\sim \mathbb{N}(\mu,\sigma^2)\)</span>, the last come often from the law of large number. One can use this method. I am not goin in to much in detail here, relly like this <a href="https://rugg2.github.io/AB%20testing%20-%20a%20simple%20explanation%20of%20what%20power%20analysis%20does.html">explation</a>. The pivot is showen in the calulaten’s.</p>
+<p>Let <span class="math inline">\(X=x_1,\dots,x_n\)</span> be the data depend if <span class="math inline">\(x_i\sim \mathbb{N}(\mu,\sigma^2)\)</span> ore if mean <span class="math inline">\(\bar{X}\sim \mathbb{N}(\mu,\sigma^2)\)</span>, the last come often from the law of large number. One can use this method. I am not goin in to much in detail here, relly like this <a href="https://rugg2.github.io/AB%20testing%20-%20a%20simple%20explanation%20of%20what%20power%20analysis%20does.html">explation</a>. The pivot is showen in the calulaten’s.</p>
 <section id="formally" class="level2">
 <h2 class="anchored" data-anchor-id="formally">Formally</h2>
 <p>Let <span class="math inline">\(H_0\)</span> be the null and let <span class="math inline">\(H_1\)</span> be other hyposis</p>
@@ -262,12 +262,12 @@ window.Quarto = {
 <section id="peeking" class="level2">
 <h2 class="anchored" data-anchor-id="peeking">Peeking</h2>
 <p>Peeking is when a one looks at the data as they come in, using standart hyposis test method, and make a conclusion if they dont see a effect. The problem is that it destrou the coverage gaurenty. So if one look at the data as they flow in and end the experiment and before if their is no significans.</p>
-<p>This idear of if we have hundret experiement, in <span class="math inline">\((1-\alpha)\)</span> the right hypothesis identified is not valid.</p>
+<p>This idear of if we have hundret experiement, in <span class="math inline">\((1-\alpha)*100\)</span> the right hypothesis identified is not valid.</p>
 <p>Below i have made some small simulations to ilustrate the problem</p>
 <p><span class="math inline">\(A=a_1,\dots,a_n\)</span> and <span class="math inline">\(B=b_1,\dots,b_n\)</span> let <span class="math inline">\(a_i\)</span> and <span class="math inline">\(b_i\)</span> iid and let <span class="math inline">\(a_i\sim\mathbb{N}(0,1)\)</span> and <span class="math inline">\(b_i\sim\mathbb{N}(0,1)\)</span>.</p>
-<p>Since <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> has the same distribuion their is no effect. This is sometime calle a A/A test. Sometimes this is used to test method in a live environment. If a useres test method, they should make get type 1 error cover from this.</p>
+<p>Since <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> has the same distribuion their is no effect. This is sometime calle a A/A test. Sometimes this is used to test method in a live environment. If a useres test method, they should get the type 1 error cover from this.</p>
 <p>At each point the simulation will draw with no replacment from A ore B calulat the p values and see if the true mean is in the confiden intervall.</p>
-<div id="1fe35ad4" class="cell" data-execution_count="1">
+<div id="57318995" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
@@ -366,8 +366,9 @@ window.Quarto = {
 </div>
 </div>
 <p>As can be see from the plot the p values goes up and down doing the experiment, So if one was to stop the experiement when the p value cross a threshold. The cover is not correct, this means in this case that tyoe 1 error alot higer than one exptes.</p>
-<p>So let look at how the coverage is affected by the peaking belove i have made small simulation that corespond make the plot above a 1000 times and with a wish effect p value <span class="math inline">\(0.05\)</span>. If doing the experiment detects an effect out of <span class="math inline">\(0.05\)</span>, it will stop (this is called a decision rule). This setup enables the simulation of coverage during the experimental process.</p>
-<div id="97c94a57" class="cell" data-execution_count="2">
+<p>So let’s look at how the coverage is affected by the peaking. Belove i have made small simulation that corespond to making the plot above a 1000 times and with a p value <span class="math inline">\(0.05\)</span>.</p>
+<p>I simulate two draws from the same distribution and check if there is a significant difference between them. If a significant difference is found, I stop the experiment and count it as a success. If no significant difference is found, the experiment continues with a new draw, and the same test is conducted. I repeat this process for 100 draws and 1000 experiments. Finally, I sum the number of experiments that show a significant result and divide this sum by the total number of experiments (1000) to calculate the proportion of significant results.</p>
+<div id="8a7d90b8" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -438,7 +439,7 @@ window.Quarto = {
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>cover
-0.3923923923923924</code></pre>
+0.4124124124124124</code></pre>
 </div>
 </div>
 <p>For these settings, I usually obtain an estimate of around 0.4, which, to me, seems high. Remember, this should be the Type 1 coverage rate, so around 0.05. In practice, a person would likely not peek at the data every time a new point arrives. This is merely intended to illustrate the problem of peeking.</p>
@@ -453,7 +454,7 @@ window.Quarto = {
 In this game, if the null hypothesis is true, there should be no strategy to consistently earn money. However, if one starts making money by betting against the null hypothesis, at some point it becomes highly unlikely that the null is true, allowing one to reject it.</p>
 <p>Let us think about this.<br>
 To give an example, imagine you are betting on the outcomes of two coin flips. You can bet on whether the coins match (both heads or both tails) or not. The coins may either be fair or have a matching bias, meaning both coins have a higher probability of landing on heads or tails.</p>
-<p>If you guess correctly, you double your money; if you guess incorrectly, you lose your money. Note that there are only two hypotheses here. A rational player would not bet all their money but rather a fraction of it. A small note: the optimal fraction can be determined by optimizing log wealth.</p>
+<p>If you guess correctly, you double your money; if you guess incorrectly, you lose your money. Note that there are only two hypotheses here. A rational player would not bet all their money but rather a fraction of it. A small note: The optimal fraction can be determined by optimizing log wealth. I won’t go into the details here, but this approach is widely used in the e-variable literature, which I refer to at the end.</p>
 <p>Let <span class="math inline">\(H_0\)</span> represent the null hypothesis that there is no difference between the coins, meaning they are fair. For a fair game, <span class="math inline">\(P(x = \text{match}) = 0.5\)</span>, and there is no strategy to earn money. You could always bet “match,” always bet “no match,” or condition your bets on the previous outcome—it doesn’t matter. This also means there are no consequences to betting on <span class="math inline">\(H_1\)</span>.</p>
 <p>Now, if the coins are biased, say <span class="math inline">\(P(x = \text{match}) = 0.6\)</span>, the optimal strategy is to always bet on “match”.</p>
 <p>The above fair game is a sup <a href="https://en.wikipedia.org/wiki/Martingale_(probability_theory)">martingale meaning</a> meaning that the expected winnings at any point in time are equal to or less than what one has currently, and the value of the wealth process is always positive.</p>
@@ -488,7 +489,7 @@ M_t = \prod_{i=1}^{T} \frac{q(X_i)}{p(X_i)}
 <section id="simulation" class="level2">
 <h2 class="anchored" data-anchor-id="simulation">Simulation</h2>
 <p>Below i have made small simulation of the the fair game desciped above and the SPRT. both coins af fair meaning their is <span class="math inline">\(P(X=head)=0.5\)</span> for both <span class="math inline">\(\alpha = 0.05\)</span></p>
-<div id="bf00d51e" class="cell" data-execution_count="3">
+<div id="cee1c9c0" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -590,9 +591,9 @@ M_t = \prod_{i=1}^{T} \frac{q(X_i)}{p(X_i)}
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>cover
-0.9561
+0.9528
 mean run length
-18.1402</code></pre>
+18.149</code></pre>
 </div>
 </div>
 <p>As can be see the cover i correct of the hyposis.</p>
@@ -619,7 +620,7 @@ The composite hypothesis is a combination of multiple hypotheses.</p>
 - If one confirms the null and the other rejects it, this would suggest evidence against the null.</p>
 <p>Thus, it is easier to simply negate the type 2 error. In practice, the user chooses an <span class="math inline">\(\alpha\)</span>, the tolerance for type 1 error they are willing to accept, and a maximum number of experiments they want to perform or can afford. Then the experiment runs, and if the process is not stopped, the conclusion is that there was no significance.</p>
 <p>Below i made a small simulation of how one can do this.</p>
-<div id="5c15937c" class="cell" data-execution_count="4">
+<div id="021c1a63" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -691,7 +692,7 @@ The composite hypothesis is a combination of multiple hypotheses.</p>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>cover: 0.986
-mean length: 986.054</code></pre>
+mean length: 986.056</code></pre>
 </div>
 </div>
 <p>as can be see the cover is good.</p>
@@ -717,7 +718,7 @@ These methods suffer from some of the same incentive structure errors as normal 
 <section id="looking-into-if-the-distribion-mispecified" class="level2">
 <h2 class="anchored" data-anchor-id="looking-into-if-the-distribion-mispecified">Looking into if the distribion mispecified</h2>
 <p>Below here i have made simulation the true distribuion is a t distribuion mean zero with variance 3 scale 1. The null is normal distribuion with variance 3 and mean zero. The only difference is the and the sape of the distribuionsion. The hyposis test is if the mean is the same.</p>
-<div id="ac8410b3" class="cell" data-execution_count="5">
+<div id="cbc7233e" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -789,13 +790,13 @@ These methods suffer from some of the same incentive structure errors as normal 
 <span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"mean length:"</span>, sim_result[<span class="st">"mean length"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>cover: 0.959
-mean length: 959.11</code></pre>
+<pre><code>cover: 0.963
+mean length: 963.067</code></pre>
 </div>
 </div>
 <p>As can be see in this case one actullay get good cover in this case. The simulated cover is close to the teoretical but if I make the null distribuion wide the cover is much lees acurate.</p>
 <p>below I have made a small change to the true distribusion so now the scale parater is 2 meaning a vider shape of the t distribusion. So the mean is the same but variance is diffrent.</p>
-<div id="783cbe57" class="cell" data-execution_count="6">
+<div id="11d19e14" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -867,8 +868,8 @@ mean length: 959.11</code></pre>
 <span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"mean length:"</span>, sim_result[<span class="st">"mean length"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>cover: 0.595
-mean length: 603.224</code></pre>
+<pre><code>cover: 0.603
+mean length: 608.506</code></pre>
 </div>
 </div>
 <p>The coverage is now changed, as it should be. This is the point: the problem is that one is not only making assumptions about the values of the parameter but also about the distribution itself.</p>
