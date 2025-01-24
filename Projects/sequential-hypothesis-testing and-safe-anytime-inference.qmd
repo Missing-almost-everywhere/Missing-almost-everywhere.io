@@ -446,7 +446,8 @@ A second option is two experiment with adjusted $\beta$, using distributions on 
 Thus, it is easier to simply negate the type 2 error.
 In practice, the user chooses an $\alpha$, the tolerance for type 1 error they are willing to accept, and a maximum number of experiments they want to perform or can afford. Then the experiment runs, and if the process is not stopped, the conclusion is that there was no significance.
 
-Below i made a small simulation of how one can do this.
+
+Below, I made a small simulation of how one can do this. In the simulation, I treat the distribution as the null hypothesis and ran 1,000 experiments with 1,000 samples.
 
 
 ```{python,cache=true,message=FALSE,warning=FALSE}
