@@ -34,9 +34,9 @@ Instead, let’s consider whether we can update the $\beta$ estimates directly.
 
 One option is the [Recursive least squares filter](https://en.wikipedia.org/wiki/Recursive_least_squares_filter)
 
+A simpler version is using [Sherman–Morrison formula](https://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula)
 
-
-Lastly, let’s explore how this can be used.
+Let’s explore how (Sherman–Morrison) can be used.
 
 Let $x[i]$  represent the i-th index of the vector.
 
