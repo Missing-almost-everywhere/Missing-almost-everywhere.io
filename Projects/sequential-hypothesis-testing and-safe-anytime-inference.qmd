@@ -306,7 +306,16 @@ This is a submartingale, and by using Ville's inequality, we obtain a probabilit
 
 Under the alternative hypothesis, the inverse of the likelihood ratio will be a submartingale, leading to two thresholds: one for rejecting the null hypothesis $H_0$ and one for rejecting $H_1$.  
 
+$a\approx \frac{\beta}{1-\alpha}$ and $b \approx \frac{1-\beta}{\alpha}$
+
+if $M_t \geq b$ accept $H_1$
+if $M_t \leq a$ accept $H_0$
+
+Otherwise sample a new point.
+
 Notice how simple the theory is here.
+
+Wiki is good [reference](https://en.wikipedia.org/wiki/Sequential_probability_ratio_test) for this.
 
 ## Simulation
 Below i have made small simulation of the the fair game desciped above and the SPRT.
@@ -428,7 +437,7 @@ $$
 
 This will be denoted $\Lambda_t$
 
-The same stopping threshold is used for $B$, meaning type 1 error control is the same since, under the null, the log-likelihood is a submartingale:  
+The same stopping threshold is used for $b$, meaning type 1 error control is the same since, under the null, the log-likelihood is a submartingale:  
 $$
 \mathbb{E_{\theta_0}}\left(\frac{f_{\theta}(x)}{f_{\theta_0}(x)}h(\theta)\right) = \int f_{\theta}(x)d\theta = 1
 $$
@@ -440,8 +449,9 @@ It becomes a little more complicated when considering the composite hypothesis, 
 What one can do instead is to set a limit on the amount of data one wants to gather and set $\beta$ to zero. This means losing type 2 error control.  
 
 A second option is two experiment with adjusted $\beta$, using distributions on both sides of the null.  
-- If both are stopped by the $B$ criterion, which is related to $\alpha$, this would suggest the null is true.  
-- If one confirms the null and the other rejects it, this would suggest evidence against the null.  
+- If both are stopped by the $b$ criterion, which is related to $\alpha$, this would suggest the null is true.  
+- If one confirms the null and the other rejects it, this would suggest evidence against the null.
+
 
 Thus, it is easier to simply negate the type 2 error.
 In practice, the user chooses an $\alpha$, the tolerance for type 1 error they are willing to accept, and a maximum number of experiments they want to perform or can afford. Then the experiment runs, and if the process is not stopped, the conclusion is that there was no significance.
