@@ -87,3 +87,23 @@ This project explores the foundational concepts of agent-based simulations throu
 The project emphasizes structural design choices, such as implementing interactions (e.g., buying decisions) and tracking aggregated metrics like total sales. It also addresses technical challenges, including managing dynamic effects and considering potential parallelization issues, though these aspects have not yet been fully implemented.
 
 The implementation is written in Python and includes unit tests to verify the functionality of key components. Primarily intended as a learning exercise, this model aims to refine object-oriented programming skills and simulate agent interactions. It serves as a foundation for exploring more complex systems and optimizing efficiency in future iterations.
+
+
+# Aplication let you 
+
+
+The idea behind this project was to create a small Python program that recognizes letters drawn on a touchpad using a neural network trained with PyTorch.
+
+I developed both the interface and the model. The model performs okay, achieving around 87% accuracy on the test set, though I know better models exist.
+
+However, it performs poorly on a new dataset consisting of my hand-drawn touchpad symbols. Because of this, I have decided not to continue working on the project.
+
+I used the tkinter.ttk library but did not find a good way to extract the drawing data. Instead, I had to register the drawing events and store them in a matrix/tensor. I also tried scanning the screen while pixelating the image, which made the letters look more similar to those in the training set. However, the coordinates from ttk.Canvas and grid do not match those in PIL.ImageGrab, making this approach unfeasible.
+
+There is actually a valuable lesson here about generalized learning and the importance of training on diverse distributions.
+
+The idea was really good, but it just didn’t work.
+
+This project was always meant for learning, so it's not a problem.
+
+If you want to play around with it, you can download the GitHub repo.
