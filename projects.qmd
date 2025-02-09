@@ -89,10 +89,11 @@ The project emphasizes structural design choices, such as implementing interacti
 The implementation is written in Python and includes unit tests to verify the functionality of key components. Primarily intended as a learning exercise, this model aims to refine object-oriented programming skills and simulate agent interactions. It serves as a foundation for exploring more complex systems and optimizing efficiency in future iterations.
 
 
-# Aplication let you 
+# Recognize symbols drawn on the touchpad
 
+[github page](https://github.com/Missing-almost-everywhere/Recognize-touchpad-symbols-program)
 
-The idea behind this project was to create a small Python program that recognizes letters drawn on a touchpad using a neural network trained with PyTorch.
+The idea behind this project was to create a small Python program that recognizes symbols drawn on a touchpad using a neural network trained with PyTorch.
 
 I developed both the interface and the model. The model performs okay, achieving around 87% accuracy on the test set, though I know better models exist.
 
