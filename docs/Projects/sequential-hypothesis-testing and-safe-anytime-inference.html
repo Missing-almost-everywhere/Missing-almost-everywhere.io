@@ -267,7 +267,7 @@ window.Quarto = {
 <p><span class="math inline">\(A=a_1,\dots,a_n\)</span> and <span class="math inline">\(B=b_1,\dots,b_n\)</span> let <span class="math inline">\(a_i\)</span> and <span class="math inline">\(b_i\)</span> iid and let <span class="math inline">\(a_i\sim\mathbb{N}(0,1)\)</span> and <span class="math inline">\(b_i\sim\mathbb{N}(0,1)\)</span>.</p>
 <p>Since <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> has the same distribuion their is no effect. This is sometime calle a A/A test. Sometimes this is used to test method in a live environment. If a useres test method, they should get the type 1 error cover from this.</p>
 <p>At each point the simulation will draw with no replacment from A ore B calulat the p values and see if the true mean is in the confiden intervall.</p>
-<div id="eee3f818" class="cell" data-execution_count="1">
+<div id="61138e09" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
@@ -368,7 +368,7 @@ window.Quarto = {
 <p>As can be see from the plot the p values goes up and down doing the experiment, So if one was to stop the experiement when the p value cross a threshold. The cover is not correct, this means in this case that tyoe 1 error alot higer than one exptes.</p>
 <p>So let’s look at how the coverage is affected by the peaking. Belove i have made small simulation that corespond to making the plot above a 1000 times and with a p value <span class="math inline">\(0.05\)</span>.</p>
 <p>I simulate two draws from the same distribution and check if there is a significant difference between them. If a significant difference is found, I stop the experiment and count it as a success. If no significant difference is found, the experiment continues with a new draw, and the same test is conducted. I repeat this process for 100 draws and 1000 experiments. Finally, I sum the number of experiments that show a significant result and divide this sum by the total number of experiments (1000) to calculate the proportion of significant results.</p>
-<div id="fe3a4441" class="cell" data-execution_count="2">
+<div id="d74cb522" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -439,7 +439,7 @@ window.Quarto = {
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>cover
-0.4344344344344344</code></pre>
+0.38738738738738737</code></pre>
 </div>
 </div>
 <p>For these settings, I usually obtain an estimate of around 0.4, which, to me, seems high. Remember, this should be the Type 1 coverage rate, so around 0.05. In practice, a person would likely not peek at the data every time a new point arrives. This is merely intended to illustrate the problem of peeking.</p>
@@ -493,7 +493,7 @@ M_t = \prod_{i=1}^{T} \frac{q(X_i)}{p(X_i)}
 <section id="simulation" class="level2">
 <h2 class="anchored" data-anchor-id="simulation">Simulation</h2>
 <p>Below i have made small simulation of the the fair game desciped above and the SPRT. both coins af fair meaning their is <span class="math inline">\(P(X=head)=0.5\)</span> for both <span class="math inline">\(\alpha = 0.05\)</span></p>
-<div id="8f25c2c4" class="cell" data-execution_count="3">
+<div id="562f1d10" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -595,9 +595,9 @@ M_t = \prod_{i=1}^{T} \frac{q(X_i)}{p(X_i)}
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>cover
-0.9566
+0.9548
 mean run length
-18.1767</code></pre>
+18.283</code></pre>
 </div>
 </div>
 <p>As can be see the cover i correct of the hyposis.</p>
@@ -624,7 +624,7 @@ The composite hypothesis is a combination of multiple hypotheses.</p>
 - If one confirms the null and the other rejects it, this would suggest evidence against the null.</p>
 <p>Thus, it is easier to simply negate the type 2 error. In practice, the user chooses an <span class="math inline">\(\alpha\)</span>, the tolerance for type 1 error they are willing to accept, and a maximum number of experiments they want to perform or can afford. Then the experiment runs, and if the process is not stopped, the conclusion is that there was no significance.</p>
 <p>Below, I made a small simulation of how one can do this. In the simulation, I treat the distribution as the null hypothesis and ran 1,000 experiments with 1,000 samples.</p>
-<div id="cb693ab7" class="cell" data-execution_count="4">
+<div id="981fe8ee" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -695,8 +695,8 @@ The composite hypothesis is a combination of multiple hypotheses.</p>
 <span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"mean length:"</span>, sim_result[<span class="st">"mean length"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>cover: 0.984
-mean length: 984.055</code></pre>
+<pre><code>cover: 0.986
+mean length: 986.037</code></pre>
 </div>
 </div>
 <p>as can be see the cover is good.</p>
@@ -722,7 +722,7 @@ These methods suffer from some of the same incentive structure errors as normal 
 <section id="looking-into-if-the-distribion-mispecified" class="level2">
 <h2 class="anchored" data-anchor-id="looking-into-if-the-distribion-mispecified">Looking into if the distribion mispecified</h2>
 <p>Below here i have made simulation the true distribuion is a t distribuion mean zero with variance 3 scale 1. The null is normal distribuion with variance 3 and mean zero. The only difference is the and the sape of the distribuionsion. The hyposis test is if the mean is the same.</p>
-<div id="0943374a" class="cell" data-execution_count="5">
+<div id="6b07972f" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -794,13 +794,13 @@ These methods suffer from some of the same incentive structure errors as normal 
 <span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"mean length:"</span>, sim_result[<span class="st">"mean length"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>cover: 0.966
-mean length: 966.414</code></pre>
+<pre><code>cover: 0.959
+mean length: 960.938</code></pre>
 </div>
 </div>
 <p>As can be see in this case one actullay get good cover in this case. The simulated cover is close to the teoretical but if I make the null distribuion wide the cover is much lees acurate.</p>
 <p>below I have made a small change to the true distribusion so now the scale parater is 2 meaning a vider shape of the t distribusion. So the mean is the same but variance is diffrent.</p>
-<div id="68dd7cb8" class="cell" data-execution_count="6">
+<div id="bc6648ec" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -872,8 +872,8 @@ mean length: 966.414</code></pre>
 <span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"mean length:"</span>, sim_result[<span class="st">"mean length"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>cover: 0.584
-mean length: 590.727</code></pre>
+<pre><code>cover: 0.588
+mean length: 594.124</code></pre>
 </div>
 </div>
 <p>The coverage is now changed, as it should be. This is the point: the problem is that one is not only making assumptions about the values of the parameter but also about the distribution itself.</p>
@@ -895,7 +895,7 @@ mean length: 590.727</code></pre>
 <p>I would use it for convergens rates wich is bernuli distribusion, so the posbillatys to misspecifi the liklihood is limited, since it only dependt on one parameter.</p>
 <section id="a-final-remark" class="level2">
 <h2 class="anchored" data-anchor-id="a-final-remark">A Final Remark</h2>
-<p>If I want <span class="math inline">\(\beta\)</span> control, I would run two SPRT tests with <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, and I would plot the distributions.<br>
+<p>If I want type 2 control, I would run two SPRT tests with <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, and I would plot the distributions.<br>
 Before starting, I would check if there is a region where the fraction <span class="math inline">\(\frac{p(x)}{q(x)}\)</span> varies significantly. I would also need to adjust <span class="math inline">\(\beta\)</span> accordingly.</p>
 <p>There is also an extension of the method called e-variables or an e-process. It seems to rely on the fact that under the null, one can change the <span class="math inline">\(H_1\)</span> distribution and still have a supermartingale. One can also scale the likelihood, which they use to make a betting strategy. The idea is really interesting. The idea of being able to change the hypothesis midway seems a bit suspicious. I have yet to figure out if the new hypothesis will be penalized by the earlier outcome, which would be problematic.</p>
 <p>There is an article with an overview here.</p>

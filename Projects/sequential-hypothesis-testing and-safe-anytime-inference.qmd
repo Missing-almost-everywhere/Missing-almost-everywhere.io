@@ -737,7 +737,7 @@ Alot time CLT mean at for a lot of distribuions will convege to normal distribui
 I would use it for convergens rates wich is bernuli distribusion, so the posbillatys to misspecifi the liklihood is limited, since it only dependt on one parameter.
 
 ## A Final Remark  
-If I want $\beta$ control, I would run two SPRT tests with $\alpha$ and $\beta$, and I would plot the distributions.  
+If I want type 2 control, I would run two SPRT tests with $\alpha$ and $\beta$, and I would plot the distributions.  
 Before starting, I would check if there is a region where the fraction $\frac{p(x)}{q(x)}$ varies significantly. I would also need to adjust $\beta$ accordingly.  
 
 
