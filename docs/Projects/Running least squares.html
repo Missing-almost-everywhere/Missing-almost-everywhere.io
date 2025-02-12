@@ -216,9 +216,9 @@ window.Quarto = {
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>In this project, I will explore fitting a running linear model as well as running predictions.</p>
-<p>During my bachelor’s studies, I focused on the prediction of time series. The model I used was fitted using least squares. I worked with <a href="https://robjhyndman.com/publications/">FFP3</a>, which is implemented in R.</p>
+<p>During my bachelor’s project, I focused on the prediction of time series. The model I used was fitted using least squares. I worked with <a href="https://robjhyndman.com/publications/">FFP3</a>, which is implemented in R.</p>
 <p>At that time, I used the Forecast package but ended up implementing the estimator from the ground up. As I have improved my programming and mathematical skills, I thought it would be fun to revisit this problem and see if I could develop a better solution.</p>
-<p>Rob how wrote FFP3, has a blog their i sais their is trick to speeding op the calculation of rolling predition for AR process, and I think I figured it out.</p>
+<p>Rob who wrote FFP3, has a blog their i sais their is trick to speeding op the calculation of rolling predition for AR process, and I think I figured it out.</p>
 <p>Lest squres can be written as</p>
 <p><span class="math display">\[\underset{\beta}{argmin} ||Y-X\beta||^2\]</span></p>
 <p>Since this is a linear function the problem above i convex with one uniq closed form solution</p>
@@ -253,7 +253,7 @@ window.Quarto = {
 <p>I will create one implementations, where I use this for rolling prediction.</p>
 <p>The method could be used for making a implements of a sliding window.</p>
 <p>For the sliding window, it is necessary not only to add the new row but also to remove the old one.</p>
-<div id="9a44f887" class="cell" data-execution_count="1">
+<div id="1a0a319e" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -344,7 +344,7 @@ window.Quarto = {
 <span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>test_get_prediction()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="c16ab585" class="cell" data-execution_count="2">
+<div id="042bb515" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rolling_prediction(x: <span class="bu">list</span>, y: <span class="bu">list</span>, starting_length: <span class="bu">int</span>):</span>
@@ -390,7 +390,7 @@ window.Quarto = {
 <h1>Testing the Application</h1>
 <p>Since the underlying model is not changing, this provides a straightforward way to test the model. The residuals should closely resemble the errors.</p>
 <p>However, they will not be identical, as this would require the coefficients to be perfectly accurate.</p>
-<div id="7ed9d2fd" class="cell" data-execution_count="3">
+<div id="239ee959" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
@@ -425,7 +425,7 @@ window.Quarto = {
 <section id="when-the-application-fails" class="level1">
 <h1>When the Application Fails</h1>
 <p>The reader should note that I have not included an intercept in the data-generating process. Below, I have conducted the same test, but this time I have added a constant to the expression.</p>
-<div id="5f7f4f99" class="cell" data-execution_count="4">
+<div id="4f9d540c" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
@@ -451,7 +451,7 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Running least squares_files/figure-html/cell-5-output-1.png" width="575" height="411" class="figure-img"></p>
+<p><img src="Running least squares_files/figure-html/cell-5-output-1.png" width="584" height="411" class="figure-img"></p>
 </figure>
 </div>
 </div>

@@ -7,13 +7,13 @@ format:
 # Introduction
 In this project, I will explore fitting a running linear model as well as running predictions.
 
-During my bachelor's studies, I focused on the prediction of time series. The model I used was fitted using least squares.
+During my bachelor's project, I focused on the prediction of time series. The model I used was fitted using least squares.
 I worked with [FFP3](https://robjhyndman.com/publications/), which is implemented in R.
 
 At that time, I used the Forecast package but ended up implementing the estimator from the ground up.
 As I have improved my programming and mathematical skills, I thought it would be fun to revisit this problem and see if I could develop a better solution. 
 
-Rob how wrote FFP3, has a blog their i sais their is trick to speeding op the calculation of rolling predition for AR process, and  I think I figured it out.
+Rob who wrote FFP3, has a blog their i sais their is trick to speeding op the calculation of rolling predition for AR process, and  I think I figured it out.
 
 
 Lest squres can be written as
