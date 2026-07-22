@@ -78,12 +78,12 @@ This was a small project to practice some linear algebra and NumPy, as well as M
 I implemented a rolling prediction for a simple linear model fitted with least squares and used update rules so that the function doesn't need to be refitted from scratch. 
 Least squares is often used, so this method can be applied to many other applications in live settings, allowing the model to be updated as data flows in.
 
- Parallelization and Game Theory
+# You Shall Not Pass — parallelisering og spilteori på en fælles server(Theoretical/Conceptual)
 
-[Parallelization and Game Theory](Projects/parallelisering.qmd)
+[You Shall Not Pass](Projects/parallelisering.qmd)
 
-In this project, I look at resource allocation on a shared Linux server through the lens of game theory. Framing parallelization as a Nash equilibrium problem turns out to be a surprisingly natural fit.
-I ran simulations to see how the equilibrium holds up under different conditions.
+In this project, I look at resource allocation on a shared server through the lens of game theory, framing parallelization among multiple actors as a Nash equilibrium problem.
+I ran simulations to see the calculation times with different actors on the same server, and niceness settings.
 Note that the project itself is written in Danish, with Python for the simulations.
 
 # A Toy Model for Market Dynamics: Building a Agent-Based Frameworks (Conceptual)
