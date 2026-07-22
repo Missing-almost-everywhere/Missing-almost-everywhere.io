@@ -1,0 +1,691 @@
+---
+title: "You Shall Not Pass — parallelisering og spilteori på en fælles server"
+format:
+  html:
+    code-fold: true
+    embed-resources: true
+---
+
+# Formål 
+I forbindelse med mit arbejde sidder jeg og kigger på parallelisering.
+Jeg bruger det ofte i mine implementationer, men i vores setting på en fælles server støder jeg på nogle problemer med ressourceallokering, fordi der er en gruppe af aktører og ikke kun mig.
+
+Formålet med dette skriv er dels at belyse min holdning til emnet, men også at udvikle min egen holdning til parallelisering på fælles systemer.
+
+Skrivet indeholder en forholdsvis simpel introduktion til fordele ved parallelisering samt, hvad man kan forvente i performance gain. Del 2 handler om hvad der sker, når der er flere aktører — hvis du er økonom, så glæd dig til den del, hvor vi inddrager spilteori.
+
+
+# Parallelisering
+*(Note: dette afsnit skal omskrives — det er en fin introduktion, men ikke helt retvisende)*
+
+Parallelisering handler om at dele en proces op i bidder, der kan udføres samtidigt.
+Nogle processer er særdeles velegnede til dette formål — additive operationer for eksempel.
+Se nedenstående eksempel:
+
+$$1+2+3+4+5+6+7+8=(1+2+3+4)+(5+6+7+8)=10+22=32$$
+
+Som det fremgår, kan regnestykket splittes i to eller flere dele, der kan udregnes separat og til sidst lægges sammen. I sum-tilfældet udfører man $n-1$ udregninger, hvor $n$ er antallet af elementer.
+
+Hvis man splitter summer i to, kan man se at hver del består af 4 tal og dermed 3 udregninger — og derefter lægger man dem sammen. Det giver:
+
+$$2 \cdot \frac{n}{n_{\text{workers}}} - 1 + (n_{\text{workers}} - 1)$$
+
+Når man paralleliserer, er tricket at man udregner flere ting på én gang. Givet et antal workers kan man forvente, at udregningerne for summen tager:
+
+$$\frac{n}{n_{\text{workers}}} - 1 + (n_{\text{workers}} - 1)$$
+
+I ovenstående har jeg ikke taget højde for at splitte datasættet op.
+
+## Generel formel
+*(Note: Dette afsnit skal udvides lidt, så det bedre illustreres at det ikke er en komplet formel. Problemet er at jeg ikke kan udlede et komplet upper bound for forbedringer, men formlen er en fin illustration af et meget optimistisk gæt. Jeg vil gerne have en formel, fordi det ville betyde at man kan konvertere til simulering senere.)*
+
+$$\text{tid} = \frac{\text{Samlet tid}}{N_{\text{workers}}}$$
+
+Formlen er udledt på følgende måde.
+
+Hvis jobbet kan paralleliseres perfekt i separate dele, kan man skrive:
+
+$$\frac{\text{Samlet udregninger}}{N_{\text{workers}}} \leq \frac{\text{Samlet udregninger}}{N_{\text{workers}}} + \text{OverHead}(N_{\text{workers}})$$
+
+hvor $\text{OverHead}(N_{\text{workers}})$ er overhead ved at splitte og samle jobbet.
+
+Hvis udregningerne tager den samme tid, når de paralleliseres, får man ovenstående formel.
+
+Hvis tiden for en worker er 1, kan man lave nedenstående plot, hvor grafen viser tiden givet et antal workers — uden noget overhead ved parallelisering. Givet præmissen om ovenstående formel kan man altid regne ud, hvor meget tid man har sparet ved at parallelisere. (En lille note: ovenstående formel er ikke generel, jeg bruger den som approksimation og antager en vis linearitet — men til formålet af dette skriv er det fint).
+
+
+```{python}
+#| code-fold: true
+import matplotlib.pyplot as plt
+
+start_tid = 1
+
+antal_kerner = range(1, 64)
+
+andel_af_tid = [start_tid / k for k in antal_kerner]
+
+plt.plot(antal_kerner, andel_af_tid)
+
+plt.xlabel("Antal kerner")
+plt.ylabel("Andel af tid")
+plt.title("Andel af tid som funktion af antal kerner tildelt")
+
+plt.grid(True)
+
+plt.show()
+```
+
+Som det ses, er der en stærkt aftagende effekt ved parallelisering — det giver også intuitiv mening.
+Går man fra 1 til 2 workers, halveres tiden. Men går man fra 2 til 4, halverer man igen fra det halve — effekten bliver stadigt mindre.
+
+Dette illustreres også af den afledte af funktionen:
+
+$$\frac{\Delta \frac{1}{n_{\text{works}}}}{\Delta n_{\text{works}}} = -\frac{1}{n_{\text{works}}^2}$$
+
+(Teknisk set er funktionen ikke differentiabel, fordi den ikke er kontinuert — men det illustrerer pointen fint.)
+
+Der er altså en stærkt aftagende effekt ved at parallelisere.
+
+Gevinsten ved at tilføje en ny worker vil derfor være:
+
+$$\Delta \text{tid} = \frac{\text{Samlet tid}}{n_{\text{workers}}} - \frac{\text{Samlet tid}}{n_{\text{workers}} + 1}$$
+
+Eller for at fjerne en worker:
+
+$$\Delta \text{tid} = \frac{\text{Samlet tid}}{n_{\text{workers}} - 1} - \frac{\text{Samlet tid}}{n_{\text{workers}}}$$
+
+
+# To måder at tænke på tidsgevinster
+Der er flere måder at tænke på tidsgevinster. En er ved at sammenligne relativt til starten, men man kan også vælge relativt til antallet af kerner man har nu.
+
+Lad os se på den [relative tidsændring](https://www.webmatematik.dk/lektioner/7-9-klasse/procenter/regn-med-procenter).
+Hvor meget vinder man ved at gå fra 25 kerner til 32 kerner — i procent, med 25 kerner som reference?
+
+$$\frac{\left|\frac{\text{Samlet tid}}{25} - \frac{\text{Samlet tid}}{32}\right|}{\frac{\text{Samlet tid}}{25}} \cdot 100 = 100 \cdot \frac{\frac{1}{25} - \frac{1}{32}}{\frac{1}{25}} = 100 \cdot \left(1 - \frac{25}{32}\right) = 100 \cdot \frac{7}{32} = 21{,}875\%$$
+
+Diskussionen om hvor meget man vinder, afhænger altså meget af hvad referencen er.
+
+
+# Hvad siger litteraturen
+Læser man på [Wikipedia](https://en.wikipedia.org/wiki/Parallel_computing), omtales
+[Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law).
+Den handler også om den aftagende effekt ved parallelisering og pointerer, at der sjældent er voldsomt god effekt, fordi de fleste jobs indeholder dele som ikke kan paralleliseres. Jeg tænker på det som et bottleneck — en del af processen som altid skal køre sekventielt.
+
+I forhold til dette projekt tager jeg ikke højde for det, fordi hvis koden er skrevet rigtigt, bør workers lukke ned og ikke efterspørge kapacitet, når den del af processen er afsluttet.
+
+Jeg arbejder meget i R og har taget kurser i effektiv R-kode. I de kurser sammenlignede vi processer, hvor man skrev funktioner i R og kørte dem parallelt — sammenlignet med at køre en process i Rcpp, som kompilerer C++-kode.
+Rcpp vandt hver gang. Det tager længere tid at skrive, så der er en afvejning.
+Det er måske ikke så underligt, at meget af den underliggende kode i R-biblioteker er skrevet i Rcpp.
+(Man kan nu også parallelisere Rcpp-kode.)
+Det er bare for at sige: der er andre måder at speede R-kode op på — nemlig at skrive i andre sprog og integrere via R.
+
+
+# Forskellige former for parallelisering
+Jeg har stødt på to former for parallelisering.
+
+## Parallel processing
+Her deler man processerne op, så jobs kører separat — altså ikke rigtig nogen fælles kommunikation.
+Alt jeg har skrevet af kode er på denne form.
+
+Mit format er som regel enten at kopiere data, så alle workers har det i hukommelsen og så lave mine udregninger — eller dele data ud ved at indlæse det i de underjobs man laver.
+
+## Multithreading
+Multithreading bruges, hvis workers kan drage fordel af at have fælles adgang til data. Det kan være relevant, hvis der er meget ventetid mellem opgaver.
+Jeg har fundet nogle biblioteker der faciliterer det i Rcpp, men har aldrig brugt det selv.
+
+
+## Hukommelsesforbrug ved parallelisering
+Når man paralleliserer, er det ikke kun beregningstid der skalerer med antallet af workers — hukommelsesforbruget gør det også, og i modsætning til beregningstiden skalerer det lineært opad.
+
+I mit setup kopierer hver worker inputdata ind i sin egen hukommelse. Det samlede hukommelsesforbrug for et job er derfor:
+
+$$M_{\text{job}}(t) = n_{\text{workers}} \cdot M_{\text{worker}} + \frac{\text{udført arbejde}(t)}{\text{samlet arbejde}} \cdot M_{\text{produkt}}$$
+
+hvor $M_{\text{worker}}$ er hukommelsen en enkelt worker bruger (inputdata + arbejdshukommelse), og $M_{\text{produkt}}$ er outputtet der akkumuleres løbende. Worker-hukommelsen er konstant så længe jobbet kører — hver worker holder sin kopi af inputdata hele vejen igennem. Produkt-hukommelsen vokser derimod lineært med fremskridt.
+
+Dette skaber en direkte afvejning: flere workers giver aftagende gevinst i beregningstid, men lineært voksende hukommelsesforbrug. På et tidspunkt er den marginale tidsgevinst ved en ekstra worker næsten nul, mens hukommelsesomkostningen er den samme som for de første workers.
+
+```{python}
+#| code-fold: true
+import numpy as np
+
+n_workers = range(1, 33)
+m_worker = 2   # GB per worker inkl. inputdata
+m_produkt = 4  # GB for samlet output
+
+m_total = [n * m_worker + m_produkt for n in n_workers]
+tid = [1 / n for n in n_workers]
+
+fig, ax1 = plt.subplots()
+
+ax1.plot(n_workers, m_total, color='steelblue', label="Hukommelse (GB)")
+ax1.set_xlabel("Antal workers")
+ax1.set_ylabel("Hukommelse (GB)", color='steelblue')
+
+ax2 = ax1.twinx()
+ax2.plot(n_workers, tid, color='darkorange', linestyle='--', label="Relativ tid")
+ax2.set_ylabel("Relativ tid", color='darkorange')
+
+fig.suptitle("Hukommelse,beregningstid som funktion af antal workers/kerner")
+fig.legend(loc="upper right", bbox_to_anchor=(1,1), bbox_transform=ax1.transAxes)
+plt.show()
+```
+
+Som plottet illustrerer, er der et punkt hvor det ikke giver mening at tilføje flere workers — beregningstiden falder minimalt, men hukommelsesforbruget fortsætter med at stige. Hvis hukommelsen er en begrænsende faktor, betyder det at man ikke nødvendigvis kan udnytte alle tilgængelige kerner — loftet sættes af hukommelsen, ikke CPU'en.
+
+# Brug af niceness på en Linux-server
+Koden i afdelingen afvikles på en Linux-server, hvilket gør brug af niceness-funktionaliteten mulig.
+I vores setup er det ikke muligt at bruge `renice`, på grund af manglende rettigheder.
+Det er dog muligt at sætte nice-værdien ved starten af et job.
+Her er et eksempel:
+
+```{bash, eval=FALSE}
+#| code-fold: true
+nice -n 10 Rscript job.R
+```
+
+Men hvorfor nedprioritere sit job?
+Hvis man nedprioriterer sit job, betyder det at andre kan få kapaciteten, hvis de beder om den. Til gengæld, hvis der er ledig kapacitet, får man den tildelt. Det giver en ret fornuftig struktur.
+
+Kører man et stort job, kan man nedprioritere det, så andre kan få afviklet deres job hurtigere.
+Hvis jobbet er langt nok, vil den forventede afviklingstid ikke vokse betydeligt — givet at andre aktører stadig vælger at afvikle deres jobs.
+
+
+# Hvordan virker niceness
+I Linux har hver process en vægt. En process vil blive tildelt CPU-tid svarende til:
+
+$$\text{Andel CPU-tid for } p_i = \frac{W(p_i)}{\sum_{i}^{N} W(p_i)}$$
+
+hvor $p_i$ er process $p_i$, og
+
+$$W(p_i) = \frac{1024}{1{,}25^{\text{nice}}}$$
+
+[Kilde](https://oakbytes.wordpress.com/2012/06/06/linux-scheduler-cfs-and-nice/)
+
+Dette svarer til andelen af den tilgængelige CPU-tid en process får — men kun hvis al kapaciteten er taget. Hvis der er ledig kapacitet, får man det der efterspørges.
+
+
+## Udregning af tid for flere aktører
+Nedenfor laver jeg en udregning af, hvor mange iterationer(tick's) det tager for flere aktører at blive færdige med deres program, baseret på et antal udregninger der skal udføres.
+Det er forholdsvis simpelt at simulere via et class-setup i Python.
+Logikken er som følger: hver aktør har et antal udregninger der skal udføres. Hver tick tildeles kapacitet proportionalt med aktørernes vægte og serverens kernebegrænsning, og antallet af tilbageværende udregninger reduceres tilsvarende. På den måde kan man simulere den samlede udregnningstid for flere aktører på serveren.
+
+
+```{python}
+#| code-fold: true
+import matplotlib.pyplot as plt
+
+
+class Aktoer:
+    def __init__(self, navn, n_udregninger_i_job, n_workers, nices, m_worker=0, m_produkt=0):
+        self.navn = navn
+        self.start_udregninger = n_udregninger_i_job
+        self.n_udregninger_i_job = n_udregninger_i_job
+        self.n_workers = n_workers
+        self.nices = nices
+        self.m_worker = m_worker
+        self.m_produkt = m_produkt
+
+        self.faerdig_tick = None
+        self.history = []
+        self.m_history = []
+
+    def reducer_n_udregninger(self, antal):
+        self.n_udregninger_i_job = max(0, self.n_udregninger_i_job - antal)
+
+    def hukommelse(self):
+        if self.n_udregninger_i_job == 0:
+            return 0
+        udfoert = self.start_udregninger - self.n_udregninger_i_job
+        m_produkt_nu = (udfoert / self.start_udregninger) * self.m_produkt
+        return self.n_workers * self.m_worker + m_produkt_nu
+
+
+class Server:
+    def __init__(self, aktoer_ls, antal_kerner, m_kapacitet=None,
+                 fast_omkostning=0, variabel_omkostning=None):
+        self.aktoer_ls = aktoer_ls
+        self.antal_kerner = antal_kerner
+        self.m_kapacitet = m_kapacitet
+        self.fast_omkostning = fast_omkostning
+        self.variabel_omkostning = variabel_omkostning if variabel_omkostning is not None else lambda t: 1
+        self.tick_history = []
+        self.m_history = []
+        self.swap_ticks = []
+        self.omkostning_history = []
+
+    def _aktive(self):
+        return [a for a in self.aktoer_ls if a.n_udregninger_i_job > 0]
+
+    def _vaegt(self, a):
+        return (1024 / (1.25 ** a.nices)) * a.n_workers
+
+    def samlet_omkostning(self):
+        return self.fast_omkostning + sum(self.omkostning_history)
+
+    def koer_server(self):
+        tick = 0
+
+        while True:
+            aktive = self._aktive()
+            if not aktive:
+                break
+
+            tick += 1
+            total_vaegt = sum(self._vaegt(a) for a in aktive)
+
+            tick_snapshot = {}
+
+            for a in aktive:
+                andel = self._vaegt(a) / total_vaegt
+                antal = max(1, int(andel * self.antal_kerner))
+                a.reducer_n_udregninger(antal)
+
+                if a.n_udregninger_i_job == 0 and a.faerdig_tick is None:
+                    a.faerdig_tick = tick
+
+                tick_snapshot[a.navn] = a.n_udregninger_i_job
+
+            # Hukommelse trackes efter opdatering — frigives næste tick
+            for a in self.aktoer_ls:
+                a.history.append(a.n_udregninger_i_job)
+                a.m_history.append(a.hukommelse())
+
+            samlet_m = sum(a.hukommelse() for a in self.aktoer_ls)
+            self.m_history.append(samlet_m)
+
+            if self.m_kapacitet is not None and samlet_m > self.m_kapacitet:
+                self.swap_ticks.append(tick)
+
+            self.omkostning_history.append(self.variabel_omkostning(tick))
+            self.tick_history.append(tick_snapshot)
+
+        return tick
+
+
+def plot_progress(aktoer_ls):
+    for a in aktoer_ls:
+        plt.plot(a.history, label=a.navn)
+    plt.xlabel("Tick")
+    plt.ylabel("Tilbageværende arbejde")
+    plt.title("Arbejde over tid")
+    plt.legend()
+    plt.show()
+
+def plot_completion(aktoer_ls):
+    navne = [a.navn for a in aktoer_ls]
+    tider = [a.faerdig_tick for a in aktoer_ls]
+    plt.bar(navne, tider)
+    plt.ylabel("Ticks")
+    plt.title("Afslutningstid for aktører")
+    plt.show()
+
+def plot_hukommelse(server):
+    plt.plot(server.m_history, label="Samlet hukommelse")
+    if server.m_kapacitet is not None:
+        plt.axhline(y=server.m_kapacitet, color='red', linestyle='--', label="Serverkapacitet")
+    if server.swap_ticks:
+        plt.axvspan(server.swap_ticks[0] - 1, server.swap_ticks[-1],
+                    alpha=0.15, color='red', label="Swap risiko")
+    plt.xlabel("Tick")
+    plt.ylabel("Hukommelse")
+    plt.title("Hukommelsesforbrug over tid")
+    plt.legend()
+    plt.show()
+
+def plot_omkostning(server):
+    akkumuleret = []
+    total = server.fast_omkostning
+    for c in server.omkostning_history:
+        total += c
+        akkumuleret.append(total)
+    plt.plot(akkumuleret, label="Akkumuleret omkostning")
+    plt.xlabel("Tick")
+    plt.ylabel("Omkostning")
+    plt.title("Omkostning over tid")
+    plt.legend()
+    plt.show()
+
+def fairness(aktoer_ls):
+    ratios = []
+    for a in aktoer_ls:
+        ideal = a.start_udregninger / a.n_workers
+        actual = a.faerdig_tick
+        ratios.append(actual / ideal)
+    return ratios
+```
+
+
+## En hensigtsmæssig brug af niceness-værdier
+
+Her sammenligner jeg to kørsler med forskellige niceness-værdier — en aktør med et meget langt job kontra et kort job.
+
+## Kørsel 1
+Aktør A efterspørger her 3200 enheder udregning og 32 kerner med en niceness på 0.
+Aktør B efterspørger her 320 enheder udregning og 32 kerner med en niceness på 0.
+
+```{python}
+#| code-fold: true
+a1 = Aktoer("A", 3200, 32, 0)
+a2 = Aktoer("B", 320, 32, 0)
+
+server = Server([a1, a2], 32)
+total = server.koer_server()
+
+print("Total ticks:", total)
+
+for a in server.aktoer_ls:
+    print(a.navn, a.faerdig_tick)
+
+server = Server([a1, a2], 32)
+total = server.koer_server()
+
+print("Total ticks:", total)
+
+for a in server.aktoer_ls:
+    print(a.navn, a.faerdig_tick)
+
+plot_progress(server.aktoer_ls)
+plot_completion(server.aktoer_ls)
+
+```
+
+
+## Kørsel 2
+Aktør A efterspørger her 3200 enheder udregning og 32 kerner med en niceness på 19.
+Aktør B efterspørger her 320 enheder udregning og 32 kerner med en niceness på 0.
+```{python}
+#| code-fold: true
+a1 = Aktoer("A", 3200, 32, 19)
+a2 = Aktoer("B", 320, 32, 0)
+
+server = Server([a1, a2], 32)
+total = server.koer_server()
+
+print("Total ticks:", total)
+
+for a in server.aktoer_ls:
+    print(a.navn, a.faerdig_tick)
+
+server = Server([a1, a2], 32)
+total = server.koer_server()
+
+print("Total ticks:", total)
+
+for a in server.aktoer_ls:
+    print(a.navn, a.faerdig_tick)
+
+plot_progress(server.aktoer_ls)
+plot_completion(server.aktoer_ls)
+
+```
+
+## Delkonklusion
+Der er en lille forskel i udregningsstiden for aktøren med det lange job — men relativt set er det ingenting.
+Til gengæld har det stor betydning for aktøren med det korte job.
+
+Prøv selv at justere aktørernes indstillinger og se, hvornår niceness-værdien faktisk rykker noget.
+
+# Det mikroøkonomiske perspektiv på serveren
+Der er to vinkler fra mikroøkonomi, der er relevante her.
+
+Den ene er [Common good](https://en.wikipedia.org/wiki/Common_good) — vi har et fælles gode som potentielt udnyttes for meget af en enkelt aktør.
+
+Den anden er repeated games på et marked.
+
+## Opsætning af model
+Her sætter jeg en simpel model op med 3 spillere.
+
+Der er 2 aktører der gerne vil arbejde og konkurrerer om kapaciteten på serveren — lad os kalde dem aktør A og aktør B. Og så er der en spiller, der ikke selv agerer på markedet, men som har interesse i aktørernes adfærd — lad os kalde denne aktør LA. Det kunne være en leder eller en administrator.
+
+Aktør A og B vil gerne være så effektive som mulige og ønsker at sænke deres udregnitid på serveren.
+
+Aktørerne spiller ikke på samme tid — lad os sige at aktør A har en upstream fordel og aktør B er downstream. Aktør B kan observere hvad aktør A gjorde. (I praksis kan man se dette via terminalen: hvilke jobs der er sat over, og hvilken kapacitet der allokeres — hvis der ikke er andre aktører, svarer dette til hvad der er efterspurgt.)
+
+For at gøre det formelt skal man have en nyttefunktion, hvor antallet af tilgængelige kerner svarer til en utility. Jeg forsøger at undgå at definere dem eksplicit. For nu antager vi, at for spillerne gælder:
+
+Der eksisterer $U_i(\text{tid})$ med stigende marginalnytte:
+
+$$\frac{\Delta U_i(\text{tid})}{\Delta \text{tid}} > 0$$
+
+og aftagende marginalnytte:
+
+$$\frac{\Delta^2 U_i(\text{tid})}{\Delta^2 \text{tid}} < 0$$
+
+En aktør kan ikke vælge sin tid direkte — kun vælge antallet af kerner de forsøger at efterspørge. (jeg bruger ikke denne antagelse dirket, men har ladet det indgå i de mere løse argumenter og i payof matrixen)
+
+## Simpelt payoff-matrix
+
+Antag at serveren har kapacitet $K = 4$, og at hver aktør vælger hvor mange workers de ønsker at efterspørge:
+
+$$d_i \in \{1, 2, 4\}$$
+
+Hvis den samlede efterspørgsel overstiger kapaciteten, fordeles den proportionalt:
+
+$$c_i(d_i, d_j) = \frac{d_i}{d_i + d_j} K$$
+
+Et simpelt payoff-matrix ser da sådan ud:
+
+$$
+\begin{array}{c|ccc}
+A \backslash B & 1 & 2 & 4 \\
+\hline
+1 & (1,1) & (1,2) & (0.8,3.2) \\
+2 & (2,1) & (2,2) & (1.33,2.67) \\
+4 & (3.2,0.8) & (2.67,1.33) & (2,2)
+\end{array}
+$$
+
+Bemærk at når begge aktører efterspørger mere end serverens maksimale kapacitet, afhænger allokeringen kun af den relative efterspørgsel.
+
+For eksempel giver profilerne $(2,2)$, $(4,4)$ og $(100,100)$ alle samme relative allokering og dermed samme payoff: $(2,2)$.
+
+Der eksisterer dog stadig et incitament til at afvige unilateralt. Hvis begge vælger $4$, vil aktør A kunne forbedre sin allokering marginalt ved i stedet at vælge $5$:
+
+$$\frac{5}{5+4} \cdot 4 > \frac{4}{4+4} \cdot 4$$
+
+Derfor eksisterer der ingen endelig Nash-ligevægt i modellen uden en omkostning ved at efterspørge flere ressourcer.
+
+Konklusionen er klar: i single-game tilfældet kan det bedst betale sig at efterspørge $\inf$ workers. Argumentet er simpelt — givet et antal kerner vil den anden spiller opnå højere vægt ved at efterspørge flere workers, og da den første afledte er strengt positiv, giver det højere utility. Dette gælder for begge spillere, så begge vil altid spille mere.
+
+I et repeated game kan aktørerne observere hinandens tidligere valg og betinge fremtidige strategier på det. Det muliggør strategier som:
+
+- Tit-for-tat
+- Grim trigger
+- Cooperative quota strategies
+
+Aktørerne kan dermed implicit koordinere mod moderate niveauer af ressourceefterspørgsel for at undgå gensidig eskalation. Repeated interaction kan altså skabe stabile udfald, selv når det statiske spil ikke har en endelig Nash-ligevægt.
+
+Jeg løser ikke denne ligevægt her — grunden er, at jeg gerne vil opstille et scenarie der er tættere på hvad jeg oplever på serveren, og løse det i stedet.
+
+
+## Et spil med flere aktører og asymmetrisk ressourcebehov
+
+Et mere realistisk scenarie i vores setup kan beskrives sådan:
+
+Der er to spillere, aktør A og aktør B.
+
+Aktør A har mange lange jobs og tager derfor al kapaciteten.
+Aktør B har brug for reduceret kapacitet, men oplever kraftige udsving i utility, hvis den ikke er til stede. Ingen af dem leder efter nyt job — det er altså et evigt gentagende spil.
+
+For enkelheds skyld antager vi, at spillerne ikke kan spille strategier uden for det definerede strategirum.
+
+**Scenarie 1:** Begge efterspørger kapacitet:
+
+$$
+\begin{array}{c|cccc}
+A \backslash B & 1 & 2 & 4 & \inf\\
+\hline
+1 & (1,10) & (1,10) & (1,0) & (0,0)\\
+2 & (2,10) & (2,10) & (2,0) & (0,0)\\
+4 & (3.5,1) & (3.2,2) & (4,0) & (0,0)\\
+\inf & (0,0) & (0,0) & (0,0) & (0,0)
+\end{array}
+$$
+
+**Scenarie 2:** Aktør B har ikke brug for kapacitet:
+
+$$
+\begin{array}{c|cccc}
+A \backslash B & 1 & 2 & 4 & \inf\\
+\hline
+1 & (1,0) & (1,0) & (1,0) & (0,0)\\
+2 & (2,0) & (2,0) & (2,0) & (0,0)\\
+4 & (3.5,0) & (3.2,0) & (4,0) & (0,0)\\
+\inf & (0,0) & (0,0) & (0,0) & (0,0)
+\end{array}
+$$
+
+Den samlede nytte er den diskonterede sum over alle spil.
+
+*(Vil man gøre det mere virkelighedsnært, kan man definere et signal for hvert spil, hvor aktør A ikke ved hvilket scenarie der finder sted — men aktør B gør. Det emulerer ret præcist hvad der sker i praksis: den første spiller ved ikke om andre kommer til at efterspørge ressourcer.)*
+
+Hvis spillerne anvender strategier $\sigma_1$ og $\sigma_2$, kan den forventede utility skrives som:
+
+$$
+\mathbb{E}[U_1(\sigma_1,\sigma_2)] = \mathbb{E}\left[\sum_{t=0}^{\infty} \delta_1^t \, u_1(a_{1,t}, a_{2,t}, s_t)\right]
+$$
+
+$$
+\mathbb{E}[U_2(\sigma_1,\sigma_2)] = \mathbb{E}\left[\sum_{t=0}^{\infty} \delta_2^t \, u_2(a_{1,t}, a_{2,t}, s_t)\right]
+$$
+
+hvor $a_{i,t}$ er handlingen valgt af spiller $i$ i runde $t$, $s_t$ er den underliggende tilstand/scenarie, $u_i$ er payoff-funktionen, og $\delta_i \in (0,1)$ er spillerens diskonteringsfaktor.
+
+### Shutdown-strategien
+En strategi aktør B kan spille er en shutdown — det vil sige, at hvis aktør A ikke lader kapacitet stå til rådighed, straffer aktør B ved at efterspørge $\inf$ kerner, så processen ikke kan køre.
+
+Hvis der er samarbejde, gælder:
+
+$$\mathbb{E}[U_{S,i}] = \frac{C}{1-\delta}$$
+
+Hvis en spiller afviger én gang:
+
+$$\mathbb{E}[U_{D,i}] = D + \delta \cdot \sum_{t=1}^{T} \delta^{t-1} P + \delta^{T+1} \frac{C}{1-\delta}$$
+
+hvor $D$ er den kortsigtede gevinst ved deviation, $P$ er payoff under shutdown, $C$ er normalt steady-state payoff, $\delta \in (0,1)$ er diskonteringsfaktoren, og $T$ er strafperiodens længde.
+
+### Delkonklusion
+Hvis $\mathbb{E}[U_{D,i}] < \mathbb{E}[U_{C,i}]$, er det en Nash-ligevægt — givet at der ikke er en anden strategi der er bedre at spille.
+
+
+### Asymmetrisk efterspørgsel og informationsasymmetri
+
+Hvad sker der, hvis aktør B kun har behov for kapacitet i nogle perioder, men stadig kan blokere aktør A i andre?
+
+Her opstår der både asymmetrisk efterspørgsel og informationsasymmetri. Aktør A observerer ikke den sande efterspørgselstilstand og må vælge strategi under usikkerhed, mens aktør B kender sin egen situation.
+
+Da aktør A spiller først, kan aktør B opportunistisk vælge at blokere eller afvige i perioder, hvor det giver størst strategisk effekt.
+
+Samtidig bliver den effektive straf ved deviation reduceret for aktør B. Hvis strafperioder overlapper med perioder, hvor aktør B's nytte alligevel er lav eller nul, er omkostningen ved straf mindre.
+
+Den forventede straf kan skrives som:
+
+$$
+\mathbb{E}[\text{loss}] = \sum_{t=1}^{T} \delta^t \, \mathbb{E}\left[u_B^{\text{coop}}(t) - u_B^{\text{punish}}(t)\right]
+$$
+
+Hvis forskellen mellem cooperation-payoff og punishment-payoff er lille i store dele af strafperioden, reduceres den effektive sanktion. Det giver:
+
+$$
+\text{Net deviation incentive} = D - \mathbb{E}[\text{loss}]
+$$
+
+Selv hvis den kortsigtede gevinst $D$ ikke ændrer sig, bliver deviation relativt mere attraktiv, fordi den forventede straf er mindre. Tilsvarende bliver samarbejde mere eftertragtet for aktør A, hvis B begynder at straffe — netop på grund af asymmetrien i information.
+
+Hvis aktør B ikke har mulighed for at straffe, kan det bedst betale sig for aktør A altid at tage al kapaciteten — både i tilfælde hvor aktør B har behov for kapacitet, og i tilfælde hvor aktør B ikke har behov. Aktør A er bedre stillet i begge scenarier.
+
+#### Konsekvens
+Asymmetrisk efterspørgsel kombineret med informationsasymmetri kan altså gøre trigger-strategier mindre stabile — aktør B kan udnytte strafmekanismen uden selv at bære tilsvarende omkostninger.
+
+Mangel på en strafmekanisme stiller aktør B markant dårligere i forhold til at få adgang til ressourcer.
+
+#### Ineffektiv ressourceudnyttelse
+Der er to scenarier.
+
+Hvis aktør B kan straffe, kan der opstå stående ressourcer som ikke aktivt udnyttes — eller en ubalance hvor aktøren med det største efterspørgselsbehov tager al kapaciteten.
+
+Hvis aktør B kan blokere eller reservere kapacitet uden selv at bære en tilsvarende omkostning, kan det være strategisk optimalt at holde ressourcer utilgængelige for aktør A — selv når de ikke bruges. Det skaber en ineffektiv ligevægt, hvor dele af systemets samlede kapacitet forbliver idle, ikke fordi der ikke er efterspørgsel, men som strategisk mekanisme.
+
+Hvis aktør B ikke kan straffe, bliver deres interesser ikke repræsenteret. Da der er aftagende nytte af at tage kapacitet — både i form af nytte og tid — fører det til en uforholdsmæssig nyttereduktion for aktør B. 
+
+#### Mere kapacitet løser ikke nødvendigvis problemet
+Hvis ineffektiviteten primært skyldes strategisk adfærd og informationsasymmetri, vil mere kapacitet ikke nødvendigvis hjælpe.
+
+Så længe aktør B kan reservere ressourcer uden at bære omkostningen, kan den strategiske gevinst ved at holde kapacitet utilgængelig for aktør A stadig eksistere. Systemet bevæger sig mod en ny ligevægt med højere samlet kapacitet — men stadig med stående ressourcer.
+
+Uden straf er det altid i aktør A's interesse at efterspørge mere. Systemet bevæger sig mod en ny ligevægt med højere samlet kapacitet — men stadig med de samme strukturelle problemer.
+
+Problemmet er dermed ikke alene ressourceknaphed, men incitamentsstrukturen og informationsasymmetrien mellem aktørerne.
+
+Uden strafmekanisme er aktør B stillet markant dårligere. Fra LA's synspunkt er der til gengæld en vis "effektiv udnyttelse" — alle tilgængelige ressourcer er altid i brug.
+
+## Hvad kan LA gøre?
+
+### Problemet med nice som instrument
+Nice-værdier er begrænset som styringsværktøj, fordi de er en afgift på kapacitet *per proces* — ikke på den samlede kapacitet en aktør efterspørger.
+
+Hvis LA tvinger alle til nice = 19, kan en aktør omgå det ved at spawne mange processer i stedet for én med mange workers. Hver proces får sin egen vægt i scheduleren, og den samlede vægt ender med at svare til nice = 0:
+
+$$\sum_{k=1}^{n} W(p_k) = n \cdot \frac{1024}{1{,}25^{19}}$$
+
+Ved at øge $n$ genvinder aktøren præcis den kapacitet LA forsøgte at begrænse. Det er det samme grundlæggende problem som i single-game tilfældet — så længe der ikke er en reel grænse på den samlede efterspørgsel, er der altid incitament til at eskalere.
+
+### Hvad virker så?
+At sætter et loft på det samlede antal processer en bruger må have kørende:
+
+Det lukker hullet. Nice-værdier alene er ikke nok som tvangsinstrument.
+
+Men hvis man begrænser brugernes ressourcer, begrænser man også deres mulighed for at udføre visse jobs — og man ender igen med uudnyttede ressourcer.
+
+## En alternativ løsning
+
+### On-demand kapacitet som allokeringsmekanisme
+En alternativ løsning er at implementere on-demand allokering for aktør B.
+
+I stedet for permanent reserveret kapacitet tildeles ressourcer efter behov — kapacitet allokeres kun i perioder, hvor aktør B har positiv marginalnytte, så hvor de efterspørg den.
+
+Det reducerer incitamentet til strategisk blokering, da der ikke længere er en fordel ved at holde ressourcer utilgængelige for aktør A. Samtidig kan det være mere omkostningseffektivt, da det reducerer behovet for overprovisioning og eliminerer idle kapacitet i perioder med lav efterspørgsel og derved potentiel udgifterne for LA.
+
+Man kan også begrænse aktør A og lave et system, hvor aktør A kan anmode om ekstra ressourcer hos LA. Det stiller aktør B bedre og aktør A dårligere. LA kan potentielt blive stillet bedre, fordi de kan skære ned på de udbudte ressourcer og tilbyde aktør A ekstra kapacitet efter behov.
+
+
+## Hukommelse og kerner er ikke den samme ressource
+En aktør der paralleliserer aggressivt kan ende med at tage al hukommelsen på serveren, selv om der stadig er ledige kerner. Hukommelsen bliver den bindende begrænsning, ikke CPU'en. Andre aktører kan ikke starte nye jobs, selv om der er kapacitet til det — og ingen af dem har nødvendigvis gjort noget "forkert". Det er et strukturelt problem i hvordan ressourcerne er allokeret.
+
+Det kobler tilbage til nice-diskussionen: nice styrer CPU-vægte, men har ingen effekt på hukommelse. Selv med et velfungerende nice-system — eller en begrænsing på antal processer — kan hukommelse stadig kvæle serveren, hvis allokeringen ikke tager højde for det reelle forbrug per worker.
+
+LA kan altså ikke naivt skalere kerner og hukommelse med den samme faktor. En mere robust allokeringsmodel bør tage udgangspunkt i det faktiske hukommelsesforbrug per aktør og sætte et loft der afspejler det — frem for at antage at hukommelse og CPU skalerer ens. Skalerer man med en konstant faktor, ender man enten med at betale for stående hukommelse der ikke udnyttes, eller kerner der ikke kan bruges, fordi hukommelsen er den bindende begrænsning.
+
+Brugen af niceness er på serverniveau også begrænset af hukommelsen. Selv hvis aktør A er villig til at sætte en høj nice-værdi for at give plads til andre — enten for at undgå straf eller for at være hensynsfuld — kan aktør A ikke opnå en fair repræsentation ved at skrue op for antallet af workers, hvis der ikke er hukommelse nok. I det tilfælde kan det, under rimelige antagelser, bedst betale sig for aktør B at blokere eller straffe.
+
+Et mere realistisk scenarie er at der er flere aktør B end aktør A. Man kan ikke summere nytte på tværs af aktører med afslørede præferencer, men man kan i denne model sagtens opstille scenarier, hvor alle aktører af typen B ville være bedre stillet, hvis aktør A blev begrænset — fordi de alle drager fordel af den ledige kapacitet.
+
+## Lidt mere avancerede mekanismer
+Hvis man gerne vil give aktør A mulighed for at udnytte al kapaciteten, når tidsgevinsten er stor nok, kan man i stedet for at blokere vente med at straffe til næste periode. Det svarer til forskellen mellem $D = 0$ og en positiv deviationsgevinst — aktør A kan udnytte kapaciteten fuldt ud i én periode, men betaler prisen i den næste.
+
+Hvis LA ønsker at aktørerne forsøger at fordele ressourcerne mere ligeligt, kan man indføre en strafmekanisme baseret på samlet efterspørgsel. Hvis den samlede efterspørgsel overstiger udbuddet i en periode, udløses en straf i næste periode. Det tvinger aktørerne til at gætte på, hvor mange der har brug for ressourcer i samme periode, og tilskynder til at efterspørge sin rimelige andel.
+
+En aktør kan derved tage al kapaciteten, hvis de vurderer at ingen andre efterspørger den i den periode. Hvis en anden aktør kommer på banen, kan de efterspørge lige under kapacitetsgrænsen og blive stillet næsten lige så godt ressourcemæssigt — men aktør A bliver straffet næste periode. Aktør B kan i det tilfælde stadig "stjæle" kapacitet hvis nødvendigt.
+
+Der er mulige videreudviklinger af dette koncept, men jeg lader det ligge her.
+
+
+
+
+
+# Afrunding og konklusion
+Lige nu er der en skæv incitamentsstruktur i den måde vi kører vores server på — fordi der ikke er styring på kapacitetsbegrænsning, giver det en uhensigtsmæssig struktur.
+
+Fordi ingen vælger at spille strafstrategier, er der ingen konsekvens ved at tage al kapaciteten. Samtidig kræver samarbejde at der står ubrugte ressourcer til rådighed — det er ikke en ideele løsning.
+
+Hvis man laver on-demand allokering for aktør B, burde man kunne komme uden om dette. Det kan for eksempel gøres ved at åbne en ny server efter behov — men på en måde hvor aktør B selv kan aktivere det inden for visse begrænsninger, uden at skulle gå gennem LA hver gang.
+
+LA kan derudover forsøge at indføre mekanismer der tilskynder til samarbejde — for eksempel den strafmekanisme beskrevet ovenfor, eller et kapacitetsloft kombineret med en anmodningsproces.
+
+### Kommentar til selve projektet
+
+Jeg fik en god kommentar om, at projektet primært ser på aktørernes perspektiv og ikke så meget på, hvad LA kan gøre strukturelt — og det er et berettiget point.
+
+Måden jeg har lært at bygge mikromodeller på er at starte med aktørerne: de varetager deres egne interesser, og på baggrund af det kan LA designe systemer der fremskynder den adfærd de ønsker. Det er ingen hemmelighed at jeg selv er aktør, så LA-siden af ligningen er ikke mit primære fokus. Men uden en vis forståelse for LA's interesser kan man som aktør ikke forudse, hvilken regulering der vil træde i kraft som reaktion på ens strategi. Hvis man som aktør konsekvent tager al kapaciteten, er det rimeligt at forvente at LA regulerer opsætningen — alt andet ville være naivt.
+
